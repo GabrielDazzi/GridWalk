@@ -1,0 +1,26 @@
+name: Bug report
+description: Something is broken
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Steps to reproduce, expected vs actual.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS
+        - iOS
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App / commit
+      placeholder: "1.0.0 or abc1234"
