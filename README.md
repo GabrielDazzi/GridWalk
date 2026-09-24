@@ -50,8 +50,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Translations (English + Portuguese) are 
 
 Every feature stays free. Tips help keep the lights on:
 
-- Ko-fi: _(coming soon)_
-- Buy Me a Coffee: _(coming soon)_
+- [Ko-fi](https://ko-fi.com/gabrieldazzi)
+- [Buy Me a Coffee](https://buymeacoffee.com/gabrieldazzi)
 
 Donation links stay in the README and Mac builds shipped outside the App Store — not in App Store builds.
 
