@@ -64,6 +64,7 @@ public final class ScheduleStore {
             let schedule = try SeasonDecoder.decode(data, fetchedAt: clock())
             try? cache.save(schedule)
             apply(schedule)
+            WidgetReload.reloadAll()
         } catch {
             lastError = error.localizedDescription
             if allRaces.isEmpty {
@@ -83,6 +84,7 @@ public final class ScheduleStore {
         } else {
             nextSession = nil
             currentWeekend = schedule.currentWeekend(at: now)
+            try? WidgetSnapshotStore.save(nil)
         }
     }
 }

@@ -104,10 +104,15 @@ struct iOSRootView: View {
                 await store.bootstrap()
                 _ = await SessionNotifier.requestAuthorization()
                 await SessionNotifier.reschedule(races: store.allRaces, preferences: alertPrefs)
+                await SessionLiveActivity.sync(with: store.nextSession)
                 while !Task.isCancelled {
                     try? await Task.sleep(for: .seconds(30))
                     now = .now
+                    await SessionLiveActivity.sync(with: store.nextSession, now: now)
                 }
+            }
+            .onChange(of: store.nextSession) { _, newValue in
+                Task { await SessionLiveActivity.sync(with: newValue) }
             }
             .onChange(of: alertPrefs) { _, newValue in
                 AlertPreferencesStore().preferences = newValue

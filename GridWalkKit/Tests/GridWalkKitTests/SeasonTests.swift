@@ -119,6 +119,51 @@ struct CountdownTests {
     }
 }
 
+@Suite("Widget snapshot")
+struct WidgetSnapshotTests {
+    @Test("builds snapshot from season schedule")
+    func fromSeason() throws {
+        let data = try fixture("regular_weekend")
+        let season = try SeasonDecoder.decode(data)
+        let race = try #require(season.races.first)
+        let fp1 = try #require(race.sessions.first { $0.kind == .practice1 })
+        let before = fp1.dateUTC.addingTimeInterval(-3600)
+
+        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: before))
+        #expect(snapshot.sessionKind == .practice1)
+        #expect(snapshot.weekendName == race.name)
+        #expect(snapshot.dateUTC == fp1.dateUTC)
+    }
+
+    @Test("round-trips through disk store")
+    func diskRoundTrip() throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: dir) }
+
+        let data = try fixture("sprint_weekend")
+        let season = try SeasonDecoder.decode(data)
+        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: Date.distantPast))
+        try WidgetSnapshotStore.save(snapshot, in: dir)
+
+        let loaded = try #require(WidgetSnapshotStore.load(from: dir))
+        #expect(loaded.isSprintWeekend)
+        #expect(loaded.sessionKind == snapshot.sessionKind)
+        #expect(loaded.weekendName == snapshot.weekendName)
+    }
+}
+
+@Suite("Live activity policy")
+struct LiveActivityPolicyTests {
+    @Test("shows only inside the lead window")
+    func leadWindow() {
+        let now = Date(timeIntervalSince1970: 1_000_000)
+        #expect(LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(3600), now: now))
+        #expect(!LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(8 * 3600), now: now))
+        #expect(!LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(-60), now: now))
+    }
+}
+
 private func fixture(_ name: String) throws -> Data {
     let url = try #require(Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Fixtures"))
     return try Data(contentsOf: url)

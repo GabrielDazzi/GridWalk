@@ -13,15 +13,19 @@ Free, open-source race weekend companion for macOS and iOS. Swift 6 + SwiftUI, n
 ## Layout
 - `Grid Walk/App/` startup and scenes (macOS MenuBarExtra, iOS app)
 - `Grid Walk/UI/` SwiftUI views only
+- `Grid Walk Widget/` WidgetKit + Live Activity UI
 - `GridWalkKit/` local Swift package
-  - `Core/` models, preferences
-  - `Services/` data feed, cache, notifications, calendar
+  - `Core/` models, preferences, App Group, snapshots
+  - `Services/` data feed, cache, notifications, calendar, Live Activity
 - Tests use Swift Testing (`swift test` in GridWalkKit).
 
 ## Data
 - Schedule: https://api.jolpi.ca/ergast/f1/current.json?limit=100
 - Session keys: FirstPractice, SecondPractice, ThirdPractice, SprintQualifying, Sprint, Qualifying; race date/time are top-level. Sprint weekends omit SecondPractice/ThirdPractice.
-- Low rate limits: cache the season on device, refresh at most every 12 hours, work fully offline.
+- Low rate limits: cache the season on device (App Group `group.com.gabrieldazzi.gridwalk`), refresh at most every 12 hours, work fully offline.
+
+## Shared container
+App and widget share season JSON + `widget_snapshot.json` via the App Group. The app refreshes the network; the widget only reads cache.
 
 ## Out of scope for now
-Widgets, Live Activities, WeatherKit, Apple Watch, Siri/Shortcuts, AlarmKit, predictions game, share cards, teammate battles. Don't build these until v1 ships.
+WeatherKit, Apple Watch, Siri/Shortcuts, AlarmKit, predictions game, share cards, teammate battles, favorite driver/team.

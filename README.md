@@ -21,8 +21,8 @@ Everything runs on your Mac or iPhone. Session times are stored in Application S
 
 | Platform | How you get it |
 | --- | --- |
-| macOS | Menu bar app (App Store later; DMG / Homebrew planned) |
-| iPhone | App Store / TestFlight |
+| macOS | Menu bar app + desktop widget (App Store later; DMG / Homebrew planned) |
+| iPhone | App Store / TestFlight — home screen widget, lock screen widgets, Live Activity |
 
 ## Develop
 
@@ -36,7 +36,7 @@ cd GridWalkKit && swift test
 open "Grid Walk.xcodeproj"
 ```
 
-Shared logic lives in `GridWalkKit`. The app targets stay thin (SwiftUI only).
+Shared logic lives in `GridWalkKit`. The app and widget targets stay thin (SwiftUI / WidgetKit only). Enable App Group `group.com.gabrieldazzi.gridwalk` on the App ID in the Apple Developer portal if signing fails.
 
 ## Contributing
 

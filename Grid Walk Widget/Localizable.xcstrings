@@ -1,0 +1,30 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Next session" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next session" } },
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Próxima sessão" } }
+      }
+    },
+    "Countdown to the next race weekend session." : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Countdown to the next race weekend session." } },
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Contagem regressiva para a próxima sessão do weekend." } }
+      }
+    },
+    "No upcoming sessions" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming sessions" } },
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma sessão próxima" } }
+      }
+    },
+    "Sprint" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } },
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

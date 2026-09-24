@@ -10,15 +10,9 @@ public struct SeasonCache: SeasonCaching {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
 
+    /// Prefers the App Group container so the widget can read the same file.
     public init(fileManager: FileManager = .default) throws {
-        let support = try fileManager.url(
-            for: .applicationSupportDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true
-        )
-        let folder = support.appendingPathComponent("GridWalk", isDirectory: true)
-        try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
+        let folder = try AppGroup.cacheDirectory(fileManager: fileManager)
         self.fileURL = folder.appendingPathComponent("season.json")
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601
@@ -41,5 +35,7 @@ public struct SeasonCache: SeasonCaching {
     public func save(_ schedule: SeasonSchedule) throws {
         let data = try encoder.encode(schedule)
         try data.write(to: fileURL, options: .atomic)
+        let snapshot = WidgetSnapshot.from(schedule: schedule)
+        try WidgetSnapshotStore.save(snapshot, in: fileURL.deletingLastPathComponent())
     }
 }

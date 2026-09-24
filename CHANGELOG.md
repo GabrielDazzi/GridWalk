@@ -6,10 +6,14 @@ All notable changes to Grid Walk are documented here.
 
 ### Added
 
-- GridWalkKit: season fetch, Application Support cache (12h), `ScheduleStore`
+- Widgets (Mac desktop + iPhone home/lock screen) with live countdown timer
+- iPhone Live Activity / Dynamic Island when the next session is within 6 hours
+- App Group `group.com.gabrieldazzi.gridwalk` shared season cache + widget snapshot
+- GridWalkKit: season fetch, Application Support/App Group cache (12h), `ScheduleStore`
 - macOS menu bar countdown and weekend panel
 - iOS next-session screen with countdown and weekend list
 - Local session alerts (15 minutes before) with per-category toggles
 - Add weekend to Calendar (EventKit write-only)
 - "Grid at night" theme
 - English + Portuguese string catalog (starter set)
+- Ko-fi / Buy Me a Coffee donation links in README and FUNDING.yml

@@ -8,16 +8,59 @@
 
 /* Begin PBXBuildFile section */
 		A1B2C3D43065C65F006917E2 /* GridWalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D53065C65F006917E2 /* GridWalkKit */; };
+		WDG01EBF3065C65F006917E2 /* Grid Walk Widget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		WDG01KBF3065C65F006917E2 /* GridWalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = WDG01KIT3065C65F006917E2 /* GridWalkKit */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		WDG01PRX3065C65F006917E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0357AB53065C65F006917E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = WDG01TGT3065C65F006917E2;
+			remoteInfo = "Grid Walk Widget";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		WDG01EMB3065C65F006917E2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				WDG01EBF3065C65F006917E2 /* Grid Walk Widget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C0357ABD3065C65F006917E2 /* Grid Walk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grid Walk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Grid Walk Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		WDG01EXC3065C65F006917E2 /* Exceptions for "Grid Walk Widget" folder in "Grid Walk Widget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = WDG01TGT3065C65F006917E2 /* Grid Walk Widget */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C0357ABF3065C65F006917E2 /* Grid Walk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Grid Walk";
+			sourceTree = "<group>";
+		};
+		WDG01GRP3065C65F006917E2 /* Grid Walk Widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				WDG01EXC3065C65F006917E2 /* Exceptions for "Grid Walk Widget" folder in "Grid Walk Widget" target */,
+			);
+			path = "Grid Walk Widget";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -29,6 +72,12 @@
 				A1B2C3D43065C65F006917E2 /* GridWalkKit in Frameworks */,
 			);
 		};
+		WDG01FRM3065C65F006917E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				WDG01KBF3065C65F006917E2 /* GridWalkKit in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -36,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				C0357ABF3065C65F006917E2 /* Grid Walk */,
+				WDG01GRP3065C65F006917E2 /* Grid Walk Widget */,
 				C0357ABE3065C65F006917E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				C0357ABD3065C65F006917E2 /* Grid Walk.app */,
+				WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,10 +109,12 @@
 				C0357AB93065C65F006917E2 /* Sources */,
 				C0357ABA3065C65F006917E2 /* Frameworks */,
 				C0357ABB3065C65F006917E2 /* Resources */,
+				WDG01EMB3065C65F006917E2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				WDG01DEP3065C65F006917E2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C0357ABF3065C65F006917E2 /* Grid Walk */,
@@ -74,6 +127,27 @@
 			productReference = C0357ABD3065C65F006917E2 /* Grid Walk.app */;
 			productType = "com.apple.product-type.application";
 		};
+		WDG01TGT3065C65F006917E2 /* Grid Walk Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = WDG01CFG3065C65F006917E2 /* Build configuration list for PBXNativeTarget "Grid Walk Widget" */;
+			buildPhases = (
+				WDG01SRC3065C65F006917E2 /* Sources */,
+				WDG01FRM3065C65F006917E2 /* Frameworks */,
+				WDG01RES3065C65F006917E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				WDG01GRP3065C65F006917E2 /* Grid Walk Widget */,
+			);
+			name = "Grid Walk Widget";
+			packageProductDependencies = (
+				WDG01KIT3065C65F006917E2 /* GridWalkKit */,
+			);
+			productName = "Grid Walk Widget";
+			productReference = WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -85,6 +159,9 @@
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					C0357ABC3065C65F006917E2 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					WDG01TGT3065C65F006917E2 = {
 						CreatedOnToolsVersion = 27.0;
 					};
 				};
@@ -108,12 +185,18 @@
 			projectRoot = "";
 			targets = (
 				C0357ABC3065C65F006917E2 /* Grid Walk */,
+				WDG01TGT3065C65F006917E2 /* Grid Walk Widget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C0357ABB3065C65F006917E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		WDG01RES3065C65F006917E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -126,7 +209,20 @@
 			files = (
 			);
 		};
+		WDG01SRC3065C65F006917E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		WDG01DEP3065C65F006917E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = WDG01TGT3065C65F006917E2 /* Grid Walk Widget */;
+			targetProxy = WDG01PRX3065C65F006917E2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C0357AC63065C660006917E2 /* Debug configuration for PBXProject "Grid Walk" */ = {
@@ -261,8 +357,10 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_LSUIElement[sdk=macosx*]" = YES;
-				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
+				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
+				"INFOPLIST_KEY_NSSupportsLiveActivities[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_NSSupportsLiveActivities[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -310,8 +408,10 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_LSUIElement[sdk=macosx*]" = YES;
-				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
+				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
+				"INFOPLIST_KEY_NSSupportsLiveActivities[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_NSSupportsLiveActivities[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -343,6 +443,92 @@
 			};
 			name = Release;
 		};
+		WDG01DBG3065C65F006917E2 /* Debug configuration for PBXNativeTarget "Grid Walk Widget" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Grid Walk Widget/Grid_Walk_Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69U3V2VVHF;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Grid Walk Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Grid Walk";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gabrieldazzi.Grid-Walk.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		WDG01REL3065C65F006917E2 /* Release configuration for PBXNativeTarget "Grid Walk Widget" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "Grid Walk Widget/Grid_Walk_Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69U3V2VVHF;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Grid Walk Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Grid Walk";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gabrieldazzi.Grid-Walk.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -362,6 +548,14 @@
 			);
 			defaultConfigurationName = Release;
 		};
+		WDG01CFG3065C65F006917E2 /* Build configuration list for PBXNativeTarget "Grid Walk Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				WDG01DBG3065C65F006917E2 /* Debug configuration for PBXNativeTarget "Grid Walk Widget" */,
+				WDG01REL3065C65F006917E2 /* Release configuration for PBXNativeTarget "Grid Walk Widget" */,
+			);
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -373,6 +567,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		A1B2C3D53065C65F006917E2 /* GridWalkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GridWalkKit;
+		};
+		WDG01KIT3065C65F006917E2 /* GridWalkKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GridWalkKit;
 		};
