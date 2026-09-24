@@ -1,28 +1,41 @@
 # Grid Walk
 
-Race weekend countdown for macOS and iPhone. Free, open source, private by default.
+Race weekend companion for macOS and iPhone. Free, open source, private by default.
 
 **App Store subtitle:** Race weekend countdown
 
 ## What it does
 
-- Menu bar countdown to the next session (macOS), with the full weekend in your local time
-- Big countdown on iPhone plus the weekend session list
-- Local alerts 15 minutes before Qualifying, Sprint and Race (configurable)
-- One tap to add the weekend to Calendar
+**macOS (menu bar)**
+- Countdown to the next session, weekend panel in your local time
+- Modes: countdown, my driver, title fight, my team, last race, or auto
+- Ticker rotates a few modes; compact style keeps the bar short
+- Spoiler-free hides last-race text until you want it
+- Pick a favorite driver and team in Settings
 
-No accounts. No tracking. No backend of our own. Schedule data comes from the public Jolpica feed and is cached on device so the countdown keeps working offline.
+**iPhone**
+- Big countdown plus the full weekend session list
+- Live Activity / Dynamic Island when the next session is within about 6 hours
+
+**Both**
+- Local alerts 15 minutes before Qualifying, Sprint, and Race (configurable)
+- One tap to add the weekend to Calendar
+- Home / desktop widgets with a live countdown
+
+No accounts. No tracking. No backend of our own. Schedule and standings come from the public Jolpica feed and are cached on device so the countdown keeps working offline.
 
 ## Private by default
 
-Everything runs on your Mac or iPhone. Session times are stored in Application Support. Alert preferences stay in UserDefaults. Notifications and Calendar access are optional and local only.
+Everything runs on your Mac or iPhone. Session times and standings live in the App Group cache. Alert and menu bar preferences stay in UserDefaults. Notifications and Calendar access are optional and local only.
 
 ## Platforms
 
-| Platform | How you get it |
+| Platform | What you get |
 | --- | --- |
-| macOS | Menu bar app + desktop widget (App Store later; DMG / Homebrew planned) |
-| iPhone | App Store / TestFlight — home screen widget, lock screen widgets, Live Activity |
+| macOS 14+ | Menu bar app + desktop widget |
+| iPhone (iOS 17+) | App, home/lock screen widgets, Live Activity |
+
+Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store.
 
 ## Develop
 
@@ -36,11 +49,13 @@ cd GridWalkKit && swift test
 open "Grid Walk.xcodeproj"
 ```
 
-Shared logic lives in `GridWalkKit`. The app and widget targets stay thin (SwiftUI / WidgetKit only). Enable App Group `group.com.gabrieldazzi.gridwalk` on the App ID in the Apple Developer portal if signing fails.
+Shared logic lives in `GridWalkKit`. App and widget targets stay thin (SwiftUI / WidgetKit). If signing fails, enable App Group `group.com.gabrieldazzi.gridwalk` on the App ID in the Apple Developer portal.
+
+More layout and data notes: [AGENTS.md](AGENTS.md).
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Translations (English + Portuguese) are a great first PR.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Translations (English + Portuguese) and accessibility labels are good first PRs.
 
 ## Trademark
 

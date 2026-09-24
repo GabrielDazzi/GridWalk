@@ -4,7 +4,9 @@ import GridWalkKit
 
 struct iOSRootView: View {
     @Bindable var store: ScheduleStore
+    @Bindable var standings: StandingsStore
     @Binding var alertPrefs: AlertPreferences
+    @Binding var menuBarPrefs: MenuBarPreferences
     @State private var now = Date.now
     @State private var showSettings = false
     @State private var calendarMessage: String?
@@ -90,7 +92,12 @@ struct iOSRootView: View {
             .preferredColorScheme(.dark)
             .sheet(isPresented: $showSettings) {
                 NavigationStack {
-                    SettingsView(alertPrefs: $alertPrefs, store: store)
+                    SettingsView(
+                        alertPrefs: $alertPrefs,
+                        menuBarPrefs: $menuBarPrefs,
+                        store: store,
+                        standings: standings
+                    )
                         .navigationTitle("Settings")
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
@@ -102,6 +109,7 @@ struct iOSRootView: View {
             }
             .task {
                 await store.bootstrap()
+                await standings.bootstrap(races: store.allRaces)
                 _ = await SessionNotifier.requestAuthorization()
                 await SessionNotifier.reschedule(races: store.allRaces, preferences: alertPrefs)
                 await SessionLiveActivity.sync(with: store.nextSession)

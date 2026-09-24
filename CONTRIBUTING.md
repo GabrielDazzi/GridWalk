@@ -4,7 +4,7 @@ Thanks for helping. Keep the app free, private, and trademark-safe.
 
 ## Rules
 
-- Never use "F1", "Formula 1", team names, or logos in UI strings, asset names, or identifiers. Prefer race / session / weekend.
+- Never use "F1", "Formula 1" or team logos in branding, the app name, asset names or identifiers. Prefer race / session / weekend. Driver codes, driver names and team standings from the data feed are fine.
 - No third-party dependencies unless agreed in an issue first.
 - Logic lives in `GridWalkKit` (testable). Views stay thin.
 - Every new user-facing string: English **and** Portuguese (`Localizable.xcstrings`).
