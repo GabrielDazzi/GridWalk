@@ -1,8 +1,30 @@
-# Grid Walk
+<p align="center">
+  <img src="docs/images/logo.svg" alt="Grid Walk" width="120" height="120"/>
+</p>
 
-Race weekend companion for macOS and iPhone. Free, open source, private by default.
+<h1 align="center">Grid Walk</h1>
 
-**App Store subtitle:** Race weekend countdown
+<p align="center">
+  Race weekend companion for macOS and iPhone.<br/>
+  Free, open source, private by default.
+</p>
+
+<p align="center">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-8A8F98?style=flat-square"/>
+  <img alt="macOS" src="https://img.shields.io/badge/macOS-14%2B-0E0F12?style=flat-square"/>
+  <img alt="iOS" src="https://img.shields.io/badge/iOS-17%2B-0E0F12?style=flat-square"/>
+  <img alt="Swift" src="https://img.shields.io/badge/Swift-6-FF3B30?style=flat-square"/>
+</p>
+
+<p align="center"><strong>App Store subtitle:</strong> Race weekend countdown</p>
+
+<p align="center">
+  <img src="docs/images/menubar.svg" alt="Menu bar showing driver and team standings" width="560"/>
+</p>
+
+<p align="center">
+  <img src="docs/images/iphone.svg" alt="iPhone next-session countdown" width="200"/>
+</p>
 
 ## What it does
 
@@ -22,7 +44,7 @@ Race weekend companion for macOS and iPhone. Free, open source, private by defau
 - One tap to add the weekend to Calendar
 - Home / desktop widgets with a live countdown
 
-No accounts. No tracking. No backend of our own. Schedule and standings come from the public Jolpica feed and are cached on device so the countdown keeps working offline.
+No accounts. No tracking. No backend of our own. Schedule and standings come from the public [Jolpica](https://github.com/jolpica/jolpica-f1) feed (Ergast-compatible) and are cached on device so the countdown keeps working offline.
 
 ## Private by default
 
@@ -30,12 +52,14 @@ Everything runs on your Mac or iPhone. Session times and standings live in the A
 
 ## Platforms
 
-| Platform | What you get |
-| --- | --- |
-| macOS 14+ | Menu bar app + desktop widget |
-| iPhone (iOS 17+) | App, home/lock screen widgets, Live Activity |
+| Platform | Minimum | What you get |
+| --- | --- | --- |
+| macOS | 14+ | Menu bar app + desktop widget |
+| iPhone | iOS 17+ | App, home/lock screen widgets, Live Activity |
 
-Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store.
+Liquid Glass / AlarmKit stay optional extras for newer OS versions — the app targets 14 / 17 so it runs on current devices.
+
+Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store. The placeholder mark above is temporary until the final app icon ships; real screenshots will replace the mockups.
 
 ## Develop
 

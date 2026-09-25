@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Grid Walk">
+  <rect width="512" height="512" rx="112" fill="#F2F2F2"/>
+  <!-- tire: soft compound ring on sidewall only; tread stays plain -->
+  <circle cx="256" cy="256" r="168" fill="#0E0F12"/>
+  <circle cx="256" cy="256" r="148" fill="none" stroke="#FF3B30" stroke-width="18"/>
+  <circle cx="256" cy="256" r="78" fill="#F2F2F2"/>
+  <!-- flat modern wheel cover -->
+  <circle cx="256" cy="256" r="52" fill="#1A1C21"/>
+  <circle cx="256" cy="256" r="14" fill="#8A8F98"/>
+</svg>

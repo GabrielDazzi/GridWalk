@@ -11,8 +11,8 @@ Free, open-source race weekend companion for macOS and iOS. Swift 6 + SwiftUI, n
 - PR body: Summary, Verification (exact commands), Test plan checklist.
 
 ## Status
-- **v1 done:** menu bar countdown, weekend view, session alerts, Calendar, widgets, Live Activity.
-- **Next:** menu bar modes (driver / title fight / team / last race / auto / ticker / compact).
+- **Done:** v1 countdown / alerts / Calendar; widgets + Live Activity; menu bar modes (v1.1).
+- **Next:** distribution (App Store Connect, signing, DMG / Homebrew, TestFlight) and README real screenshots when the icon ships.
 
 ## Layout
 - `Grid Walk/App/` startup and scenes (macOS MenuBarExtra, iOS app)
