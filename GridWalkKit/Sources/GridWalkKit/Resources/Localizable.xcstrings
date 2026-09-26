@@ -82,6 +82,56 @@
         }
       }
     },
+    "1 day" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 dia"
+          }
+        }
+      }
+    },
+    "1 week" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 semana"
+          }
+        }
+      }
+    },
+    "12 hours" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 horas"
+          }
+        }
+      }
+    },
+    "2 days" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 dias"
+          }
+        }
+      }
+    },
+    "3 days" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 dias"
+          }
+        }
+      }
+    },
     "Auto" : {
       "comment" : "Menu bar mode that picks for you",
       "localizations" : {

@@ -28,18 +28,19 @@ struct NextSessionProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<NextSessionEntry>) -> Void) {
+        let now = Date.now
         let snapshot = WidgetSnapshotStore.load()
-        let entry = NextSessionEntry(date: .now, snapshot: snapshot)
+        // extra entries at the spoiler reveal and the session start, so the widget flips without the app running
+        let moments = [now] + (snapshot?.timelineDates(after: now) ?? [])
+        let entries = moments.map { NextSessionEntry(date: $0, snapshot: snapshot) }
 
         let refresh: Date
-        if let start = snapshot?.dateUTC, start > .now {
-            // Reload around the session and periodically before that.
-            refresh = min(start, .now.addingTimeInterval(15 * 60))
+        if let start = snapshot?.dateUTC, start > now {
+            refresh = min(start, now.addingTimeInterval(15 * 60))
         } else {
-            refresh = .now.addingTimeInterval(60 * 60)
+            refresh = now.addingTimeInterval(60 * 60)
         }
-
-        completion(Timeline(entries: [entry], policy: .after(refresh)))
+        completion(Timeline(entries: entries, policy: .after(refresh)))
     }
 }
 
@@ -145,6 +146,7 @@ struct NextSessionWidgetView: View {
                     .font(.caption)
                     .foregroundStyle(muted)
                     .lineLimit(2)
+                FavoriteLine(snapshot: snapshot, date: entry.date)
                 if snapshot.isSprintWeekend {
                     Text("Sprint")
                         .font(.caption2.weight(.semibold))
@@ -159,5 +161,22 @@ struct NextSessionWidgetView: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+    }
+}
+
+struct FavoriteLine: View {
+    let snapshot: WidgetSnapshot
+    let date: Date
+
+    var body: some View {
+        if let favorite = snapshot.visibleFavorite(at: date) {
+            Text("\(favorite.name) P\(favorite.position) · \(favorite.points) pts")
+                .font(.caption2.monospacedDigit())
+                .foregroundStyle(Color(red: 0.95, green: 0.95, blue: 0.95))
+        } else if snapshot.isHidingResults(at: date) {
+            Label("Results hidden", systemImage: "eye.slash")
+                .font(.caption2)
+                .foregroundStyle(Color(red: 0.54, green: 0.56, blue: 0.60))
+        }
     }
 }

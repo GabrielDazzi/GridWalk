@@ -108,12 +108,32 @@
         }
       }
     },
-    "Hides last-race results in the menu bar." : {
+    "Hidden" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esconde os resultados da última corrida na barra de menus."
+            "value" : "Escondido"
+          }
+        }
+      }
+    },
+    "Hides results, standings and your favorite's position in the app, menu bar and widgets until you mark the race watched or the delay passes." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconde resultados, classificação e a posição do seu favorito no app, na barra de menus e nos widgets até você marcar a corrida como assistida ou o prazo passar."
+          }
+        }
+      }
+    },
+    "I've watched it, show results" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Já assisti, mostrar resultados"
           }
         }
       }
@@ -292,6 +312,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "Show results after" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar resultados após"
           }
         }
       }

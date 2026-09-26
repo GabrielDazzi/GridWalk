@@ -27,20 +27,20 @@ public struct UserPreferences: Codable, Sendable, Equatable {
     public var alerts: AlertPreferences
     public var menuBar: MenuBarPreferences
     public var favorites: Favorites
-    public var spoilerFree: Bool
+    public var spoilers: SpoilerPreferences
     public var hasFinishedOnboarding: Bool
 
     public init(
         alerts: AlertPreferences = AlertPreferences(),
         menuBar: MenuBarPreferences = MenuBarPreferences(),
         favorites: Favorites = Favorites(),
-        spoilerFree: Bool = false,
+        spoilers: SpoilerPreferences = SpoilerPreferences(),
         hasFinishedOnboarding: Bool = false
     ) {
         self.alerts = alerts
         self.menuBar = menuBar
         self.favorites = favorites
-        self.spoilerFree = spoilerFree
+        self.spoilers = spoilers
         self.hasFinishedOnboarding = hasFinishedOnboarding
     }
 
@@ -51,7 +51,7 @@ public struct UserPreferences: Codable, Sendable, Equatable {
         alerts = try container.decodeIfPresent(AlertPreferences.self, forKey: .alerts) ?? defaults.alerts
         menuBar = try container.decodeIfPresent(MenuBarPreferences.self, forKey: .menuBar) ?? defaults.menuBar
         favorites = try container.decodeIfPresent(Favorites.self, forKey: .favorites) ?? defaults.favorites
-        spoilerFree = try container.decodeIfPresent(Bool.self, forKey: .spoilerFree) ?? defaults.spoilerFree
+        spoilers = try container.decodeIfPresent(SpoilerPreferences.self, forKey: .spoilers) ?? defaults.spoilers
         hasFinishedOnboarding =
             try container.decodeIfPresent(Bool.self, forKey: .hasFinishedOnboarding)
             ?? defaults.hasFinishedOnboarding

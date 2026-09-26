@@ -184,14 +184,27 @@ struct MenuBarFormatterTests {
         #expect(MenuBarLabelFormatter.resolveMode(.auto, context: context(standings: standings)) == .lastRace)
     }
 
-    @Test("auto skips last race when results are hidden")
+    @Test("auto falls back to the countdown while results are hidden")
     func autoHidden() {
         let standings = sampleStandings(lastRaceAt: now.addingTimeInterval(-2 * 3600))
         let resolved = MenuBarLabelFormatter.resolveMode(
             .auto,
             context: context(standings: standings, favorites: Favorites(driverCode: "ANT"), resultsHidden: true)
         )
-        #expect(resolved == .myDriver)
+        #expect(resolved == .countdown)
+    }
+
+    @Test(
+        "every standings-based mode is hidden with results",
+        arguments: [MenuBarMode.myDriver, .myTeam, .titleFight, .lastRace])
+    func standingsModesHidden(mode: MenuBarMode) {
+        let hidden = context(
+            standings: sampleStandings(lastRaceAt: now.addingTimeInterval(-3600)),
+            favorites: Favorites(driverCode: "ANT", constructorId: "mercedes"),
+            resultsHidden: true
+        )
+        #expect(MenuBarLabelFormatter.format(mode: mode, context: hidden) == nil)
+        #expect(MenuBarLabelFormatter.resolveMode(mode, context: hidden) == .countdown)
     }
 
     @Test("ticker rotates and skips result modes while hidden")
@@ -199,8 +212,10 @@ struct MenuBarFormatterTests {
         var preferences = MenuBarPreferences(mode: .countdown)
         preferences.setTickerModes([.countdown, .lastRace, .titleFight])
         #expect(MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 1, resultsHidden: false) == .lastRace)
-        #expect(MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 1, resultsHidden: true) == .titleFight)
-        #expect(MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 4, resultsHidden: true) == .countdown)
+        #expect(
+            MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 2, resultsHidden: false) == .titleFight)
+        #expect(MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 1, resultsHidden: true) == .countdown)
+        #expect(MenuBarLabelFormatter.activeMode(preferences: preferences, tick: 2, resultsHidden: true) == .countdown)
     }
 }
 

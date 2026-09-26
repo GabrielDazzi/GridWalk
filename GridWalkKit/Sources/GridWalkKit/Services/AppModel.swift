@@ -112,6 +112,16 @@ public final class AppModel {
         await syncSideEffects()
     }
 
+    /// One-tap reveal: marks the hidden weekend as watched.
+    public func revealResults(at now: Date) {
+        guard let weekend = spoilerState(at: now).hiddenWeekend else { return }
+        preferences.spoilers.watchedWeekendIDs = SpoilerPolicy.watchedIDs(
+            afterMarking: weekend,
+            in: preferences.spoilers,
+            races: schedule.races
+        )
+    }
+
     public func requestNotificationPermission() async -> Bool {
         await notifications.requestAuthorization()
     }
@@ -135,8 +145,17 @@ public final class AppModel {
         schedule.currentWeekend(at: now)
     }
 
-    public var resultsHidden: Bool {
-        preferences.spoilerFree
+    public func spoilerState(at now: Date) -> SpoilerState {
+        SpoilerPolicy.state(races: schedule.races, preferences: preferences.spoilers, now: now)
+    }
+
+    /// Favorite driver, or favorite team when no driver is picked.
+    public var favoriteSummary: FavoriteSummary? {
+        guard let snapshot = standings.snapshot else { return nil }
+        if let driver = snapshot.drivers.first(where: preferences.favorites.isFavorite) {
+            return FavoriteSummary(driver)
+        }
+        return snapshot.constructors.first(where: preferences.favorites.isFavorite).map(FavoriteSummary.init)
     }
 
     public func menuBarContext(at now: Date) -> MenuBarContext {
@@ -145,7 +164,7 @@ public final class AppModel {
             races: schedule.races,
             standings: standings.snapshot,
             favorites: preferences.favorites,
-            resultsHidden: resultsHidden,
+            resultsHidden: spoilerState(at: now).isHidingResults,
             now: now
         )
     }
@@ -154,7 +173,7 @@ public final class AppModel {
         let mode = MenuBarLabelFormatter.activeMode(
             preferences: preferences.menuBar,
             tick: tick,
-            resultsHidden: resultsHidden
+            resultsHidden: spoilerState(at: now).isHidingResults
         )
         return MenuBarLabelFormatter.content(mode: mode, context: menuBarContext(at: now))
     }
@@ -177,7 +196,15 @@ public final class AppModel {
             await notifications.replaceAlerts(with: alerts)
         }
 
-        let snapshot = next.map { WidgetSnapshot(timed: $0, lastUpdated: schedule.lastUpdated ?? now) }
+        let spoilers = spoilerState(at: now)
+        let snapshot = next.map {
+            WidgetSnapshot(
+                timed: $0,
+                lastUpdated: schedule.lastUpdated ?? now,
+                favorite: favoriteSummary,
+                spoilers: spoilers
+            )
+        }
         if snapshot != lastPublishedSnapshot {
             lastPublishedSnapshot = snapshot
             await widgets.publish(snapshot)

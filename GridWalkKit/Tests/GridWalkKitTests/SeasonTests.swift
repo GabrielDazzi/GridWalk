@@ -113,7 +113,11 @@ struct WidgetSnapshotTests {
         let fp1 = try #require(race.sessions.first { $0.kind == .practice1 })
         let before = fp1.dateUTC.addingTimeInterval(-3600)
 
-        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: before))
+        let next = try #require(season.nextSession(after: before))
+        let snapshot = WidgetSnapshot(
+            timed: TimedSession(weekend: next.weekend, session: next.session),
+            lastUpdated: season.fetchedAt
+        )
         #expect(snapshot.sessionKind == .practice1)
         #expect(snapshot.weekendName == race.name)
         #expect(snapshot.dateUTC == fp1.dateUTC)
@@ -127,7 +131,11 @@ struct WidgetSnapshotTests {
 
         let data = try fixture("sprint_weekend")
         let season = try SeasonDecoder.decode(data)
-        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: Date.distantPast))
+        let next = try #require(season.nextSession(after: .distantPast))
+        let snapshot = WidgetSnapshot(
+            timed: TimedSession(weekend: next.weekend, session: next.session),
+            lastUpdated: season.fetchedAt
+        )
         try WidgetSnapshotStore.save(snapshot, in: dir)
 
         let loaded = try #require(WidgetSnapshotStore.load(from: dir))

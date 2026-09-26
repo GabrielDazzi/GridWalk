@@ -43,12 +43,7 @@ struct SettingsView: View {
                 }
             }
 
-            Section("Privacy") {
-                Toggle("Spoiler-free", isOn: $model.preferences.spoilerFree)
-                Text("Hides last-race results in the menu bar.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            SpoilerSettingsSection(model: model)
 
             Section("Alerts (15 min before)") {
                 ForEach(AlertCategory.allCases, id: \.self) { category in

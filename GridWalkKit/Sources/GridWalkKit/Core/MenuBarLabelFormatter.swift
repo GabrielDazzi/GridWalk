@@ -65,12 +65,11 @@ public enum MenuBarLabelFormatter {
             return mode
         }
 
-        if isRaceWeekend(nextSession: context.nextSession, now: context.now) {
+        if context.resultsHidden || isRaceWeekend(nextSession: context.nextSession, now: context.now) {
             return .countdown
         }
 
-        if !context.resultsHidden,
-            let last = context.standings?.lastRace,
+        if let last = context.standings?.lastRace,
             context.now.timeIntervalSince(last.dateUTC) >= 0,
             context.now.timeIntervalSince(last.dateUTC) < postRaceWindow
         {
@@ -89,6 +88,7 @@ public enum MenuBarLabelFormatter {
     }
 
     public static func format(mode: MenuBarMode, context: MenuBarContext) -> MenuBarLabelContent? {
+        if mode.revealsResults, context.resultsHidden { return nil }
         switch mode {
         case .countdown:
             guard let next = context.nextSession else { return nil }
@@ -128,7 +128,6 @@ public enum MenuBarLabelFormatter {
             )
 
         case .lastRace:
-            if context.resultsHidden { return nil }
             guard let last = context.standings?.lastRace else { return nil }
             let entry = context.favorites.driverCode.flatMap(last.result(forDriverCode:)) ?? last.winner
             guard let entry else { return nil }
@@ -183,6 +182,9 @@ public enum MenuBarLabelFormatter {
 extension MenuBarMode {
     /// Modes that show anything that changes after a race.
     public var revealsResults: Bool {
-        self == .lastRace
+        switch self {
+        case .lastRace, .myDriver, .myTeam, .titleFight: true
+        case .countdown, .auto: false
+        }
     }
 }

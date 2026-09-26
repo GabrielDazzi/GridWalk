@@ -4,6 +4,22 @@
     "%@ %@" : {
       "shouldTranslate" : false
     },
+    "%@ P%lld · %@ pts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ P%2$lld · %3$@ pts"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ P%2$lld · %3$@ pts"
+          }
+        }
+      }
+    },
     "Countdown to the next race weekend session." : {
       "localizations" : {
         "en" : {
@@ -48,6 +64,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhuma sessão próxima"
+          }
+        }
+      }
+    },
+    "Results hidden" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados escondidos"
           }
         }
       }

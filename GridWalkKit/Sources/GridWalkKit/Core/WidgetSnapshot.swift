@@ -1,6 +1,28 @@
 import Foundation
 
-/// Compact next-session payload for WidgetKit timelines.
+/// The favorite's current standing, as shown on the widget.
+public struct FavoriteSummary: Codable, Sendable, Hashable {
+    /// Driver code or team name.
+    public let name: String
+    public let position: Int
+    public let points: String
+
+    public init(name: String, position: Int, points: String) {
+        self.name = name
+        self.position = position
+        self.points = points
+    }
+
+    public init(_ driver: DriverStanding) {
+        self.init(name: driver.displayCode, position: driver.position, points: driver.pointsString)
+    }
+
+    public init(_ team: ConstructorStanding) {
+        self.init(name: team.name, position: team.position, points: team.pointsString)
+    }
+}
+
+/// Compact next-session payload for WidgetKit timelines. The app writes it; the widget only reads it.
 public struct WidgetSnapshot: Codable, Sendable, Hashable {
     public let sessionKindRaw: String
     public let sessionShortName: String
@@ -9,6 +31,10 @@ public struct WidgetSnapshot: Codable, Sendable, Hashable {
     public let weekendName: String
     public let isSprintWeekend: Bool
     public let lastUpdated: Date
+    /// Favorite driver (or team when no driver is picked). Nil while there's nothing to show.
+    public let favorite: FavoriteSummary?
+    /// Spoiler-free: hide `favorite` until this date. Nil when nothing is hidden.
+    public let resultsHiddenUntil: Date?
 
     public var sessionKind: SessionKind? {
         SessionKind(rawValue: sessionKindRaw)
@@ -21,7 +47,9 @@ public struct WidgetSnapshot: Codable, Sendable, Hashable {
         dateUTC: Date,
         weekendName: String,
         isSprintWeekend: Bool,
-        lastUpdated: Date
+        lastUpdated: Date,
+        favorite: FavoriteSummary? = nil,
+        resultsHiddenUntil: Date? = nil
     ) {
         self.sessionKindRaw = sessionKindRaw
         self.sessionShortName = sessionShortName
@@ -30,9 +58,16 @@ public struct WidgetSnapshot: Codable, Sendable, Hashable {
         self.weekendName = weekendName
         self.isSprintWeekend = isSprintWeekend
         self.lastUpdated = lastUpdated
+        self.favorite = favorite
+        self.resultsHiddenUntil = resultsHiddenUntil
     }
 
-    public init(timed: TimedSession, lastUpdated: Date) {
+    public init(
+        timed: TimedSession,
+        lastUpdated: Date,
+        favorite: FavoriteSummary? = nil,
+        spoilers: SpoilerState = .visible
+    ) {
         self.init(
             sessionKindRaw: timed.session.kind.rawValue,
             sessionShortName: timed.session.kind.shortName,
@@ -40,16 +75,26 @@ public struct WidgetSnapshot: Codable, Sendable, Hashable {
             dateUTC: timed.session.dateUTC,
             weekendName: timed.weekend.name,
             isSprintWeekend: timed.weekend.isSprintWeekend,
-            lastUpdated: lastUpdated
+            lastUpdated: lastUpdated,
+            favorite: favorite,
+            resultsHiddenUntil: spoilers.isHidingResults ? spoilers.revealDate : nil
         )
     }
 
-    public static func from(schedule: SeasonSchedule, now: Date = .now) -> WidgetSnapshot? {
-        guard let pair = schedule.nextSession(after: now) else { return nil }
-        return WidgetSnapshot(
-            timed: TimedSession(weekend: pair.weekend, session: pair.session),
-            lastUpdated: schedule.fetchedAt
-        )
+    /// The favorite line to show at `date`, or nil while spoiler-free hides it.
+    public func visibleFavorite(at date: Date) -> FavoriteSummary? {
+        if let resultsHiddenUntil, date < resultsHiddenUntil { return nil }
+        return favorite
+    }
+
+    public func isHidingResults(at date: Date) -> Bool {
+        guard let resultsHiddenUntil, favorite != nil else { return false }
+        return date < resultsHiddenUntil
+    }
+
+    /// Moments the widget should redraw: the reveal, then the session start.
+    public func timelineDates(after now: Date) -> [Date] {
+        [resultsHiddenUntil, dateUTC].compactMap { $0 }.filter { $0 > now }.sorted()
     }
 }
 
