@@ -11,9 +11,10 @@ public enum CalendarExportError: Error, Sendable, Equatable {
 extension CalendarExportError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .accessDenied: "Calendar access is off. Turn it on in Settings to add sessions."
-        case .noCalendar: "There's no calendar to add events to."
-        case .saveFailed: "Couldn't save the sessions to Calendar."
+        case .accessDenied:
+            String(localized: "Calendar access is off. Turn it on in Settings to add sessions.", bundle: .module)
+        case .noCalendar: String(localized: "There's no calendar to add events to.", bundle: .module)
+        case .saveFailed: String(localized: "Couldn't save the sessions to Calendar.", bundle: .module)
         }
     }
 }

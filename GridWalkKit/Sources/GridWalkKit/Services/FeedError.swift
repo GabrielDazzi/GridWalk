@@ -40,17 +40,17 @@ extension FeedError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .offline:
-            "You're offline. Showing the last saved data."
+            String(localized: "You're offline. Showing the last saved data.", bundle: .module)
         case .timedOut:
-            "The data feed took too long to answer."
+            String(localized: "The data feed took too long to answer.", bundle: .module)
         case .server(let status):
-            "The data feed is having trouble (error \(status))."
+            String(localized: "The data feed is having trouble (error \(status)).", bundle: .module)
         case .emptyResponse:
-            "The data feed returned nothing."
+            String(localized: "The data feed returned nothing.", bundle: .module)
         case .malformedData:
-            "The data feed sent something we couldn't read."
+            String(localized: "The data feed sent something we couldn't read.", bundle: .module)
         case .transport:
-            "Couldn't reach the data feed."
+            String(localized: "Couldn't reach the data feed.", bundle: .module)
         }
     }
 }

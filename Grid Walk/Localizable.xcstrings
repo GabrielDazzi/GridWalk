@@ -2,14 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%@ · %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · %2$@"
-          }
-        }
-      }
+      "shouldTranslate" : false
     },
     "Add weekend to Calendar" : {
       "localizations" : {
@@ -23,6 +16,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar weekend ao Calendário"
+          }
+        }
+      }
+    },
+    "Added %lld events" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld eventos adicionados"
           }
         }
       }
@@ -43,6 +46,16 @@
         }
       }
     },
+    "Compact style" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estilo compacto"
+          }
+        }
+      }
+    },
     "Done" : {
       "localizations" : {
         "en" : {
@@ -59,6 +72,26 @@
         }
       }
     },
+    "Driver" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piloto"
+          }
+        }
+      }
+    },
+    "Favorites" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoritos"
+          }
+        }
+      }
+    },
     "Grid Walk" : {
       "localizations" : {
         "en" : {
@@ -71,6 +104,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grid Walk"
+          }
+        }
+      }
+    },
+    "Hides last-race results in the menu bar." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconde os resultados da última corrida na barra de menus."
           }
         }
       }
@@ -107,6 +150,26 @@
         }
       }
     },
+    "Menu bar" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra de menus"
+          }
+        }
+      }
+    },
+    "Mode" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo"
+          }
+        }
+      }
+    },
     "No upcoming sessions" : {
       "localizations" : {
         "en" : {
@@ -119,6 +182,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhuma sessão próxima"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidade"
           }
         }
       }
@@ -171,6 +254,16 @@
         }
       }
     },
+    "Rotate up to 3 modes (not Auto)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alterna até 3 modos (exceto Automático)"
+          }
+        }
+      }
+    },
     "Schedule" : {
       "localizations" : {
         "en" : {
@@ -203,6 +296,16 @@
         }
       }
     },
+    "Spoiler-free" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem spoilers"
+          }
+        }
+      }
+    },
     "Sprint" : {
       "localizations" : {
         "en" : {
@@ -215,6 +318,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sprint"
+          }
+        }
+      }
+    },
+    "Standings" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificação"
+          }
+        }
+      }
+    },
+    "Team" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipe"
+          }
+        }
+      }
+    },
+    "Ticker" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rotação"
           }
         }
       }

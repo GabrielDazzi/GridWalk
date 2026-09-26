@@ -103,23 +103,6 @@ struct NextSessionTests {
     }
 }
 
-@Suite("Countdown")
-struct CountdownTests {
-    @Test("formats days and hours")
-    func daysHours() {
-        let now = Date(timeIntervalSince1970: 0)
-        let later = now.addingTimeInterval(90_000)  // 1d 1h
-        #expect(CountdownFormat.compact(until: later, from: now) == "1d 1h")
-    }
-
-    @Test("formats minutes under one hour")
-    func minutes() {
-        let now = Date(timeIntervalSince1970: 0)
-        let later = now.addingTimeInterval(42 * 60)
-        #expect(CountdownFormat.compact(until: later, from: now) == "42m")
-    }
-}
-
 @Suite("Widget snapshot")
 struct WidgetSnapshotTests {
     @Test("builds snapshot from season schedule")

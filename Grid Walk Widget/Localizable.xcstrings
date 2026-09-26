@@ -1,28 +1,71 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Next session" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next session" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Próxima sessão" } }
-      }
+    "%@ %@" : {
+      "shouldTranslate" : false
     },
     "Countdown to the next race weekend session." : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Countdown to the next race weekend session." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Contagem regressiva para a próxima sessão do weekend." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countdown to the next race weekend session."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contagem regressiva para a próxima sessão do weekend."
+          }
+        }
+      }
+    },
+    "Next session" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next session"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próxima sessão"
+          }
+        }
       }
     },
     "No upcoming sessions" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming sessions" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma sessão próxima" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No upcoming sessions"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma sessão próxima"
+          }
+        }
       }
     },
     "Sprint" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprint"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprint"
+          }
+        }
       }
     }
   },

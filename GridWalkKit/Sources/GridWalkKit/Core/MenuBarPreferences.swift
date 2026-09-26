@@ -13,12 +13,12 @@ public enum MenuBarMode: String, Codable, Sendable, CaseIterable, Hashable, Iden
 
     public var displayName: String {
         switch self {
-        case .countdown: "Countdown"
-        case .myDriver: "My driver"
-        case .titleFight: "Title fight"
-        case .myTeam: "My team"
-        case .lastRace: "Last race"
-        case .auto: "Auto"
+        case .countdown: String(localized: "Countdown", bundle: .module)
+        case .myDriver: String(localized: "My driver", bundle: .module)
+        case .titleFight: String(localized: "Title fight", bundle: .module)
+        case .myTeam: String(localized: "My team", bundle: .module)
+        case .lastRace: String(localized: "Last race", bundle: .module)
+        case .auto: String(localized: "Auto", bundle: .module, comment: "Menu bar mode that picks for you")
         }
     }
 }

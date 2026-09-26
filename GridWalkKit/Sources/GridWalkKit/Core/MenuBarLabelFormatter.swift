@@ -98,7 +98,11 @@ public enum MenuBarLabelFormatter {
 
         case .myDriver:
             guard let driver = context.standings?.drivers.first(where: context.favorites.isFavorite) else {
-                return MenuBarLabelContent(text: "Pick a driver", compactText: "-", systemImage: "person")
+                return MenuBarLabelContent(
+                    text: String(localized: "Pick a driver", bundle: .module),
+                    compactText: "-",
+                    systemImage: "person"
+                )
             }
             return MenuBarLabelContent(
                 text: driver.shortLabel,
@@ -111,7 +115,11 @@ public enum MenuBarLabelFormatter {
 
         case .myTeam:
             guard let team = context.standings?.constructors.first(where: context.favorites.isFavorite) else {
-                return MenuBarLabelContent(text: "Pick a team", compactText: "-", systemImage: "shield")
+                return MenuBarLabelContent(
+                    text: String(localized: "Pick a team", bundle: .module),
+                    compactText: "-",
+                    systemImage: "shield"
+                )
             }
             return MenuBarLabelContent(
                 text: team.shortLabel,
@@ -141,21 +149,29 @@ public enum MenuBarLabelFormatter {
         now: Date
     ) -> MenuBarLabelContent {
         guard let drivers = standings?.drivers, drivers.count >= 2 else {
-            return MenuBarLabelContent(text: "Title fight", compactText: "-", systemImage: "trophy")
+            return MenuBarLabelContent(
+                text: String(localized: "Title fight", bundle: .module),
+                compactText: "-",
+                systemImage: "trophy"
+            )
         }
         let gap = drivers[0].points - drivers[1].points
         let remaining = StandingsMath.remainingRaceWeekends(in: races, now: now)
         let pointsLeft = Double(remaining * 25)
 
         if remaining == 0 || gap > pointsLeft {
-            return MenuBarLabelContent(text: "Champion", compactText: "Champ", systemImage: "trophy.fill")
+            return MenuBarLabelContent(
+                text: String(localized: "Champion", bundle: .module),
+                compactText: String(localized: "Champ", bundle: .module, comment: "Short for champion"),
+                systemImage: "trophy.fill"
+            )
         }
 
         let gapText = gap == 0 ? "0" : "+\(Int(gap.rounded()))"
         // late season and still catchable
         if pointsLeft <= 75, gap < pointsLeft {
             return MenuBarLabelContent(
-                text: "Still in the fight · \(gapText)",
+                text: String(localized: "Still in the fight · \(gapText)", bundle: .module),
                 compactText: gapText,
                 systemImage: "trophy"
             )

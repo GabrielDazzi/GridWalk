@@ -29,7 +29,7 @@ public enum SessionAlertPlanner {
                 return SessionAlert(
                     id: identifierPrefix + session.id,
                     title: session.kind.displayName,
-                    body: "\(weekend.name) starts in 15 minutes",
+                    body: String(localized: "\(weekend.name) starts in 15 minutes", bundle: .module),
                     fireDate: fireDate
                 )
             }

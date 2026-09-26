@@ -18,16 +18,6 @@ enum GridTheme {
         case .race: startRed
         }
     }
-
-    /// Color-blind friendly short tags: FP / Q / S / R
-    static func accessibilityTag(for kind: SessionKind) -> String {
-        switch kind.alertCategory {
-        case .practice: "FP"
-        case .qualifying: "Q"
-        case .sprint: "S"
-        case .race: "R"
-        }
-    }
 }
 
 struct CountdownText: View {
@@ -59,7 +49,7 @@ struct SessionTagChip: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(GridTheme.accessibilityTag(for: kind))
+            Text(kind.alertCategory.tagLetters)
                 .font(.caption2.weight(.bold).monospaced())
             Text(kind.shortName)
                 .font(.caption2.weight(.semibold))
