@@ -31,13 +31,27 @@ swift format lint --strict --recursive --parallel "Grid Walk" "Grid Walk Widget"
 
 ## Strings
 
-There are three String Catalogs: the app, the widget, and `GridWalkKit/Sources/GridWalkKit/Resources`. Kit code uses `String(localized: "...", bundle: .module)`. After adding strings, build the Mac and iOS targets, then pull the new keys into the catalogs and add the Portuguese values:
+There are four String Catalogs: the app, the widget, `GridWalkKit/Sources/GridWalkKit/Resources` and `GridWalkKit/Sources/GridWalkDesign/Resources`. Kit code uses `String(localized: "...", bundle: .module)`. After adding strings, build the Mac and iOS targets, then pull the new keys into the catalogs and add the Portuguese values:
 
 ```bash
 scripts/sync-strings.sh   # reads build/dd by default; pass another DerivedData path if needed
 ```
 
 `swift test` fails if any string is missing Portuguese.
+
+## Demo data and screenshots
+
+Debug builds accept launch arguments that swap the live feed for fictional sample data, so screenshots never depend on the network or show real names:
+
+- `-demo <scenario>`: `raceWeekend`, `resultsHidden`, `offline`, `failed`, `loading`, `offSeason`, `firstLaunch`
+- `-tab <tab>` (iPhone): `countdown`, `weekend`, `standings`, `settings`
+- `-snapshots <dir>` (Mac): renders every popover state and the first onboarding steps to PNGs in light and dark, then quits
+
+```bash
+xcrun simctl launch booted com.gabrieldazzi.Grid-Walk -demo resultsHidden -tab standings
+```
+
+Views and components also have `#Preview`s for loading, empty, error and results hidden states.
 
 ## Pull requests
 

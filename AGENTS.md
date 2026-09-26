@@ -11,17 +11,20 @@ Free, open-source race weekend companion for macOS and iOS. Swift 6 + SwiftUI, n
 - PR body: Summary, Verification (exact commands), Test plan checklist.
 
 ## Status
-- **Done:** v1 countdown / alerts / Calendar; widgets + Live Activity; menu bar modes (v1.1).
+- **Done:** v1 countdown / alerts / Calendar; widgets + Live Activity; menu bar modes (v1.1); spoiler-free delay + favorite highlight in standings; night grid redesign (GridWalkDesign, onboarding, screen states).
 - **Next:** distribution (App Store Connect, signing, DMG / Homebrew, TestFlight) and README real screenshots when the icon ships.
 
 ## Layout
 - `Grid Walk/App/` startup and scenes (macOS MenuBarExtra, iOS app)
-- `Grid Walk/UI/` SwiftUI views only
+- `Grid Walk/UI/` SwiftUI views only: `Mac/`, `Phone/`, `Onboarding/`, `Shared/`
+- `Grid Walk/App/LaunchOptions.swift` debug `-demo <scenario>` / `-tab <tab>`; `DebugSnapshots.swift` Mac `-snapshots <dir>`
 - `Grid Walk Widget/` WidgetKit + Live Activity UI
 - `GridWalkKit/` local Swift package
   - `Core/` models, preferences, App Group, snapshots, menu bar formatting
-  - `Services/` data feed, cache, notifications, calendar, Live Activity, standings
-- Tests use Swift Testing (`swift test` in GridWalkKit).
+  - `Core/` also has screen state: feed status, weekend timeline, season rows, favorite snippet, onboarding
+  - `Services/` data feed, cache, notifications, calendar, Live Activity, standings, preview sample data
+- `GridWalkKit/Sources/GridWalkDesign/` design tokens (dark + light), glass surface, shared SwiftUI components; depends on GridWalkKit, never the other way
+- Tests use Swift Testing (`swift test` in GridWalkKit). Contrast tests keep tokens at 4.5:1 or better.
 
 ## Data
 - Schedule: https://api.jolpi.ca/ergast/f1/current.json?limit=100
