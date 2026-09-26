@@ -47,6 +47,48 @@
         }
       }
     },
+    "%@, %@, finished" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, finished"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@, encerrada"
+          }
+        }
+      }
+    },
+    "%@, %@, up next" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, up next"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@, a seguir"
+          }
+        }
+      }
+    },
+    "%@, live now" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, ao vivo agora"
+          }
+        }
+      }
+    },
     "%lldd %lldh" : {
       "comment" : "Countdown, days and hours",
       "localizations" : {
@@ -421,6 +463,16 @@
         }
       }
     },
+    "Round %lld" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etapa %lld"
+          }
+        }
+      }
+    },
     "S" : {
       "comment" : "Tag letter for sprint sessions",
       "localizations" : {
@@ -543,12 +595,42 @@
         }
       }
     },
-    "You're offline. Showing the last saved data." : {
+    "You're offline. Check your connection and try again." : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Você está offline. Mostrando os últimos dados salvos."
+            "value" : "Você está sem conexão. Verifique a internet e tente de novo."
+          }
+        }
+      }
+    },
+    "finished" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "encerrado"
+          }
+        }
+      }
+    },
+    "sprint weekend" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fim de semana com sprint"
+          }
+        }
+      }
+    },
+    "up next" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a seguir"
           }
         }
       }

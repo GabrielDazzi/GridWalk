@@ -158,6 +158,18 @@ public final class AppModel {
         return snapshot.constructors.first(where: preferences.favorites.isFavorite).map(FavoriteSummary.init)
     }
 
+    public func favoriteSnippet(at now: Date) -> FavoriteSnippet {
+        FavoriteSnippet.make(
+            snapshot: standings.snapshot,
+            favorites: preferences.favorites,
+            spoilers: spoilerState(at: now)
+        )
+    }
+
+    public func hero(at now: Date) -> HeroState {
+        WeekendTimeline.hero(races: schedule.races, at: now)
+    }
+
     public func menuBarContext(at now: Date) -> MenuBarContext {
         MenuBarContext(
             nextSession: nextSession(at: now),
@@ -176,6 +188,20 @@ public final class AppModel {
             resultsHidden: spoilerState(at: now).isHidingResults
         )
         return MenuBarLabelFormatter.content(mode: mode, context: menuBarContext(at: now))
+    }
+
+    /// VoiceOver text for the menu bar item: the countdown spelled out, or the full label of other modes.
+    public func menuBarAccessibilityLabel(at now: Date, tick: Int) -> String {
+        let mode = MenuBarLabelFormatter.activeMode(
+            preferences: preferences.menuBar,
+            tick: tick,
+            resultsHidden: spoilerState(at: now).isHidingResults
+        )
+        let context = menuBarContext(at: now)
+        if MenuBarLabelFormatter.resolveMode(mode, context: context) == .countdown, let next = context.nextSession {
+            return CountdownFormat.accessibilityLabel(for: next.session.kind, until: next.session.dateUTC, from: now)
+        }
+        return MenuBarLabelFormatter.content(mode: mode, context: context).text
     }
 
     // MARK: - Side effects

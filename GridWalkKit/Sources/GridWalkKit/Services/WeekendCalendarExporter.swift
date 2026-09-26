@@ -61,14 +61,3 @@ public final class WeekendCalendarExporter: CalendarExporting {
         return weekend.sessions.count
     }
 }
-
-extension SessionKind {
-    /// Rough length so the calendar block looks right.
-    public var typicalDuration: TimeInterval {
-        switch self {
-        case .practice1, .practice2, .practice3, .qualifying: 60 * 60
-        case .sprintQualifying, .sprint: 45 * 60
-        case .race: 2 * 60 * 60
-        }
-    }
-}

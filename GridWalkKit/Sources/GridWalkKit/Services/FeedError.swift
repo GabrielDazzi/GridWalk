@@ -40,7 +40,7 @@ extension FeedError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .offline:
-            String(localized: "You're offline. Showing the last saved data.", bundle: .module)
+            String(localized: "You're offline. Check your connection and try again.", bundle: .module)
         case .timedOut:
             String(localized: "The data feed took too long to answer.", bundle: .module)
         case .server(let status):

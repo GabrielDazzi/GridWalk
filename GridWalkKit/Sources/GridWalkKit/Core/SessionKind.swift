@@ -48,6 +48,15 @@ public enum SessionKind: String, Codable, Sendable, CaseIterable, Hashable {
     public var isScoring: Bool {
         self == .sprint || self == .race
     }
+
+    /// Rough session length, for calendar blocks and "live now".
+    public var typicalDuration: TimeInterval {
+        switch self {
+        case .practice1, .practice2, .practice3, .qualifying: 60 * 60
+        case .sprintQualifying, .sprint: 45 * 60
+        case .race: 2 * 60 * 60
+        }
+    }
 }
 
 /// Toggle groups for session alerts. Also drives the session tag color.
