@@ -221,18 +221,22 @@ struct MenuBarFormatterTests {
 
 @Suite("Menu bar preferences")
 struct MenuBarPreferencesTests {
-    @Test("ticker keeps at most three unique modes and never auto")
+    @Test("ticker keeps unique modes, never auto, and accepts every other mode")
     func tickerLimits() {
         var preferences = MenuBarPreferences()
         preferences.setTickerModes([.auto, .countdown, .countdown, .myDriver, .myTeam, .titleFight])
-        #expect(preferences.tickerModes == [.countdown, .myDriver, .myTeam])
+        #expect(preferences.tickerModes == [.countdown, .myDriver, .myTeam, .titleFight])
         #expect(preferences.isTickerActive)
 
         preferences.setTicker(.lastRace, included: true)
-        #expect(preferences.tickerModes.count == 3)
+        preferences.setTicker(.countdown, included: true)
+        #expect(preferences.tickerModes == [.countdown, .myDriver, .myTeam, .titleFight, .lastRace])
 
-        preferences.setTicker(.myDriver, included: false)
-        preferences.setTicker(.myTeam, included: false)
+        preferences.setTickerModes(Array(MenuBarMode.allCases))
+        #expect(preferences.tickerModes.count == MenuBarPreferences.maximumTickerModes)
+        #expect(!preferences.tickerModes.contains(.auto))
+
+        preferences.setTickerModes([.countdown])
         #expect(!preferences.isTickerActive)
     }
 }

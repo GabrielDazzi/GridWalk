@@ -497,12 +497,12 @@
         }
       }
     },
-    "Rotate up to 3 modes (not Auto)" : {
+    "Rotate the modes you turn on (not Auto)" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alterna até 3 modos (exceto Automático)"
+            "value" : "Alterna os modos que você ligar (exceto Automático)"
           }
         }
       }

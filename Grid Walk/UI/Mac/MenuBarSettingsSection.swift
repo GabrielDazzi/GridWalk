@@ -18,7 +18,7 @@ struct MenuBarSettingsSection: View {
 
             Toggle("Ticker", isOn: $preferences.tickerEnabled)
             if preferences.tickerEnabled {
-                Text("Rotate up to 3 modes (not Auto)")
+                Text("Rotate the modes you turn on (not Auto)")
                     .font(.caption)
                     .foregroundStyle(Theme.secondaryText)
                 ForEach(MenuBarMode.allCases.filter { $0 != .auto }) { mode in

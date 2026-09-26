@@ -25,10 +25,11 @@ public enum MenuBarMode: String, Codable, Sendable, CaseIterable, Hashable, Iden
 
 /// Menu bar label settings (Mac only).
 public struct MenuBarPreferences: Codable, Sendable, Equatable {
-    public static let maximumTickerModes = 3
+    /// Every mode except Auto. The ticker can rotate the whole set.
+    public static let maximumTickerModes = MenuBarMode.allCases.filter { $0 != .auto }.count
 
     public var mode: MenuBarMode
-    /// Modes to rotate when the ticker is on (2 or 3).
+    /// Modes to rotate when the ticker is on. At least two, never Auto.
     public private(set) var tickerModes: [MenuBarMode]
     public var tickerEnabled: Bool
     public var tickerIntervalSeconds: Double
