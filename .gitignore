@@ -25,7 +25,9 @@ Package.resolved
 *.pkg
 
 # Secrets
+*.p8
 *.p12
+*.cer
 *.mobileprovision
 .env
 .env.*
