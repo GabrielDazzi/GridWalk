@@ -12,7 +12,7 @@ struct MenuBarPanel: View {
     var body: some View {
         TimelineView(.everyMinute) { context in
             VStack(spacing: 12) {
-                PanelHeader(model: model)
+                PanelHeader(model: model, openSettings: openSettings)
                 ScheduleGate(status: model.schedule.status, retry: refresh) {
                     content(now: context.date)
                 }
@@ -48,13 +48,13 @@ struct MenuBarPanel: View {
     }
 
     private func openSettings() {
-        openSettingsAction()
-        NSApplication.shared.activate()
+        SettingsWindow.open(openSettingsAction.callAsFunction)
     }
 }
 
 private struct PanelHeader: View {
     let model: AppModel
+    let openSettings: () -> Void
 
     var body: some View {
         HStack {
@@ -66,9 +66,7 @@ private struct PanelHeader: View {
                 Task { await model.refreshNow() }
             }
             .disabled(model.schedule.isRefreshing)
-            SettingsLink {
-                Label("Settings", systemImage: "gearshape")
-            }
+            Button("Settings", systemImage: "gearshape", action: openSettings)
         }
         .labelStyle(.iconOnly)
         .buttonStyle(.plain)

@@ -38,6 +38,9 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .screenBackground()
+        #if os(macOS)
+        .background { SettingsWindowAnchor() }
+        #endif
         .tint(Theme.accent)
     }
 

@@ -19,6 +19,11 @@ struct Grid_WalkApp: App {
             MenuBarLabel(model: model)
         }
         .menuBarExtraStyle(.window)
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                SettingsMenuButton()
+            }
+        }
 
         Window("Standings", id: "standings") {
             StandingsView(model: model)

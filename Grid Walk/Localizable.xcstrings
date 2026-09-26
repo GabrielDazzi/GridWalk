@@ -543,6 +543,22 @@
         }
       }
     },
+    "Settings…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes…"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "en" : {
