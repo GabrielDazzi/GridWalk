@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Pulls new string keys from the last Mac + iOS builds into the three String Catalogs.
+# Pulls new string keys from the last Mac + iOS builds into the String Catalogs.
 # Build both first (see CONTRIBUTING.md), then run this and add the Portuguese values.
 set -e
 cd "$(dirname "$0")/.."
@@ -22,3 +22,4 @@ sync() {
 sync "Grid Walk/Localizable.xcstrings" "*/Grid Walk.build/Objects-normal/*"
 sync "Grid Walk Widget/Localizable.xcstrings" "*/Grid Walk Widget.build/Objects-normal/*"
 sync "GridWalkKit/Sources/GridWalkKit/Resources/Localizable.xcstrings" "*/GridWalkKit-t.build/Objects-normal/*"
+sync "GridWalkKit/Sources/GridWalkDesign/Resources/Localizable.xcstrings" "*/GridWalkDesign-t.build/Objects-normal/*"

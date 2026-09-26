@@ -7,6 +7,7 @@ import Testing
 struct LocalizationTests {
     static let catalogs = [
         "GridWalkKit/Sources/GridWalkKit/Resources/Localizable.xcstrings",
+        "GridWalkKit/Sources/GridWalkDesign/Resources/Localizable.xcstrings",
         "Grid Walk/Localizable.xcstrings",
         "Grid Walk Widget/Localizable.xcstrings",
     ]
