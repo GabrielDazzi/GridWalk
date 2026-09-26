@@ -19,11 +19,13 @@
 <p align="center"><strong>App Store subtitle:</strong> Race weekend countdown</p>
 
 <p align="center">
-  <img src="docs/images/menubar.svg" alt="Menu bar showing driver and team standings" width="560"/>
+  <img src="docs/images/mac-menu-dark.png" alt="Menu bar window in dark mode, with the next session countdown and results hidden" width="320"/>
+  <img src="docs/images/mac-menu-light.png" alt="Menu bar window in light mode, with the next session countdown and results hidden" width="320"/>
 </p>
 
 <p align="center">
-  <img src="docs/images/iphone.svg" alt="iPhone next-session countdown" width="200"/>
+  <img src="docs/images/mac-welcome-dark.png" alt="First-launch welcome in dark mode" width="440"/>
+  <img src="docs/images/mac-welcome-light.png" alt="First-launch welcome in light mode" width="440"/>
 </p>
 
 ## What it does
@@ -59,7 +61,7 @@ Everything runs on your Mac or iPhone. Session times and standings live in the A
 
 Liquid Glass / AlarmKit stay optional extras for newer OS versions — the app targets 14 / 17 so it runs on current devices.
 
-Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store. The placeholder mark above is temporary until the final app icon ships; real screenshots will replace the mockups.
+Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store.
 
 ## Develop
 
