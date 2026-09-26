@@ -14,6 +14,7 @@ public final class StandingsStore {
     private let feed: any FeedFetching
     private let cache: any Caching<StandingsSnapshot>
     private let time: any TimeSource
+    private var lastAttempt: Date?
 
     public init(
         feed: any FeedFetching,
@@ -40,13 +41,18 @@ public final class StandingsStore {
     }
 
     public func refreshIfNeeded(races: [RaceWeekend]) async {
-        guard StandingsMath.needsRefresh(races: races, cached: snapshot, now: time.now) else { return }
+        let now = time.now
+        guard StandingsMath.needsRefresh(races: races, cached: snapshot, now: now) else { return }
+        if lastError != nil, let lastAttempt, now.timeIntervalSince(lastAttempt) < ScheduleStore.retryInterval {
+            return
+        }
         await refresh()
     }
 
     public func refresh() async {
         guard !isRefreshing else { return }
         isRefreshing = true
+        lastAttempt = time.now
         defer { isRefreshing = false }
 
         do throws(FeedError) {

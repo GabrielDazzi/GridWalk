@@ -15,6 +15,8 @@ public final class ScheduleStore {
     public static let refreshInterval: TimeInterval = 12 * 60 * 60
     /// Manual refreshes closer together than this are ignored.
     public static let manualRefreshCooldown: TimeInterval = 60
+    /// After a failed refresh, automatic retries wait this long.
+    public static let retryInterval: TimeInterval = 15 * 60
 
     private let feed: any FeedFetching
     private let cache: any Caching<SeasonSchedule>
@@ -46,7 +48,11 @@ public final class ScheduleStore {
     }
 
     public func refreshIfNeeded() async {
-        if let lastUpdated, time.now.timeIntervalSince(lastUpdated) < Self.refreshInterval {
+        let now = time.now
+        if let lastUpdated, now.timeIntervalSince(lastUpdated) < Self.refreshInterval {
+            return
+        }
+        if lastError != nil, let lastAttempt, now.timeIntervalSince(lastAttempt) < Self.retryInterval {
             return
         }
         await refresh()
@@ -72,8 +78,6 @@ public final class ScheduleStore {
             try? await cache.save(fresh)
             schedule = fresh
             lastError = nil
-            try? WidgetSnapshotStore.save(WidgetSnapshot.from(schedule: fresh, now: time.now))
-            WidgetReload.reloadAll()
         } catch {
             lastError = error
             if schedule == nil {

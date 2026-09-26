@@ -20,28 +20,3 @@ public struct AlertPreferences: Codable, Sendable, Equatable {
         }
     }
 }
-
-public final class AlertPreferencesStore: @unchecked Sendable {
-    private let defaults: UserDefaults
-    private let key = "alertPreferences"
-
-    public init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
-    }
-
-    public var preferences: AlertPreferences {
-        get {
-            guard let data = defaults.data(forKey: key),
-                let decoded = try? JSONDecoder().decode(AlertPreferences.self, from: data)
-            else {
-                return AlertPreferences()
-            }
-            return decoded
-        }
-        set {
-            if let data = try? JSONEncoder().encode(newValue) {
-                defaults.set(data, forKey: key)
-            }
-        }
-    }
-}

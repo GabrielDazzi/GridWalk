@@ -1,63 +1,80 @@
 import Foundation
 import UserNotifications
 
-public enum SessionNotifier {
-    public static let categoryID = "sessionAlert"
-    private static let idPrefix = "gridwalk.session."
+/// One local notification to schedule before a session.
+public struct SessionAlert: Sendable, Hashable, Identifiable {
+    public let id: String
+    public let title: String
+    public let body: String
+    public let fireDate: Date
+}
 
-    /// Clear ours, then schedule up to 64 pending (iOS hard cap).
-    public static func reschedule(
+/// Decides which session alerts should exist. Pure, so tests can check it.
+public enum SessionAlertPlanner {
+    public static let leadTime: TimeInterval = 15 * 60
+    /// iOS keeps at most 64 pending notifications per app.
+    public static let maximumPending = 64
+    static let identifierPrefix = "gridwalk.session."
+
+    public static func alerts(
         races: [RaceWeekend],
         preferences: AlertPreferences,
-        center: UNUserNotificationCenter = .current(),
-        now: Date = .now,
-        leadTime: TimeInterval = 15 * 60,
-        maxPending: Int = 64
-    ) async {
-        await removeOurs(center: center)
-
-        let candidates: [(session: Session, weekend: RaceWeekend, fireAt: Date)] =
-            races
-            .flatMap { weekend in
-                weekend.sessions.compactMap { session -> (Session, RaceWeekend, Date)? in
-                    guard preferences.isEnabled(session.kind) else { return nil }
-                    let fireAt = session.dateUTC.addingTimeInterval(-leadTime)
-                    guard fireAt > now else { return nil }
-                    return (session, weekend, fireAt)
-                }
+        now: Date
+    ) -> [SessionAlert] {
+        let upcoming = races.flatMap { weekend in
+            weekend.sessions.compactMap { session -> SessionAlert? in
+                guard preferences.isEnabled(session.kind) else { return nil }
+                let fireDate = session.dateUTC.addingTimeInterval(-leadTime)
+                guard fireDate > now else { return nil }
+                return SessionAlert(
+                    id: identifierPrefix + session.id,
+                    title: session.kind.displayName,
+                    body: "\(weekend.name) starts in 15 minutes",
+                    fireDate: fireDate
+                )
             }
-            .sorted { $0.2 < $1.2 }
-
-        for item in candidates.prefix(maxPending) {
-            let content = UNMutableNotificationContent()
-            content.title = item.session.kind.displayName
-            content.body = "\(item.weekend.name) starts in 15 minutes"
-            content.sound = .default
-            content.categoryIdentifier = categoryID
-
-            let comps = Calendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute, .second],
-                from: item.fireAt
-            )
-            let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-            let id = idPrefix + item.session.id
-            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-            try? await center.add(request)
         }
+        return Array(upcoming.sorted { $0.fireDate < $1.fireDate }.prefix(maximumPending))
+    }
+}
+
+/// Local notification access. Faked in tests.
+public protocol NotificationScheduling: Sendable {
+    func requestAuthorization() async -> Bool
+    /// Removes our pending alerts and schedules `alerts` instead.
+    func replaceAlerts(with alerts: [SessionAlert]) async
+}
+
+/// `UNUserNotificationCenter` backed scheduler.
+public struct UserNotificationScheduler: NotificationScheduling {
+    public static let categoryIdentifier = "sessionAlert"
+
+    public init() {}
+
+    public func requestAuthorization() async -> Bool {
+        (try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]))
+            ?? false
     }
 
-    public static func requestAuthorization(center: UNUserNotificationCenter = .current()) async -> Bool {
-        do {
-            return try await center.requestAuthorization(options: [.alert, .sound, .badge])
-        } catch {
-            return false
-        }
-    }
-
-    private static func removeOurs(center: UNUserNotificationCenter) async {
+    public func replaceAlerts(with alerts: [SessionAlert]) async {
+        let center = UNUserNotificationCenter.current()
         let pending = await center.pendingNotificationRequests()
-        let ours = pending.map(\.identifier).filter { $0.hasPrefix(idPrefix) }
+        let ours = pending.map(\.identifier).filter { $0.hasPrefix(SessionAlertPlanner.identifierPrefix) }
         center.removePendingNotificationRequests(withIdentifiers: ours)
-        center.removeDeliveredNotifications(withIdentifiers: ours)
+
+        for alert in alerts {
+            let content = UNMutableNotificationContent()
+            content.title = alert.title
+            content.body = alert.body
+            content.sound = .default
+            content.categoryIdentifier = Self.categoryIdentifier
+
+            let components = Calendar.current.dateComponents(
+                [.year, .month, .day, .hour, .minute, .second],
+                from: alert.fireDate
+            )
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            try? await center.add(UNNotificationRequest(identifier: alert.id, content: content, trigger: trigger))
+        }
     }
 }

@@ -10,3 +10,17 @@ public enum LiveActivityPolicy {
         return remaining > 0 && remaining <= leadTime
     }
 }
+
+/// Starts, updates or ends the next-session Live Activity.
+@MainActor
+public protocol LiveActivityControlling: AnyObject {
+    func sync(with next: TimedSession?, now: Date) async
+}
+
+/// Used on the Mac and anywhere Live Activities don't exist.
+@MainActor
+public final class NoLiveActivity: LiveActivityControlling {
+    public init() {}
+
+    public func sync(with next: TimedSession?, now: Date) async {}
+}

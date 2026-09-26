@@ -32,7 +32,7 @@ public struct WidgetSnapshot: Codable, Sendable, Hashable {
         self.lastUpdated = lastUpdated
     }
 
-    public init?(timed: TimedSession, lastUpdated: Date) {
+    public init(timed: TimedSession, lastUpdated: Date) {
         self.init(
             sessionKindRaw: timed.session.kind.rawValue,
             sessionShortName: timed.session.kind.shortName,

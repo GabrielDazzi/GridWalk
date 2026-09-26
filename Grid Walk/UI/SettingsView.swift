@@ -2,25 +2,22 @@ import GridWalkKit
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var alertPrefs: AlertPreferences
-    @Binding var menuBarPrefs: MenuBarPreferences
-    @Bindable var store: ScheduleStore
-    @Bindable var standings: StandingsStore
+    @Bindable var model: AppModel
 
     var body: some View {
         Form {
             #if os(macOS)
             Section("Menu bar") {
-                Picker("Mode", selection: $menuBarPrefs.mode) {
+                Picker("Mode", selection: $model.preferences.menuBar.mode) {
                     ForEach(MenuBarMode.allCases) { mode in
                         Text(mode.displayName).tag(mode)
                     }
                 }
 
-                Toggle("Compact style", isOn: $menuBarPrefs.compactStyle)
+                Toggle("Compact style", isOn: $model.preferences.menuBar.compactStyle)
 
-                Toggle("Ticker", isOn: $menuBarPrefs.tickerEnabled)
-                if menuBarPrefs.tickerEnabled {
+                Toggle("Ticker", isOn: $model.preferences.menuBar.tickerEnabled)
+                if model.preferences.menuBar.tickerEnabled {
                     Text("Rotate up to 3 modes (not Auto)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -32,22 +29,22 @@ struct SettingsView: View {
             #endif
 
             Section("Favorites") {
-                Picker("Driver", selection: driverSelection) {
+                Picker("Driver", selection: $model.preferences.favorites.driverCode) {
                     Text("None").tag(String?.none)
-                    ForEach(standings.snapshot?.drivers ?? []) { driver in
+                    ForEach(model.standings.snapshot?.drivers ?? []) { driver in
                         Text("\(driver.displayCode) · \(driver.familyName)").tag(Optional(driver.displayCode))
                     }
                 }
-                Picker("Team", selection: teamSelection) {
+                Picker("Team", selection: $model.preferences.favorites.constructorId) {
                     Text("None").tag(String?.none)
-                    ForEach(standings.snapshot?.constructors ?? []) { team in
+                    ForEach(model.standings.snapshot?.constructors ?? []) { team in
                         Text(team.name).tag(Optional(team.constructorId))
                     }
                 }
             }
 
             Section("Privacy") {
-                Toggle("Spoiler-free", isOn: $menuBarPrefs.spoilerFree)
+                Toggle("Spoiler-free", isOn: $model.preferences.spoilerFree)
                 Text("Hides last-race results in the menu bar.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -55,23 +52,19 @@ struct SettingsView: View {
 
             Section("Alerts (15 min before)") {
                 ForEach(AlertCategory.allCases, id: \.self) { category in
-                    Toggle(category.displayName, isOn: binding(for: category))
+                    Toggle(category.displayName, isOn: alertBinding(category))
                 }
             }
 
             Section("Schedule") {
-                if let last = store.lastUpdated {
+                if let last = model.schedule.lastUpdated {
                     LabeledContent("Last updated", value: last.formatted(date: .abbreviated, time: .shortened))
                 }
-                if let standingsAt = standings.snapshot?.fetchedAt {
+                if let standingsAt = model.standings.snapshot?.fetchedAt {
                     LabeledContent("Standings", value: standingsAt.formatted(date: .abbreviated, time: .shortened))
                 }
                 Button("Refresh now") {
-                    Task {
-                        await store.refreshNow()
-                        await standings.refresh()
-                        await SessionNotifier.reschedule(races: store.races, preferences: alertPrefs)
-                    }
+                    Task { await model.refreshNow() }
                 }
             }
         }
@@ -80,52 +73,19 @@ struct SettingsView: View {
         .scrollContentBackground(.hidden)
         .background(GridTheme.asphalt)
         .preferredColorScheme(.dark)
-        .onChange(of: alertPrefs) { _, newValue in
-            AlertPreferencesStore().preferences = newValue
-            Task {
-                await SessionNotifier.reschedule(races: store.races, preferences: newValue)
-            }
-        }
-        .onChange(of: menuBarPrefs) { _, newValue in
-            MenuBarPreferencesStore().preferences = newValue
-        }
     }
 
-    private var driverSelection: Binding<String?> {
+    private func alertBinding(_ category: AlertCategory) -> Binding<Bool> {
         Binding(
-            get: { menuBarPrefs.favoriteDriverCode },
-            set: { menuBarPrefs.favoriteDriverCode = $0 }
-        )
-    }
-
-    private var teamSelection: Binding<String?> {
-        Binding(
-            get: { menuBarPrefs.favoriteConstructorId },
-            set: { menuBarPrefs.favoriteConstructorId = $0 }
-        )
-    }
-
-    private func binding(for category: AlertCategory) -> Binding<Bool> {
-        Binding(
-            get: { alertPrefs.enabled.contains(category) },
-            set: { alertPrefs.set(category, enabled: $0) }
+            get: { model.preferences.alerts.enabled.contains(category) },
+            set: { model.preferences.alerts.set(category, enabled: $0) }
         )
     }
 
     private func tickerBinding(_ mode: MenuBarMode) -> Binding<Bool> {
         Binding(
-            get: { menuBarPrefs.tickerModes.contains(mode) },
-            set: { isOn in
-                var modes = menuBarPrefs.tickerModes
-                if isOn {
-                    if !modes.contains(mode), modes.count < 3 {
-                        modes.append(mode)
-                    }
-                } else {
-                    modes.removeAll { $0 == mode }
-                }
-                menuBarPrefs.setTickerModes(modes)
-            }
+            get: { model.preferences.menuBar.tickerModes.contains(mode) },
+            set: { model.preferences.menuBar.setTicker(mode, included: $0) }
         )
     }
 }
