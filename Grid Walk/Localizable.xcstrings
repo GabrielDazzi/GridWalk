@@ -1,11 +1,25 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@ · %@" : {
-      "shouldTranslate" : false
+    "A live countdown to the next session" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contagem regressiva ao vivo para a próxima sessão"
+          }
+        }
+      }
     },
-    "%lld" : {
-      "shouldTranslate" : false
+    "A notification 15 minutes before each session you pick. Optional." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma notificação 15 minutos antes de cada sessão escolhida. Opcional."
+          }
+        }
+      }
     },
     "Add weekend to Calendar" : {
       "localizations" : {
@@ -33,18 +47,52 @@
         }
       }
     },
-    "Alerts (15 min before)" : {
+    "Alerts 15 minutes before the ones you care about" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alerts (15 min before)"
-          }
-        },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alertas (15 min antes)"
+            "value" : "Alertas 15 minutos antes das sessões que importam para você"
+          }
+        }
+      }
+    },
+    "Alerts, 15 min before" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertas, 15 min antes"
+          }
+        }
+      }
+    },
+    "Allow notifications" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir notificações"
+          }
+        }
+      }
+    },
+    "Auto shows the countdown on race weekends, the result right after a race, and your driver the rest of the time." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modo automático mostra a contagem nos fins de semana de corrida, o resultado logo após a corrida e seu piloto no resto do tempo."
+          }
+        }
+      }
+    },
+    "Back" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar"
           }
         }
       }
@@ -55,6 +103,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estilo compacto"
+          }
+        }
+      }
+    },
+    "Couldn't load standings" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível carregar a classificação"
+          }
+        }
+      }
+    },
+    "Countdown" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contagem regressiva"
+          }
+        }
+      }
+    },
+    "Data" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados"
           }
         }
       }
@@ -85,12 +163,32 @@
         }
       }
     },
+    "Every session of the race weekend, in your time zone." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as sessões do fim de semana de corrida, no seu fuso horário."
+          }
+        }
+      }
+    },
     "Favorites" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Favoritos"
+          }
+        }
+      }
+    },
+    "Free, no account, no tracking" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grátis, sem conta, sem rastreamento"
           }
         }
       }
@@ -141,34 +239,62 @@
         }
       }
     },
-    "Last updated" : {
+    "Listed by name so picking doesn't give away the standings." : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last updated"
-          }
-        },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Última atualização"
+            "value" : "Listados por nome para a escolha não entregar a classificação."
           }
         }
       }
     },
-    "Loading schedule…" : {
+    "Live" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading schedule…"
-          }
-        },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carregando calendário…"
+            "value" : "Ao vivo"
+          }
+        }
+      }
+    },
+    "Live now" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao vivo agora"
+          }
+        }
+      }
+    },
+    "Loading drivers and teams" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando pilotos e equipes"
+          }
+        }
+      }
+    },
+    "Loading standings" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando classificação"
+          }
+        }
+      }
+    },
+    "Loading the season" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando a temporada"
           }
         }
       }
@@ -193,6 +319,26 @@
         }
       }
     },
+    "Next" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avançar"
+          }
+        }
+      }
+    },
+    "No calendar yet" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda sem calendário"
+          }
+        }
+      }
+    },
     "No standings yet" : {
       "localizations" : {
         "pt" : {
@@ -203,28 +349,92 @@
         }
       }
     },
-    "No upcoming sessions" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No upcoming sessions"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nenhuma sessão próxima"
-          }
-        }
-      }
-    },
     "None" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhum"
+          }
+        }
+      }
+    },
+    "Nothing to pick yet" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada para escolher ainda"
+          }
+        }
+      }
+    },
+    "Notifications are off. You can turn them on later in System Settings." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações desativadas. Você pode ativá-las depois nos Ajustes do sistema."
+          }
+        }
+      }
+    },
+    "Notifications are on" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações ativadas"
+          }
+        }
+      }
+    },
+    "Off-season" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fora de temporada"
+          }
+        }
+      }
+    },
+    "Pick a driver and a team to see where they stand." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um piloto e uma equipe para ver a posição deles."
+          }
+        }
+      }
+    },
+    "Pick favorites" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher favoritos"
+          }
+        }
+      }
+    },
+    "Pick your driver" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha seu piloto"
+          }
+        }
+      }
+    },
+    "Pick your team" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha sua equipe"
           }
         }
       }
@@ -287,16 +497,6 @@
         }
       }
     },
-    "Results hidden" : {
-      "localizations" : {
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resultados escondidos"
-          }
-        }
-      }
-    },
     "Rotate up to 3 modes (not Auto)" : {
       "localizations" : {
         "pt" : {
@@ -323,6 +523,26 @@
         }
       }
     },
+    "Season" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporada"
+          }
+        }
+      }
+    },
+    "Session alerts" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertas de sessão"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "en" : {
@@ -339,32 +559,12 @@
         }
       }
     },
-    "Show results" : {
-      "localizations" : {
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar resultados"
-          }
-        }
-      }
-    },
     "Show results after" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar resultados após"
-          }
-        }
-      }
-    },
-    "Shows on its own %@ from now." : {
-      "localizations" : {
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aparece sozinho daqui a %@."
           }
         }
       }
@@ -379,28 +579,22 @@
         }
       }
     },
-    "Spoiler-free is on for %@." : {
+    "Spoiler-free mode until you've watched the race" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem spoilers ativo para %@."
+            "value" : "Modo sem spoilers até você assistir à corrida"
           }
         }
       }
     },
-    "Sprint" : {
+    "Sprint weekend" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprint"
-          }
-        },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sprint"
+            "value" : "Fim de semana com sprint"
           }
         }
       }
@@ -415,6 +609,42 @@
         }
       }
     },
+    "Standings aren't available right now. You can pick favorites later in Settings." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A classificação não está disponível agora. Você pode escolher favoritos depois nos Ajustes."
+          }
+        }
+      }
+    },
+    "Standings show up after the first race." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A classificação aparece depois da primeira corrida."
+          }
+        }
+      }
+    },
+    "Step %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Step %1$lld of %2$lld"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passo %1$lld de %2$lld"
+          }
+        }
+      }
+    },
     "Team" : {
       "localizations" : {
         "pt" : {
@@ -425,12 +655,62 @@
         }
       }
     },
+    "The new calendar shows up here once it's out." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O novo calendário aparece aqui assim que sair."
+          }
+        }
+      }
+    },
+    "The season ended with the %@. The new calendar shows up here once it's out." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A temporada terminou com o %@. O novo calendário aparece aqui assim que sair."
+          }
+        }
+      }
+    },
+    "They get highlighted in the standings. You can change this later in Settings." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eles ficam destacados na classificação. Você pode mudar isso depois nos Ajustes."
+          }
+        }
+      }
+    },
+    "They show up after the first race of the season." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ela aparece depois da primeira corrida da temporada."
+          }
+        }
+      }
+    },
     "Ticker" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rotação"
+          }
+        }
+      }
+    },
+    "Up next" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A seguir"
           }
         }
       }
@@ -447,6 +727,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weekend"
+          }
+        }
+      }
+    },
+    "Welcome" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boas-vindas"
+          }
+        }
+      }
+    },
+    "Welcome to Grid Walk" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boas-vindas ao Grid Walk"
+          }
+        }
+      }
+    },
+    "What should the menu bar show?" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que a barra de menus deve mostrar?"
+          }
+        }
+      }
+    },
+    "Your favorites" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus favoritos"
           }
         }
       }

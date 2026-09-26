@@ -1,3 +1,4 @@
+import GridWalkDesign
 import GridWalkKit
 import SwiftUI
 
@@ -14,6 +15,6 @@ struct CalendarResultText: View {
             }
         }
         .font(.caption)
-        .foregroundStyle(GridTheme.muted)
+        .foregroundStyle(Theme.secondaryText)
     }
 }
