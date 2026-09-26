@@ -29,19 +29,23 @@ public struct UserPreferences: Codable, Sendable, Equatable {
     public var favorites: Favorites
     public var spoilers: SpoilerPreferences
     public var hasFinishedOnboarding: Bool
+    /// Direct Mac builds ask GitHub for a newer release. App Store copies ignore this.
+    public var checksForAppUpdates: Bool
 
     public init(
         alerts: AlertPreferences = AlertPreferences(),
         menuBar: MenuBarPreferences = MenuBarPreferences(),
         favorites: Favorites = Favorites(),
         spoilers: SpoilerPreferences = SpoilerPreferences(),
-        hasFinishedOnboarding: Bool = false
+        hasFinishedOnboarding: Bool = false,
+        checksForAppUpdates: Bool = true
     ) {
         self.alerts = alerts
         self.menuBar = menuBar
         self.favorites = favorites
         self.spoilers = spoilers
         self.hasFinishedOnboarding = hasFinishedOnboarding
+        self.checksForAppUpdates = checksForAppUpdates
     }
 
     // new fields fall back to defaults so an older saved blob still loads
@@ -55,6 +59,9 @@ public struct UserPreferences: Codable, Sendable, Equatable {
         hasFinishedOnboarding =
             try container.decodeIfPresent(Bool.self, forKey: .hasFinishedOnboarding)
             ?? defaults.hasFinishedOnboarding
+        checksForAppUpdates =
+            try container.decodeIfPresent(Bool.self, forKey: .checksForAppUpdates)
+            ?? defaults.checksForAppUpdates
     }
 }
 

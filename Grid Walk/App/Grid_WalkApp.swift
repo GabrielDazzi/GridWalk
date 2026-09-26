@@ -4,6 +4,9 @@ import SwiftUI
 @main
 struct Grid_WalkApp: App {
     @State private var model = AppModel.forLaunch()
+    #if os(macOS)
+    @State private var updates = MacUpdateCenter()
+    #endif
 
     init() {
         #if DEBUG && os(macOS)
@@ -14,9 +17,9 @@ struct Grid_WalkApp: App {
     var body: some Scene {
         #if os(macOS)
         MenuBarExtra {
-            MenuBarPanel(model: model)
+            MenuBarPanel(model: model, updates: updates)
         } label: {
-            MenuBarLabel(model: model)
+            MenuBarLabel(model: model, updates: updates)
         }
         .menuBarExtraStyle(.window)
         .commands {
@@ -37,7 +40,7 @@ struct Grid_WalkApp: App {
         .windowResizability(.contentSize)
 
         Settings {
-            SettingsView(model: model)
+            SettingsView(model: model, updates: updates)
                 .frame(width: 460, height: 620)
         }
         #else

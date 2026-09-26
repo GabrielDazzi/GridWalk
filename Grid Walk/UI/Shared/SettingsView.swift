@@ -4,6 +4,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var model: AppModel
+    #if os(macOS)
+    var updates: MacUpdateCenter? = nil
+    #endif
 
     var body: some View {
         Form {
@@ -25,6 +28,12 @@ struct SettingsView: View {
                     }
                 }
             }
+
+            #if os(macOS)
+            if let updates, !MacUpdateCenter.isStoreBuild {
+                UpdateSettingsSection(model: model, updates: updates)
+            }
+            #endif
 
             Section("Data") {
                 LabeledContent("Schedule") { FreshnessLabel(model.schedule.status) }

@@ -786,6 +786,146 @@
           }
         }
       }
+    },
+    "Check for updates" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procurar atualizações"
+          }
+        }
+      }
+    },
+    "Couldn't check for updates." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível procurar atualizações."
+          }
+        }
+      }
+    },
+    "Check now" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procurar agora"
+          }
+        }
+      }
+    },
+    "Checking GitHub…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consultando o GitHub…"
+          }
+        }
+      }
+    },
+    "Direct Mac builds download the latest release and replace this app. Preferences stay." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A cópia direta do Mac baixa a versão nova e substitui este app. As preferências ficam."
+          }
+        }
+      }
+    },
+    "App Store copies update from the store, and Homebrew copies use brew upgrade." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A App Store atualiza a cópia da loja, e o Homebrew usa brew upgrade."
+          }
+        }
+      }
+    },
+    "Download and install" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixar e instalar"
+          }
+        }
+      }
+    },
+    "Installing the update…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalando a atualização…"
+          }
+        }
+      }
+    },
+    "Installing…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalando…"
+          }
+        }
+      }
+    },
+    "Try again" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar de novo"
+          }
+        }
+      }
+    },
+    "Update" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar"
+          }
+        }
+      }
+    },
+    "Update %@ is ready" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A atualização %@ está pronta"
+          }
+        }
+      }
+    },
+    "Updates" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizações"
+          }
+        }
+      }
+    },
+    "Version %@ is available." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão %@ está disponível."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

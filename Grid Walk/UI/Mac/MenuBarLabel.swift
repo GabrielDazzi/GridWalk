@@ -5,6 +5,7 @@ import SwiftUI
 
 struct MenuBarLabel: View {
     let model: AppModel
+    let updates: MacUpdateCenter
     @State private var tick = 0
     @State private var now = Date()
     @Environment(\.openWindow) private var openWindow
@@ -27,6 +28,7 @@ struct MenuBarLabel: View {
                 openWindow(id: "onboarding")
                 NSApplication.shared.activate()
             }
+            updates.bind(model)
             await model.run()
         }
         .task(id: model.preferences.menuBar) {
