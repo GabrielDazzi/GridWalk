@@ -11,7 +11,7 @@ struct PhoneRootView: View {
         TabView(selection: $tab) {
             NavigationStack {
                 CountdownScreen(model: model, openSettings: { tab = .settings })
-                    .navigationTitle("Grid Walk")
+                    .navigationTitle("Countdown")
             }
             .tabItem { Label("Countdown", systemImage: "timer") }
             .tag(PhoneTab.countdown)

@@ -6,6 +6,7 @@ import SwiftUI
 
 struct MenuBarPanel: View {
     let model: AppModel
+    let updates: MacUpdateCenter
     @Environment(\.openWindow) private var openWindow
     @Environment(\.openSettings) private var openSettingsAction
 
@@ -16,7 +17,12 @@ struct MenuBarPanel: View {
                 ScheduleGate(status: model.schedule.status, retry: refresh) {
                     content(now: context.date)
                 }
-                PanelFooter(model: model, now: context.date, openStandings: openStandings)
+                PanelFooter(
+                    model: model,
+                    now: context.date,
+                    updates: updates,
+                    openStandings: openStandings
+                )
             }
         }
         .padding(12)
@@ -57,10 +63,7 @@ private struct PanelHeader: View {
     let openSettings: () -> Void
 
     var body: some View {
-        HStack {
-            Text(verbatim: "Grid Walk")
-                .font(.headline)
-                .foregroundStyle(Theme.text)
+        HStack(spacing: 8) {
             Spacer()
             Button("Refresh", systemImage: "arrow.clockwise") {
                 Task { await model.refreshNow() }
@@ -77,6 +80,7 @@ private struct PanelHeader: View {
 private struct PanelFooter: View {
     let model: AppModel
     let now: Date
+    let updates: MacUpdateCenter
     let openStandings: () -> Void
 
     var body: some View {
@@ -84,6 +88,7 @@ private struct PanelFooter: View {
             if let result = model.calendarResult {
                 CalendarResultText(result: result)
             }
+            UpdateOfferRow(updates: updates)
             HStack(spacing: 12) {
                 FreshnessLabel(model.schedule.status)
                 Spacer()
@@ -108,31 +113,31 @@ private struct PanelFooter: View {
 
 #Preview("Race weekend") {
     let model = AppModel.preview()
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 
 #Preview("Spoiler hidden") {
     let model = AppModel.preview(.resultsHidden)
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 
 #Preview("Offline") {
     let model = AppModel.preview(.offline)
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 
 #Preview("Loading") {
     let model = AppModel.preview(.loading)
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 
 #Preview("Error") {
     let model = AppModel.preview(.failed)
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 
 #Preview("Off-season") {
     let model = AppModel.preview(.offSeason)
-    MenuBarPanel(model: model).task { await model.start() }
+    MenuBarPanel(model: model, updates: MacUpdateCenter()).task { await model.start() }
 }
 #endif

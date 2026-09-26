@@ -5,6 +5,9 @@ import SwiftUI
 struct WelcomePage: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
+            #if os(macOS)
+            BrandMark(size: 72)
+            #endif
             VStack(alignment: .leading, spacing: 8) {
                 Text("Welcome to Grid Walk")
                     .font(.largeTitle.bold())

@@ -48,7 +48,10 @@ struct NextSessionWidgetView: View {
 
     private func smallView(_ snapshot: WidgetSnapshot) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            tag(snapshot)
+            HStack(spacing: 6) {
+                BrandMark(size: 16)
+                tag(snapshot)
+            }
             countdown(snapshot)
                 .font(.title.bold().monospacedDigit())
             Spacer(minLength: 0)
@@ -63,7 +66,10 @@ struct NextSessionWidgetView: View {
     private func mediumView(_ snapshot: WidgetSnapshot) -> some View {
         HStack(alignment: .top, spacing: 12) {
             VStack(alignment: .leading, spacing: 6) {
-                tag(snapshot)
+                HStack(spacing: 6) {
+                    BrandMark(size: 18)
+                    tag(snapshot)
+                }
                 Text(snapshot.sessionDisplayName)
                     .font(.headline)
                     .foregroundStyle(Theme.text)

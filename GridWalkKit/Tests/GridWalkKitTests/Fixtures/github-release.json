@@ -1,0 +1,18 @@
+{
+  "tag_name": "v1.2.0",
+  "body": "Countdown fixes.",
+  "draft": false,
+  "prerelease": false,
+  "assets": [
+    {
+      "name": "notes.txt",
+      "browser_download_url": "https://example.com/notes.txt",
+      "size": 12
+    },
+    {
+      "name": "Grid Walk.dmg",
+      "browser_download_url": "https://github.com/GabrielDazzi/GridWalk/releases/download/v1.2.0/Grid.Walk.dmg",
+      "size": 4096
+    }
+  ]
+}

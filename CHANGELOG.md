@@ -6,6 +6,7 @@ All notable changes to Grid Walk are documented here.
 
 ### Added
 
+- Direct Mac builds can check GitHub for a newer release and replace the app in place. App Store copies update from the store.
 - Menu bar modes (v1.1): countdown, my driver, title fight, my team, last race, auto
 - Ticker rotation and compact menu bar style
 - Favorite driver / team pickers; spoiler-free hides last-race label

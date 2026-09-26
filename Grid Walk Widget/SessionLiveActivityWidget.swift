@@ -10,7 +10,7 @@ struct SessionLiveActivityWidget: Widget {
         ActivityConfiguration(for: SessionActivityAttributes.self) { context in
             lockScreen(context: context)
                 .padding()
-                .activityBackgroundTint(Theme.background)
+                .activityBackgroundTint(Theme.card)
                 .activitySystemActionForegroundColor(Theme.text)
         } dynamicIsland: { context in
             DynamicIsland {
@@ -30,6 +30,7 @@ struct SessionLiveActivityWidget: Widget {
             } compactLeading: {
                 Text(context.state.sessionShortName)
                     .font(.caption.weight(.semibold))
+                    .foregroundStyle(tagFill(context.attributes))
             } compactTrailing: {
                 Text(context.state.startDate, style: .timer)
                     .font(.caption.monospacedDigit())
@@ -37,6 +38,7 @@ struct SessionLiveActivityWidget: Widget {
             } minimal: {
                 Text(context.state.sessionShortName)
                     .font(.caption2.weight(.bold))
+                    .foregroundStyle(tagFill(context.attributes))
             }
         }
     }
@@ -45,6 +47,7 @@ struct SessionLiveActivityWidget: Widget {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
+                    BrandMark(size: 18)
                     tag(context.attributes)
                     Text(context.state.sessionDisplayName)
                         .font(.headline)
@@ -60,6 +63,11 @@ struct SessionLiveActivityWidget: Widget {
                 .foregroundStyle(Theme.accent)
                 .multilineTextAlignment(.trailing)
         }
+    }
+
+    private func tagFill(_ attributes: SessionActivityAttributes) -> Color {
+        guard let kind = SessionKind(rawValue: attributes.sessionKindRaw) else { return Theme.text }
+        return Theme.tagFill(for: kind.alertCategory)
     }
 
     @ViewBuilder

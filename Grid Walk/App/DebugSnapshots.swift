@@ -38,7 +38,7 @@ enum MacSnapshots {
                 }
             }
             for (scenario, file) in panels {
-                save(MenuBarPanel(model: loaded(scenario)), file)
+                save(MenuBarPanel(model: loaded(scenario), updates: MacUpdateCenter()), file)
             }
             let fresh = loaded(.firstLaunch)
             save(onboardingPage(WelcomePage()), "onboarding-welcome")
