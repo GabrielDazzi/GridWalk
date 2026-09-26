@@ -42,6 +42,7 @@ struct ChoicePage: View {
     let choices: [FavoriteChoice]
     let status: FeedStatus
     @Binding var selection: String?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -54,12 +55,17 @@ struct ChoicePage: View {
                 emptyState
             } else {
                 Card {
-                    VStack(spacing: 0) {
-                        ForEach(choices) { choice in
-                            row(choice)
-                            if choice.id != choices.last?.id {
-                                Divider().overlay(Theme.separator)
+                    HStack(alignment: .top, spacing: 20) {
+                        ForEach(Array(columns.enumerated()), id: \.offset) { _, column in
+                            VStack(spacing: 0) {
+                                ForEach(column) { choice in
+                                    row(choice)
+                                    if choice.id != column.last?.id {
+                                        Divider().overlay(Theme.separator)
+                                    }
+                                }
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
                 }
@@ -80,6 +86,13 @@ struct ChoicePage: View {
         }
     }
 
+    /// Two columns on the Mac window, one when the screen is narrow.
+    private var columns: [[FavoriteChoice]] {
+        guard horizontalSizeClass != .compact, choices.count > 1 else { return [choices] }
+        let split = (choices.count + 1) / 2
+        return [Array(choices.prefix(split)), Array(choices.dropFirst(split))]
+    }
+
     private func row(_ choice: FavoriteChoice) -> some View {
         let isSelected = selection == choice.id
         return Button {
@@ -90,18 +103,20 @@ struct ChoicePage: View {
                     Text(choice.title)
                         .font(.body.weight(isSelected ? .bold : .regular))
                         .foregroundStyle(Theme.text)
+                        .lineLimit(1)
                     if let subtitle = choice.subtitle {
                         Text(subtitle)
                             .font(.caption)
                             .foregroundStyle(Theme.secondaryText)
+                            .lineLimit(1)
                     }
                 }
-                Spacer()
+                Spacer(minLength: 8)
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(isSelected ? Theme.accent : Theme.secondaryText)
                     .accessibilityHidden(true)
             }
-            .padding(.vertical, 10)
+            .padding(.vertical, 6)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

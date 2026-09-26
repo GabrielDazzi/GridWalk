@@ -26,17 +26,27 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                page
-                    .frame(maxWidth: 520, alignment: .leading)
-                    .padding(24)
-                    .frame(maxWidth: .infinity)
+            #if os(macOS)
+            // window grows to the list, so the pickers don't scroll
+            pageFrame
+            #else
+            ViewThatFits(in: .vertical) {
+                pageFrame
+                ScrollView { pageFrame }
             }
+            #endif
             controls
         }
         .screenBackground()
         .tint(Theme.accent)
         .task { await model.start() }
+    }
+
+    private var pageFrame: some View {
+        page
+            .frame(maxWidth: 680, alignment: .leading)
+            .padding(24)
+            .frame(maxWidth: .infinity)
     }
 
     @ViewBuilder

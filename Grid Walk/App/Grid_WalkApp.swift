@@ -27,7 +27,7 @@ struct Grid_WalkApp: App {
 
         Window("Welcome", id: "onboarding") {
             OnboardingView(model: model)
-                .frame(minWidth: 520, minHeight: 600)
+                .frame(minWidth: 720, minHeight: 560)
         }
         .windowResizability(.contentSize)
 
