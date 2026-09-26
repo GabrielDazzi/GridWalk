@@ -14,6 +14,11 @@ struct Grid_WalkApp: App {
         }
         .menuBarExtraStyle(.window)
 
+        Window("Standings", id: "standings") {
+            StandingsView(model: model)
+                .frame(minWidth: 360, minHeight: 480)
+        }
+
         Settings {
             SettingsView(model: model)
                 .frame(width: 420, height: 520)

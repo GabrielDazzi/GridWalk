@@ -4,6 +4,9 @@
     "%@ · %@" : {
       "shouldTranslate" : false
     },
+    "%lld" : {
+      "shouldTranslate" : false
+    },
     "Add weekend to Calendar" : {
       "localizations" : {
         "en" : {
@@ -190,6 +193,16 @@
         }
       }
     },
+    "No standings yet" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda sem classificação"
+          }
+        }
+      }
+    },
     "No upcoming sessions" : {
       "localizations" : {
         "en" : {
@@ -274,6 +287,16 @@
         }
       }
     },
+    "Results hidden" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados escondidos"
+          }
+        }
+      }
+    },
     "Rotate up to 3 modes (not Auto)" : {
       "localizations" : {
         "pt" : {
@@ -316,6 +339,16 @@
         }
       }
     },
+    "Show results" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar resultados"
+          }
+        }
+      }
+    },
     "Show results after" : {
       "localizations" : {
         "pt" : {
@@ -326,12 +359,32 @@
         }
       }
     },
+    "Shows on its own %@ from now." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparece sozinho daqui a %@."
+          }
+        }
+      }
+    },
     "Spoiler-free" : {
       "localizations" : {
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sem spoilers"
+          }
+        }
+      }
+    },
+    "Spoiler-free is on for %@." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem spoilers ativo para %@."
           }
         }
       }

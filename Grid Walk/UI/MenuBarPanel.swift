@@ -5,6 +5,7 @@ import SwiftUI
 
 struct MenuBarPanel: View {
     let model: AppModel
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         TimelineView(.everyMinute) { context in
@@ -67,6 +68,11 @@ struct MenuBarPanel: View {
                 .disabled(model.currentWeekend(at: now) == nil)
 
                 Spacer()
+
+                Button("Standings") {
+                    openWindow(id: "standings")
+                    NSApplication.shared.activate()
+                }
 
                 SettingsLink()
 

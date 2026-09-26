@@ -17,6 +17,15 @@ struct PhoneRootView: View {
             .background(GridTheme.asphalt.ignoresSafeArea())
             .navigationTitle("Grid Walk")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink {
+                        StandingsView(model: model)
+                            .navigationTitle("Standings")
+                    } label: {
+                        Label("Standings", systemImage: "list.number")
+                    }
+                    .tint(GridTheme.pitWhite)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Settings", systemImage: "gearshape") {
                         showSettings = true

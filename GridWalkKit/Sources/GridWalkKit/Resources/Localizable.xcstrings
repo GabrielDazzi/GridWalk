@@ -27,6 +27,16 @@
         }
       }
     },
+    "%@ points" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pontos"
+          }
+        }
+      }
+    },
     "%@ starts in 15 minutes" : {
       "localizations" : {
         "pt" : {
@@ -204,6 +214,16 @@
         }
       }
     },
+    "Drivers" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilotos"
+          }
+        }
+      }
+    },
     "FP" : {
       "comment" : "Tag letters for practice sessions",
       "localizations" : {
@@ -294,6 +314,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha uma equipe"
+          }
+        }
+      }
+    },
+    "Position %lld" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posição %lld"
           }
         }
       }
@@ -443,6 +473,16 @@
         }
       }
     },
+    "Teams" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipes"
+          }
+        }
+      }
+    },
     "The data feed is having trouble (error %lld)." : {
       "localizations" : {
         "pt" : {
@@ -509,6 +549,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você está offline. Mostrando os últimos dados salvos."
+          }
+        }
+      }
+    },
+    "your favorite" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seu favorito"
           }
         }
       }
