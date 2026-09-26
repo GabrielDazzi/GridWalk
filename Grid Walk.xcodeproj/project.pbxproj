@@ -10,6 +10,8 @@
 		A1B2C3D43065C65F006917E2 /* GridWalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D53065C65F006917E2 /* GridWalkKit */; };
 		WDG01EBF3065C65F006917E2 /* Grid Walk Widget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		WDG01KBF3065C65F006917E2 /* GridWalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = WDG01KIT3065C65F006917E2 /* GridWalkKit */; };
+		A1B2C3E43065C65F006917E2 /* GridWalkDesign in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3E53065C65F006917E2 /* GridWalkDesign */; };
+		WDG01DBF3065C65F006917E2 /* GridWalkDesign in Frameworks */ = {isa = PBXBuildFile; productRef = WDG01DSN3065C65F006917E2 /* GridWalkDesign */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,12 +72,14 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				A1B2C3D43065C65F006917E2 /* GridWalkKit in Frameworks */,
+				A1B2C3E43065C65F006917E2 /* GridWalkDesign in Frameworks */,
 			);
 		};
 		WDG01FRM3065C65F006917E2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				WDG01KBF3065C65F006917E2 /* GridWalkKit in Frameworks */,
+				WDG01DBF3065C65F006917E2 /* GridWalkDesign in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 			name = "Grid Walk";
 			packageProductDependencies = (
 				A1B2C3D53065C65F006917E2 /* GridWalkKit */,
+				A1B2C3E53065C65F006917E2 /* GridWalkDesign */,
 			);
 			productName = "Grid Walk";
 			productReference = C0357ABD3065C65F006917E2 /* Grid Walk.app */;
@@ -143,6 +148,7 @@
 			name = "Grid Walk Widget";
 			packageProductDependencies = (
 				WDG01KIT3065C65F006917E2 /* GridWalkKit */,
+				WDG01DSN3065C65F006917E2 /* GridWalkDesign */,
 			);
 			productName = "Grid Walk Widget";
 			productReference = WDG01PRD3065C65F006917E2 /* Grid Walk Widget.appex */;
@@ -573,6 +579,14 @@
 		WDG01KIT3065C65F006917E2 /* GridWalkKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GridWalkKit;
+		};
+		WDG01DSN3065C65F006917E2 /* GridWalkDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GridWalkDesign;
+		};
+		A1B2C3E53065C65F006917E2 /* GridWalkDesign */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GridWalkDesign;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

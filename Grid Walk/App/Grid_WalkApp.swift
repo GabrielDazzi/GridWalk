@@ -1,48 +1,48 @@
-import SwiftUI
 import GridWalkKit
+import SwiftUI
 
 @main
 struct Grid_WalkApp: App {
-    @State private var store = ScheduleStore.makeDefault()
-    @State private var standings = StandingsStore.makeDefault()
-    @State private var alertPrefs = AlertPreferencesStore().preferences
-    @State private var menuBarPrefs = MenuBarPreferencesStore().preferences
+    @State private var model = AppModel.forLaunch()
+
+    init() {
+        #if DEBUG && os(macOS)
+        MacSnapshots.exportIfRequested()
+        #endif
+    }
 
     var body: some Scene {
         #if os(macOS)
         MenuBarExtra {
-            MenuBarPanel(
-                store: store,
-                standings: standings,
-                alertPrefs: $alertPrefs,
-                menuBarPrefs: $menuBarPrefs
-            )
+            MenuBarPanel(model: model)
         } label: {
-            MenuBarLabel(
-                store: store,
-                standings: standings,
-                menuBarPrefs: $menuBarPrefs
-            )
+            MenuBarLabel(model: model)
         }
         .menuBarExtraStyle(.window)
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                SettingsMenuButton()
+            }
+        }
+
+        Window("Standings", id: "standings") {
+            StandingsView(model: model)
+                .frame(minWidth: 360, minHeight: 480)
+        }
+
+        Window("Welcome", id: "onboarding") {
+            OnboardingView(model: model)
+                .frame(minWidth: 720, minHeight: 560)
+        }
+        .windowResizability(.contentSize)
 
         Settings {
-            SettingsView(
-                alertPrefs: $alertPrefs,
-                menuBarPrefs: $menuBarPrefs,
-                store: store,
-                standings: standings
-            )
-            .frame(width: 420, height: 520)
+            SettingsView(model: model)
+                .frame(width: 460, height: 620)
         }
         #else
         WindowGroup {
-            iOSRootView(
-                store: store,
-                standings: standings,
-                alertPrefs: $alertPrefs,
-                menuBarPrefs: $menuBarPrefs
-            )
+            PhoneRootView(model: model)
         }
         #endif
     }

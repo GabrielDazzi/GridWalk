@@ -1,51 +1,89 @@
 import Foundation
 
+/// One standings document: which round it reflects and its rows.
+struct StandingsPage<Entry: Sendable>: Sendable {
+    let season: String
+    let round: Int
+    let entries: [Entry]
+}
+
+/// Turns the Jolpica standings and results documents into a `StandingsSnapshot`.
+///
+/// Before the first race the feed has no standings lists; that decodes to empty tables, not an error.
 public enum StandingsDecoder {
-    public static func decodeDrivers(_ data: Data) throws -> (season: String, round: Int, drivers: [DriverStanding]) {
-        let root = try JSONDecoder().decode(APIStandingsRoot.self, from: data)
-        let list = try requireFirst(root.mrData.standingsTable?.standingsLists)
-        let drivers = (list.driverStandings ?? []).compactMap { item -> DriverStanding? in
+    public static func snapshot(
+        drivers driverData: Data,
+        constructors constructorData: Data,
+        lastResults resultsData: Data,
+        fetchedAt: Date
+    ) throws(FeedError) -> StandingsSnapshot {
+        let drivers = try decodeDrivers(driverData)
+        let constructors = try decodeConstructors(constructorData)
+        let lastRace = try decodeLastResults(resultsData)
+        return StandingsSnapshot(
+            season: drivers.season,
+            round: max(drivers.round, constructors.round),
+            drivers: drivers.entries,
+            constructors: constructors.entries,
+            lastRace: lastRace,
+            fetchedAt: fetchedAt
+        )
+    }
+
+    static func decodeDrivers(_ data: Data) throws(FeedError) -> StandingsPage<DriverStanding> {
+        let root = try decode(APIStandingsRoot.self, from: data)
+        let season = root.mrData.standingsTable?.season ?? ""
+        guard let list = root.mrData.standingsTable?.standingsLists.first else {
+            return StandingsPage(season: season, round: 0, entries: [])
+        }
+        let items = list.driverStandings?.elements ?? []
+        let drivers = items.enumerated().compactMap { index, item -> DriverStanding? in
             guard let driver = item.driver else { return nil }
-            let ctor = item.constructors?.first
+            let team = item.constructors?.first
             return DriverStanding(
-                position: Int(item.position) ?? 0,
+                position: item.position.flatMap { Int($0) } ?? index + 1,
                 points: Double(item.points) ?? 0,
                 wins: Int(item.wins) ?? 0,
                 driverId: driver.driverId,
                 code: driver.code ?? "",
                 givenName: driver.givenName,
                 familyName: driver.familyName,
-                constructorId: ctor?.constructorId ?? "",
-                constructorName: ctor?.name ?? ""
+                constructorId: team?.constructorId ?? "",
+                constructorName: team?.name ?? ""
             )
         }
-        return (list.season, Int(list.round) ?? 0, drivers)
+        return StandingsPage(season: list.season, round: Int(list.round) ?? 0, entries: drivers)
     }
 
-    public static func decodeConstructors(_ data: Data) throws -> (season: String, round: Int, constructors: [ConstructorStanding]) {
-        let root = try JSONDecoder().decode(APIStandingsRoot.self, from: data)
-        let list = try requireFirst(root.mrData.standingsTable?.standingsLists)
-        let ctors = (list.constructorStandings ?? []).compactMap { item -> ConstructorStanding? in
-            guard let ctor = item.constructor else { return nil }
+    static func decodeConstructors(_ data: Data) throws(FeedError) -> StandingsPage<ConstructorStanding> {
+        let root = try decode(APIStandingsRoot.self, from: data)
+        let season = root.mrData.standingsTable?.season ?? ""
+        guard let list = root.mrData.standingsTable?.standingsLists.first else {
+            return StandingsPage(season: season, round: 0, entries: [])
+        }
+        let items = list.constructorStandings?.elements ?? []
+        let constructors = items.enumerated().compactMap { index, item -> ConstructorStanding? in
+            guard let team = item.constructor else { return nil }
             return ConstructorStanding(
-                position: Int(item.position) ?? 0,
+                position: item.position.flatMap { Int($0) } ?? index + 1,
                 points: Double(item.points) ?? 0,
                 wins: Int(item.wins) ?? 0,
-                constructorId: ctor.constructorId,
-                name: ctor.name
+                constructorId: team.constructorId,
+                name: team.name
             )
         }
-        return (list.season, Int(list.round) ?? 0, ctors)
+        return StandingsPage(season: list.season, round: Int(list.round) ?? 0, entries: constructors)
     }
 
-    public static func decodeLastResults(_ data: Data) throws -> LastRaceResults {
-        let root = try JSONDecoder().decode(APIResultsRoot.self, from: data)
-        let race = try requireFirst(root.mrData.raceTable.races)
+    static func decodeLastResults(_ data: Data) throws(FeedError) -> LastRaceResults? {
+        let root = try decode(APIResultsRoot.self, from: data)
+        guard let race = root.mrData.raceTable.races.first else { return nil }
         let date = SeasonDecoder.parseUTC(date: race.date, time: race.time) ?? Date.distantPast
-        let results = (race.results ?? []).compactMap { item -> RaceResultEntry? in
+        let items = race.results?.elements ?? []
+        let results = items.enumerated().compactMap { index, item -> RaceResultEntry? in
             guard let driver = item.driver else { return nil }
             return RaceResultEntry(
-                position: Int(item.position) ?? 0,
+                position: Int(item.position) ?? index + 1,
                 points: Double(item.points) ?? 0,
                 driverId: driver.driverId,
                 code: driver.code ?? "",
@@ -63,11 +101,12 @@ public enum StandingsDecoder {
         )
     }
 
-    private static func requireFirst<T>(_ array: [T]?) throws -> T {
-        guard let first = array?.first else {
-            throw SeasonFetchError.emptyBody
+    private static func decode<Value: Decodable>(_ type: Value.Type, from data: Data) throws(FeedError) -> Value {
+        do {
+            return try JSONDecoder().decode(type, from: data)
+        } catch {
+            throw .malformedData
         }
-        return first
     }
 }
 
@@ -84,15 +123,19 @@ private struct APIStandingsMRData: Decodable {
 }
 
 private struct APIStandingsTable: Decodable {
+    let season: String?
     let standingsLists: [APIStandingsList]
-    enum CodingKeys: String, CodingKey { case standingsLists = "StandingsLists" }
+    enum CodingKeys: String, CodingKey {
+        case season
+        case standingsLists = "StandingsLists"
+    }
 }
 
 private struct APIStandingsList: Decodable {
     let season: String
     let round: String
-    let driverStandings: [APIDriverStanding]?
-    let constructorStandings: [APIConstructorStanding]?
+    let driverStandings: LossyList<APIDriverStanding>?
+    let constructorStandings: LossyList<APIConstructorStanding>?
     enum CodingKeys: String, CodingKey {
         case season, round
         case driverStandings = "DriverStandings"
@@ -101,7 +144,7 @@ private struct APIStandingsList: Decodable {
 }
 
 private struct APIDriverStanding: Decodable {
-    let position: String
+    let position: String?
     let points: String
     let wins: String
     let driver: APIDriver?
@@ -114,7 +157,7 @@ private struct APIDriverStanding: Decodable {
 }
 
 private struct APIConstructorStanding: Decodable {
-    let position: String
+    let position: String?
     let points: String
     let wins: String
     let constructor: APIConstructor?
@@ -157,7 +200,7 @@ private struct APIResultsRace: Decodable {
     let raceName: String
     let date: String
     let time: String?
-    let results: [APIResult]?
+    let results: LossyList<APIResult>?
     enum CodingKeys: String, CodingKey {
         case season, round, raceName, date, time
         case results = "Results"

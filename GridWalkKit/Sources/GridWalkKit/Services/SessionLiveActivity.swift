@@ -2,6 +2,7 @@
 import ActivityKit
 import Foundation
 
+/// Live Activity payload for the next session. Countdown only, never results.
 public struct SessionActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable, Sendable {
         public var sessionDisplayName: String
@@ -40,36 +41,34 @@ extension LiveActivityPolicy {
     }
 }
 
+/// ActivityKit backed controller.
 @MainActor
-public enum SessionLiveActivity {
-    public static func sync(with timed: TimedSession?, now: Date = .now) async {
-        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+public final class SessionLiveActivityController: LiveActivityControlling {
+    public init() {}
+
+    public func sync(with next: TimedSession?, now: Date) async {
+        guard ActivityAuthorizationInfo().areActivitiesEnabled,
+            let next,
+            LiveActivityPolicy.shouldShow(sessionStart: next.session.dateUTC, now: now)
+        else {
             await endAll()
             return
         }
 
-        guard let timed, LiveActivityPolicy.shouldShow(sessionStart: timed.session.dateUTC, now: now) else {
-            await endAll()
-            return
-        }
-
-        let state = LiveActivityPolicy.contentState(from: timed)
-        let attributes = SessionActivityAttributes(sessionKindRaw: timed.session.kind.rawValue)
-
+        let state = LiveActivityPolicy.contentState(from: next)
+        let content = ActivityContent(state: state, staleDate: next.session.dateUTC)
         if let existing = Activity<SessionActivityAttributes>.activities.first {
-            await existing.update(.init(state: state, staleDate: timed.session.dateUTC))
+            await existing.update(content)
             return
         }
-
-        let content = ActivityContent(state: state, staleDate: timed.session.dateUTC)
         _ = try? Activity.request(
-            attributes: attributes,
+            attributes: SessionActivityAttributes(sessionKindRaw: next.session.kind.rawValue),
             content: content,
             pushType: nil
         )
     }
 
-    public static func endAll() async {
+    private func endAll() async {
         for activity in Activity<SessionActivityAttributes>.activities {
             await activity.end(nil, dismissalPolicy: .immediate)
         }

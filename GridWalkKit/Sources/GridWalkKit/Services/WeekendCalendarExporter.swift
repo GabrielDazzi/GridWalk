@@ -1,55 +1,63 @@
 @preconcurrency import EventKit
 import Foundation
 
-public enum WeekendCalendarError: Error, Sendable {
+/// Why adding a weekend to Calendar failed.
+public enum CalendarExportError: Error, Sendable, Equatable {
     case accessDenied
     case noCalendar
+    case saveFailed
 }
 
+extension CalendarExportError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .accessDenied:
+            String(localized: "Calendar access is off. Turn it on in Settings to add sessions.", bundle: .module)
+        case .noCalendar: String(localized: "There's no calendar to add events to.", bundle: .module)
+        case .saveFailed: String(localized: "Couldn't save the sessions to Calendar.", bundle: .module)
+        }
+    }
+}
+
+/// Adds a race weekend's sessions to the user's calendar.
 @MainActor
-public final class WeekendCalendarExporter {
+public protocol CalendarExporting: AnyObject {
+    func addWeekend(_ weekend: RaceWeekend) async throws(CalendarExportError) -> Int
+}
+
+/// EventKit backed exporter. Asks for write-only access.
+@MainActor
+public final class WeekendCalendarExporter: CalendarExporting {
     private let store: EKEventStore
 
     public init(store: EKEventStore = EKEventStore()) {
         self.store = store
     }
 
-    public func requestAccess() async throws {
-        let granted = try await store.requestWriteOnlyAccessToEvents()
-        guard granted else { throw WeekendCalendarError.accessDenied }
-    }
+    public func addWeekend(_ weekend: RaceWeekend) async throws(CalendarExportError) -> Int {
+        let granted = (try? await store.requestWriteOnlyAccessToEvents()) ?? false
+        guard granted else { throw .accessDenied }
+        guard let calendar = store.defaultCalendarForNewEvents else { throw .noCalendar }
 
-    @discardableResult
-    public func addWeekend(_ weekend: RaceWeekend) async throws -> Int {
-        try await requestAccess()
-
-        guard let calendar = store.defaultCalendarForNewEvents else {
-            throw WeekendCalendarError.noCalendar
-        }
-
-        var created = 0
         for session in weekend.sessions {
             let event = EKEvent(eventStore: store)
             event.calendar = calendar
             event.title = "\(session.kind.displayName) · \(weekend.name)"
             event.startDate = session.dateUTC
-            // Rough length so the block shows on the calendar
-            event.endDate = session.dateUTC.addingTimeInterval(duration(for: session.kind))
+            event.endDate = session.dateUTC.addingTimeInterval(session.kind.typicalDuration)
             event.notes = "\(weekend.circuitName), \(weekend.locality), \(weekend.country)"
             event.timeZone = .current
-            try store.save(event, span: .thisEvent)
-            created += 1
+            do {
+                try store.save(event, span: .thisEvent, commit: false)
+            } catch {
+                throw .saveFailed
+            }
         }
-        return created
-    }
-
-    private func duration(for kind: SessionKind) -> TimeInterval {
-        switch kind {
-        case .practice1, .practice2, .practice3: 60 * 60
-        case .sprintQualifying: 45 * 60
-        case .sprint: 45 * 60
-        case .qualifying: 60 * 60
-        case .race: 2 * 60 * 60
+        do {
+            try store.commit()
+        } catch {
+            throw .saveFailed
         }
+        return weekend.sessions.count
     }
 }

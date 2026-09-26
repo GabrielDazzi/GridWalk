@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import GridWalkKit
 
 @Suite("Season decoding")
@@ -102,23 +103,6 @@ struct NextSessionTests {
     }
 }
 
-@Suite("Countdown")
-struct CountdownTests {
-    @Test("formats days and hours")
-    func daysHours() {
-        let now = Date(timeIntervalSince1970: 0)
-        let later = now.addingTimeInterval(90_000) // 1d 1h
-        #expect(CountdownFormat.compact(until: later, from: now) == "1d 1h")
-    }
-
-    @Test("formats minutes under one hour")
-    func minutes() {
-        let now = Date(timeIntervalSince1970: 0)
-        let later = now.addingTimeInterval(42 * 60)
-        #expect(CountdownFormat.compact(until: later, from: now) == "42m")
-    }
-}
-
 @Suite("Widget snapshot")
 struct WidgetSnapshotTests {
     @Test("builds snapshot from season schedule")
@@ -129,7 +113,11 @@ struct WidgetSnapshotTests {
         let fp1 = try #require(race.sessions.first { $0.kind == .practice1 })
         let before = fp1.dateUTC.addingTimeInterval(-3600)
 
-        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: before))
+        let next = try #require(season.nextSession(after: before))
+        let snapshot = WidgetSnapshot(
+            timed: TimedSession(weekend: next.weekend, session: next.session),
+            lastUpdated: season.fetchedAt
+        )
         #expect(snapshot.sessionKind == .practice1)
         #expect(snapshot.weekendName == race.name)
         #expect(snapshot.dateUTC == fp1.dateUTC)
@@ -143,7 +131,11 @@ struct WidgetSnapshotTests {
 
         let data = try fixture("sprint_weekend")
         let season = try SeasonDecoder.decode(data)
-        let snapshot = try #require(WidgetSnapshot.from(schedule: season, now: Date.distantPast))
+        let next = try #require(season.nextSession(after: .distantPast))
+        let snapshot = WidgetSnapshot(
+            timed: TimedSession(weekend: next.weekend, session: next.session),
+            lastUpdated: season.fetchedAt
+        )
         try WidgetSnapshotStore.save(snapshot, in: dir)
 
         let loaded = try #require(WidgetSnapshotStore.load(from: dir))
@@ -162,9 +154,4 @@ struct LiveActivityPolicyTests {
         #expect(!LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(8 * 3600), now: now))
         #expect(!LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(-60), now: now))
     }
-}
-
-private func fixture(_ name: String) throws -> Data {
-    let url = try #require(Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Fixtures"))
-    return try Data(contentsOf: url)
 }

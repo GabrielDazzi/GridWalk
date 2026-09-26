@@ -1,6 +1,6 @@
-import WidgetKit
-import SwiftUI
 import GridWalkKit
+import SwiftUI
+import WidgetKit
 
 @main
 struct GridWalkWidgetBundle: WidgetBundle {

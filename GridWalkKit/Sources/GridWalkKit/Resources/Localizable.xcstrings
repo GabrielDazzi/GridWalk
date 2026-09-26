@@ -1,0 +1,650 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ in %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in %2$@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ em %2$@"
+          }
+        }
+      }
+    },
+    "%@ is starting now" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ está começando"
+          }
+        }
+      }
+    },
+    "%@ points" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pontos"
+          }
+        }
+      }
+    },
+    "%@ starts in 15 minutes" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ começa em 15 minutos"
+          }
+        }
+      }
+    },
+    "%@, %@, finished" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, finished"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@, encerrada"
+          }
+        }
+      }
+    },
+    "%@, %@, up next" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, up next"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@, a seguir"
+          }
+        }
+      }
+    },
+    "%@, live now" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, ao vivo agora"
+          }
+        }
+      }
+    },
+    "%lldd %lldh" : {
+      "comment" : "Countdown, days and hours",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldd %2$lldh"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldd %2$lldh"
+          }
+        }
+      }
+    },
+    "%lldh %lldm" : {
+      "comment" : "Countdown, hours and minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldh %2$lldmin"
+          }
+        }
+      }
+    },
+    "%lldm" : {
+      "comment" : "Countdown, minutes",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldmin"
+          }
+        }
+      }
+    },
+    "1 day" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 dia"
+          }
+        }
+      }
+    },
+    "1 week" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 semana"
+          }
+        }
+      }
+    },
+    "12 hours" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 horas"
+          }
+        }
+      }
+    },
+    "2 days" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 dias"
+          }
+        }
+      }
+    },
+    "3 days" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 dias"
+          }
+        }
+      }
+    },
+    "Auto" : {
+      "comment" : "Menu bar mode that picks for you",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automático"
+          }
+        }
+      }
+    },
+    "Calendar access is off. Turn it on in Settings to add sessions." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O acesso ao Calendário está desligado. Ative nos Ajustes para adicionar as sessões."
+          }
+        }
+      }
+    },
+    "Champ" : {
+      "comment" : "Short for champion",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Campeão"
+          }
+        }
+      }
+    },
+    "Champion" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Campeão"
+          }
+        }
+      }
+    },
+    "Couldn't reach the data feed." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível acessar a fonte de dados."
+          }
+        }
+      }
+    },
+    "Couldn't save the sessions to Calendar." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível salvar as sessões no Calendário."
+          }
+        }
+      }
+    },
+    "Countdown" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contagem regressiva"
+          }
+        }
+      }
+    },
+    "Drivers" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilotos"
+          }
+        }
+      }
+    },
+    "FP" : {
+      "comment" : "Tag letters for practice sessions",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL"
+          }
+        }
+      }
+    },
+    "FP1" : {
+      "comment" : "Short name for Practice 1",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL1"
+          }
+        }
+      }
+    },
+    "FP2" : {
+      "comment" : "Short name for Practice 2",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL2"
+          }
+        }
+      }
+    },
+    "FP3" : {
+      "comment" : "Short name for Practice 3",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TL3"
+          }
+        }
+      }
+    },
+    "Last race" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última corrida"
+          }
+        }
+      }
+    },
+    "My driver" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meu piloto"
+          }
+        }
+      }
+    },
+    "My team" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minha equipe"
+          }
+        }
+      }
+    },
+    "Pick a driver" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um piloto"
+          }
+        }
+      }
+    },
+    "Pick a team" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma equipe"
+          }
+        }
+      }
+    },
+    "Position %lld" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posição %lld"
+          }
+        }
+      }
+    },
+    "Practice" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treino livre"
+          }
+        }
+      }
+    },
+    "Practice 1" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treino Livre 1"
+          }
+        }
+      }
+    },
+    "Practice 2" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treino Livre 2"
+          }
+        }
+      }
+    },
+    "Practice 3" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treino Livre 3"
+          }
+        }
+      }
+    },
+    "Q" : {
+      "comment" : "Tag letter for qualifying",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Q"
+          }
+        }
+      }
+    },
+    "Quali" : {
+      "comment" : "Short name for Qualifying",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classif."
+          }
+        }
+      }
+    },
+    "Qualifying" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificação"
+          }
+        }
+      }
+    },
+    "R" : {
+      "comment" : "Tag letter for the race",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C"
+          }
+        }
+      }
+    },
+    "Race" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrida"
+          }
+        }
+      }
+    },
+    "Round %lld" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etapa %lld"
+          }
+        }
+      }
+    },
+    "S" : {
+      "comment" : "Tag letter for sprint sessions",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S"
+          }
+        }
+      }
+    },
+    "SQ" : {
+      "comment" : "Short name for Sprint Qualifying",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SQ"
+          }
+        }
+      }
+    },
+    "Sprint" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprint"
+          }
+        }
+      }
+    },
+    "Sprint Qualifying" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificação Sprint"
+          }
+        }
+      }
+    },
+    "Still in the fight · %@" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda na briga · %@"
+          }
+        }
+      }
+    },
+    "Teams" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipes"
+          }
+        }
+      }
+    },
+    "The data feed is having trouble (error %lld)." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fonte de dados está com problemas (erro %lld)."
+          }
+        }
+      }
+    },
+    "The data feed returned nothing." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fonte de dados não retornou nada."
+          }
+        }
+      }
+    },
+    "The data feed sent something we couldn't read." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fonte de dados enviou algo que não conseguimos ler."
+          }
+        }
+      }
+    },
+    "The data feed took too long to answer." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fonte de dados demorou demais para responder."
+          }
+        }
+      }
+    },
+    "There's no calendar to add events to." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não há calendário para adicionar eventos."
+          }
+        }
+      }
+    },
+    "Title fight" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Briga pelo título"
+          }
+        }
+      }
+    },
+    "You're offline. Check your connection and try again." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você está sem conexão. Verifique a internet e tente de novo."
+          }
+        }
+      }
+    },
+    "finished" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "encerrado"
+          }
+        }
+      }
+    },
+    "sprint weekend" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fim de semana com sprint"
+          }
+        }
+      }
+    },
+    "up next" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a seguir"
+          }
+        }
+      }
+    },
+    "your favorite" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "seu favorito"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

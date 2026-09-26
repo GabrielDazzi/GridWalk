@@ -1,0 +1,41 @@
+{
+  "MRData": {
+    "RaceTable": {
+      "season": "2026",
+      "Races": [
+        {
+          "season": "2026",
+          "round": "1",
+          "raceName": "Australian Grand Prix",
+          "Circuit": {
+            "circuitName": "Albert Park Grand Prix Circuit",
+            "Location": { "locality": "Melbourne", "country": "Australia" }
+          },
+          "date": "2026-03-08",
+          "time": "04:00:00Z",
+          "FirstPractice": { "date": "2026-03-06", "time": "25:99:00Z" },
+          "Qualifying": { "date": "2026-03-07", "time": "05:00:00Z" }
+        },
+        {
+          "season": "2026",
+          "round": "2",
+          "raceName": "Race Without Circuit",
+          "date": "2026-03-15",
+          "time": "07:00:00Z"
+        },
+        "not even an object",
+        {
+          "season": "2026",
+          "round": "3",
+          "raceName": "Japanese Grand Prix",
+          "Circuit": {
+            "circuitName": "Suzuka Circuit",
+            "Location": { "locality": "Suzuka", "country": "Japan" }
+          },
+          "date": "2026-03-29",
+          "time": "05:00:00Z"
+        }
+      ]
+    }
+  }
+}

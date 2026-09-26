@@ -1,70 +1,87 @@
 import Foundation
 import Observation
 
+/// Source of truth for driver and team standings plus the last race result.
+///
+/// Refreshes only once a race has finished (see `StandingsMath.needsRefresh`), never on a timer.
 @Observable
 @MainActor
 public final class StandingsStore {
     public private(set) var snapshot: StandingsSnapshot?
     public private(set) var isRefreshing = false
-    public private(set) var lastError: String?
+    public private(set) var lastError: FeedError?
 
-    /// Hours after a race before we consider standings stale enough to refetch.
-    public static let postRaceGrace: TimeInterval = StandingsMath.postRaceGrace
-
-    private let client: StandingsClient
-    private let cache: StandingsCache
-    private let clock: () -> Date
+    private let feed: any FeedFetching
+    private let cache: any Caching<StandingsSnapshot>
+    private let time: any TimeSource
+    private var lastAttempt: Date?
 
     public init(
-        client: StandingsClient = StandingsClient(),
-        cache: StandingsCache,
-        clock: @escaping @Sendable () -> Date = { .now }
+        feed: any FeedFetching,
+        cache: any Caching<StandingsSnapshot>,
+        time: any TimeSource = SystemTimeSource()
     ) {
-        self.client = client
+        self.feed = feed
         self.cache = cache
-        self.clock = clock
+        self.time = time
     }
 
-    public static func makeDefault() -> StandingsStore {
-        if let cache = try? StandingsCache() {
-            return StandingsStore(cache: cache)
-        }
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("GridWalkStandings", isDirectory: true)
-        let cache = try! StandingsCache(directory: dir)
-        return StandingsStore(cache: cache)
+    /// Live store backed by Jolpica and the shared cache file.
+    public static func live() -> StandingsStore {
+        let cache: any Caching<StandingsSnapshot> =
+            (try? FileCache<StandingsSnapshot>.shared(fileName: "standings.json")) ?? MemoryCache()
+        return StandingsStore(feed: JolpicaClient(), cache: cache)
     }
 
     public func bootstrap(races: [RaceWeekend]) async {
-        snapshot = try? cache.load()
+        if snapshot == nil {
+            snapshot = try? await cache.load()
+        }
         await refreshIfNeeded(races: races)
     }
 
-    public func refreshIfNeeded(races: [RaceWeekend], force: Bool = false) async {
-        if force {
-            await refresh()
+    public func refreshIfNeeded(races: [RaceWeekend]) async {
+        let now = time.now
+        guard StandingsMath.needsRefresh(races: races, cached: snapshot, now: now) else { return }
+        if lastError != nil, let lastAttempt, now.timeIntervalSince(lastAttempt) < ScheduleStore.retryInterval {
             return
         }
-        let now = clock()
-        if StandingsMath.needsRefresh(races: races, cached: snapshot, now: now) {
-            await refresh()
-        }
+        await refresh()
     }
 
     public func refresh() async {
-        if isRefreshing { return }
+        guard !isRefreshing else { return }
         isRefreshing = true
-        lastError = nil
+        lastAttempt = time.now
         defer { isRefreshing = false }
 
-        do {
-            let snap = try await client.fetchSnapshot(now: clock())
-            try? cache.save(snap)
-            snapshot = snap
+        do throws(FeedError) {
+            let fresh = try await fetchSnapshot()
+            try? await cache.save(fresh)
+            snapshot = fresh
+            lastError = nil
         } catch {
-            lastError = error.localizedDescription
+            lastError = error
             if snapshot == nil {
-                snapshot = try? cache.load()
+                snapshot = try? await cache.load()
             }
+        }
+    }
+
+    private func fetchSnapshot() async throws(FeedError) -> StandingsSnapshot {
+        let feed = feed
+        do {
+            async let drivers = feed.data(for: .driverStandings)
+            async let constructors = feed.data(for: .constructorStandings)
+            async let results = feed.data(for: .lastResults)
+            return try await StandingsDecoder.snapshot(
+                drivers: drivers,
+                constructors: constructors,
+                lastResults: results,
+                fetchedAt: time.now
+            )
+        } catch {
+            throw FeedError(error)
         }
     }
 }

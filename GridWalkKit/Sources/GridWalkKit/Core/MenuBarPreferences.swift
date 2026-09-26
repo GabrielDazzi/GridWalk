@@ -1,5 +1,6 @@
 import Foundation
 
+/// What the Mac menu bar label shows.
 public enum MenuBarMode: String, Codable, Sendable, CaseIterable, Hashable, Identifiable {
     case countdown
     case myDriver
@@ -12,74 +13,66 @@ public enum MenuBarMode: String, Codable, Sendable, CaseIterable, Hashable, Iden
 
     public var displayName: String {
         switch self {
-        case .countdown: "Countdown"
-        case .myDriver: "My driver"
-        case .titleFight: "Title fight"
-        case .myTeam: "My team"
-        case .lastRace: "Last race"
-        case .auto: "Auto"
+        case .countdown: String(localized: "Countdown", bundle: .module)
+        case .myDriver: String(localized: "My driver", bundle: .module)
+        case .titleFight: String(localized: "Title fight", bundle: .module)
+        case .myTeam: String(localized: "My team", bundle: .module)
+        case .lastRace: String(localized: "Last race", bundle: .module)
+        case .auto: String(localized: "Auto", bundle: .module, comment: "Menu bar mode that picks for you")
         }
     }
 }
 
+/// Menu bar label settings (Mac only).
 public struct MenuBarPreferences: Codable, Sendable, Equatable {
+    /// Every mode except Auto. The ticker can rotate the whole set.
+    public static let maximumTickerModes = MenuBarMode.allCases.filter { $0 != .auto }.count
+
     public var mode: MenuBarMode
-    /// Modes to rotate when ticker is on (2–3). Empty disables ticker.
-    public var tickerModes: [MenuBarMode]
+    /// Modes to rotate when the ticker is on. At least two, never Auto.
+    public private(set) var tickerModes: [MenuBarMode]
     public var tickerEnabled: Bool
     public var tickerIntervalSeconds: Double
     public var compactStyle: Bool
-    public var favoriteDriverCode: String?
-    public var favoriteConstructorId: String?
-    public var spoilerFree: Bool
 
     public init(
         mode: MenuBarMode = .auto,
         tickerModes: [MenuBarMode] = [],
         tickerEnabled: Bool = false,
         tickerIntervalSeconds: Double = 4,
-        compactStyle: Bool = false,
-        favoriteDriverCode: String? = nil,
-        favoriteConstructorId: String? = nil,
-        spoilerFree: Bool = false
+        compactStyle: Bool = false
     ) {
         self.mode = mode
-        self.tickerModes = Array(tickerModes.prefix(3))
+        self.tickerModes = Self.sanitized(tickerModes)
         self.tickerEnabled = tickerEnabled
         self.tickerIntervalSeconds = tickerIntervalSeconds
         self.compactStyle = compactStyle
-        self.favoriteDriverCode = favoriteDriverCode
-        self.favoriteConstructorId = favoriteConstructorId
-        self.spoilerFree = spoilerFree
+    }
+
+    public var isTickerActive: Bool {
+        tickerEnabled && tickerModes.count >= 2
     }
 
     public mutating func setTickerModes(_ modes: [MenuBarMode]) {
-        tickerModes = Array(modes.filter { $0 != .auto }.prefix(3))
+        tickerModes = Self.sanitized(modes)
         tickerEnabled = tickerModes.count >= 2
     }
-}
 
-public final class MenuBarPreferencesStore: @unchecked Sendable {
-    private let defaults: UserDefaults
-    private let key = "menuBarPreferences"
-
-    public init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
+    /// Adds or removes one ticker mode, ignoring adds past the limit.
+    public mutating func setTicker(_ mode: MenuBarMode, included: Bool) {
+        var modes = tickerModes
+        if included {
+            guard !modes.contains(mode), modes.count < Self.maximumTickerModes else { return }
+            modes.append(mode)
+        } else {
+            modes.removeAll { $0 == mode }
+        }
+        setTickerModes(modes)
     }
 
-    public var preferences: MenuBarPreferences {
-        get {
-            guard let data = defaults.data(forKey: key),
-                  let decoded = try? JSONDecoder().decode(MenuBarPreferences.self, from: data)
-            else {
-                return MenuBarPreferences()
-            }
-            return decoded
-        }
-        set {
-            if let data = try? JSONEncoder().encode(newValue) {
-                defaults.set(data, forKey: key)
-            }
-        }
+    private static func sanitized(_ modes: [MenuBarMode]) -> [MenuBarMode] {
+        var seen: Set<MenuBarMode> = []
+        let unique = modes.filter { $0 != .auto && seen.insert($0).inserted }
+        return Array(unique.prefix(maximumTickerModes))
     }
 }

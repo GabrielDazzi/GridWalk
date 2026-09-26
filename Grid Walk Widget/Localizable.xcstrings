@@ -1,28 +1,81 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Next session" : {
+    "%@ %@" : {
+      "shouldTranslate" : false
+    },
+    "%@ P%lld · %@ pts" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next session" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Próxima sessão" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ P%2$lld · %3$@ pts"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ P%2$lld · %3$@ pts"
+          }
+        }
       }
     },
     "Countdown to the next race weekend session." : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Countdown to the next race weekend session." } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Contagem regressiva para a próxima sessão do weekend." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countdown to the next race weekend session."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contagem regressiva para a próxima sessão do weekend."
+          }
+        }
+      }
+    },
+    "Next session" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next session"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próxima sessão"
+          }
+        }
       }
     },
     "No upcoming sessions" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No upcoming sessions" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma sessão próxima" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No upcoming sessions"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma sessão próxima"
+          }
+        }
       }
     },
-    "Sprint" : {
+    "Results hidden" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } },
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Sprint" } }
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados escondidos"
+          }
+        }
       }
     }
   },
