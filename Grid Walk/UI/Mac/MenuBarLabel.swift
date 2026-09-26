@@ -6,20 +6,21 @@ import SwiftUI
 struct MenuBarLabel: View {
     let model: AppModel
     @State private var tick = 0
+    @State private var now = Date()
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        TimelineView(.everyMinute) { context in
-            let content = model.menuBarLabel(at: context.date, tick: tick)
-            Group {
-                if model.preferences.menuBar.compactStyle, let image = content.systemImage {
-                    Label(content.compactText, systemImage: image)
-                } else {
-                    Text(model.preferences.menuBar.compactStyle ? content.compactText : content.text)
-                }
+        let content = model.menuBarLabel(at: now, tick: tick)
+        Group {
+            if model.preferences.menuBar.compactStyle, let image = content.systemImage {
+                Label(content.compactText, systemImage: image)
+            } else {
+                Text(model.preferences.menuBar.compactStyle ? content.compactText : content.text)
             }
-            .accessibilityLabel(model.menuBarAccessibilityLabel(at: context.date, tick: tick))
         }
+        // a flexible width makes the status item measure, resize, and measure again
+        .fixedSize()
+        .accessibilityLabel(model.menuBarAccessibilityLabel(at: now, tick: tick))
         // the label is always on screen, so it hosts the app's background loop
         .task {
             if !model.preferences.hasFinishedOnboarding {
@@ -34,6 +35,13 @@ struct MenuBarLabel: View {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(seconds))
                 tick += 1
+            }
+        }
+        .task {
+            while !Task.isCancelled {
+                let second = Calendar.current.component(.second, from: Date())
+                try? await Task.sleep(for: .seconds(max(1, 60 - second)))
+                now = Date()
             }
         }
     }
