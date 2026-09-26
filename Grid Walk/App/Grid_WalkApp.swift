@@ -5,6 +5,12 @@ import SwiftUI
 struct Grid_WalkApp: App {
     @State private var model = AppModel.forLaunch()
 
+    init() {
+        #if DEBUG && os(macOS)
+        MacSnapshots.exportIfRequested()
+        #endif
+    }
+
     var body: some Scene {
         #if os(macOS)
         MenuBarExtra {
