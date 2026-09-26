@@ -12,11 +12,14 @@ struct SettingsView: View {
         Form {
             #if os(macOS)
             MenuBarSettingsSection(preferences: $model.preferences.menuBar)
+                .listRowBackground(Theme.card)
             #endif
 
             FavoritesSection(model: model)
+                .listRowBackground(Theme.card)
 
             SpoilerSettingsSection(model: model)
+                .listRowBackground(Theme.card)
 
             Section("Alerts, 15 min before") {
                 ForEach(AlertCategory.allCases, id: \.self) { category in
@@ -28,10 +31,12 @@ struct SettingsView: View {
                     }
                 }
             }
+            .listRowBackground(Theme.card)
 
             #if os(macOS)
             if let updates, !MacUpdateCenter.isStoreBuild {
                 UpdateSettingsSection(model: model, updates: updates)
+                    .listRowBackground(Theme.card)
             }
             #endif
 
@@ -43,6 +48,7 @@ struct SettingsView: View {
                 }
                 .disabled(model.schedule.isRefreshing || model.standings.isRefreshing)
             }
+            .listRowBackground(Theme.card)
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)

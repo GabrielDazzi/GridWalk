@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/logo.svg" alt="Grid Walk" width="120" height="120"/>
+  <img src="docs/images/icon.png" alt="Grid Walk" width="120" height="120"/>
 </p>
 
 <h1 align="center">Grid Walk</h1>
@@ -19,13 +19,18 @@
 <p align="center"><strong>App Store subtitle:</strong> Race weekend countdown</p>
 
 <p align="center">
-  <img src="docs/images/mac-menu-dark.png" alt="Menu bar window in dark mode, with the next session countdown and results hidden" width="320"/>
-  <img src="docs/images/mac-menu-light.png" alt="Menu bar window in light mode, with the next session countdown and results hidden" width="320"/>
+  <img src="docs/images/panel-dark.png" alt="Menu bar window in dark mode, with the next session countdown and results hidden" width="320"/>
+  <img src="docs/images/panel-light.png" alt="Menu bar window in light mode, with the next session countdown and results hidden" width="320"/>
 </p>
 
 <p align="center">
-  <img src="docs/images/mac-welcome-dark.png" alt="First-launch welcome in dark mode" width="440"/>
-  <img src="docs/images/mac-welcome-light.png" alt="First-launch welcome in light mode" width="440"/>
+  <img src="docs/images/welcome-dark.png" alt="First-launch welcome in dark mode" width="440"/>
+  <img src="docs/images/welcome-light.png" alt="First-launch welcome in light mode" width="440"/>
+</p>
+
+<p align="center">
+  <img src="docs/images/phone-countdown-dark.png" alt="iPhone countdown in dark mode, with the next session and results hidden" width="220"/>
+  <img src="docs/images/phone-countdown-light.png" alt="iPhone countdown in light mode, with the next session and results hidden" width="220"/>
 </p>
 
 ## What it does

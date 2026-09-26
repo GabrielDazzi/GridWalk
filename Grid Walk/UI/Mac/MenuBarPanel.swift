@@ -63,10 +63,7 @@ private struct PanelHeader: View {
     let openSettings: () -> Void
 
     var body: some View {
-        HStack {
-            Text(verbatim: "Grid Walk")
-                .font(.headline)
-                .foregroundStyle(Theme.text)
+        HStack(spacing: 8) {
             Spacer()
             Button("Refresh", systemImage: "arrow.clockwise") {
                 Task { await model.refreshNow() }
