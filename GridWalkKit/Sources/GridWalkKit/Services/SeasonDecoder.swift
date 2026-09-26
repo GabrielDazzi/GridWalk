@@ -44,9 +44,10 @@ public enum SeasonDecoder {
 
     /// Combines "YYYY-MM-DD" + optional "HH:MM:SSZ" into a UTC Date.
     public static func parseUTC(date: String, time: String?) -> Date? {
-        let timePart = time.map { t in
-            t.hasSuffix("Z") ? String(t.dropLast()) : t
-        } ?? "00:00:00"
+        let timePart =
+            time.map { t in
+                t.hasSuffix("Z") ? String(t.dropLast()) : t
+            } ?? "00:00:00"
 
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = utc

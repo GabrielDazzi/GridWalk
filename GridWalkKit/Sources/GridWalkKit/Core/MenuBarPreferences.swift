@@ -70,7 +70,7 @@ public final class MenuBarPreferencesStore: @unchecked Sendable {
     public var preferences: MenuBarPreferences {
         get {
             guard let data = defaults.data(forKey: key),
-                  let decoded = try? JSONDecoder().decode(MenuBarPreferences.self, from: data)
+                let decoded = try? JSONDecoder().decode(MenuBarPreferences.self, from: data)
             else {
                 return MenuBarPreferences()
             }

@@ -1,5 +1,5 @@
-import SwiftUI
 import GridWalkKit
+import SwiftUI
 
 struct SettingsView: View {
     @Binding var alertPrefs: AlertPreferences

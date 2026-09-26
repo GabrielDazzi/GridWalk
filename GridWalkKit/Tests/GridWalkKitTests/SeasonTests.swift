@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import GridWalkKit
 
 @Suite("Season decoding")
@@ -107,7 +108,7 @@ struct CountdownTests {
     @Test("formats days and hours")
     func daysHours() {
         let now = Date(timeIntervalSince1970: 0)
-        let later = now.addingTimeInterval(90_000) // 1d 1h
+        let later = now.addingTimeInterval(90_000)  // 1d 1h
         #expect(CountdownFormat.compact(until: later, from: now) == "1d 1h")
     }
 

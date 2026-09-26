@@ -1,6 +1,6 @@
-import WidgetKit
-import SwiftUI
 import GridWalkKit
+import SwiftUI
+import WidgetKit
 
 struct NextSessionEntry: TimelineEntry {
     let date: Date

@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+
 @testable import GridWalkKit
 
 @Suite("Standings decoding")
@@ -108,8 +109,12 @@ struct MenuBarFormatterTests {
             season: "2026",
             round: 20,
             drivers: [
-                DriverStanding(position: 1, points: 400, wins: 10, driverId: "a", code: "AAA", givenName: "A", familyName: "A", constructorId: "c", constructorName: "C"),
-                DriverStanding(position: 2, points: 300, wins: 2, driverId: "b", code: "BBB", givenName: "B", familyName: "B", constructorId: "d", constructorName: "D"),
+                DriverStanding(
+                    position: 1, points: 400, wins: 10, driverId: "a", code: "AAA", givenName: "A", familyName: "A",
+                    constructorId: "c", constructorName: "C"),
+                DriverStanding(
+                    position: 2, points: 300, wins: 2, driverId: "b", code: "BBB", givenName: "B", familyName: "B",
+                    constructorId: "d", constructorName: "D"),
             ],
             constructors: [],
             lastRace: nil
@@ -191,7 +196,9 @@ private func sampleStandings(lastRaceAt: Date? = nil) -> StandingsSnapshot {
             raceName: "Sample Grand Prix",
             dateUTC: date,
             results: [
-                RaceResultEntry(position: 1, points: 25, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi", familyName: "Antonelli", constructorId: "mercedes")
+                RaceResultEntry(
+                    position: 1, points: 25, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi",
+                    familyName: "Antonelli", constructorId: "mercedes")
             ]
         )
     }
@@ -199,8 +206,12 @@ private func sampleStandings(lastRaceAt: Date? = nil) -> StandingsSnapshot {
         season: "2026",
         round: 5,
         drivers: [
-            DriverStanding(position: 1, points: 292, wins: 8, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi", familyName: "Antonelli", constructorId: "mercedes", constructorName: "Mercedes"),
-            DriverStanding(position: 2, points: 250, wins: 3, driverId: "other", code: "OTH", givenName: "Other", familyName: "Driver", constructorId: "other", constructorName: "Other"),
+            DriverStanding(
+                position: 1, points: 292, wins: 8, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi",
+                familyName: "Antonelli", constructorId: "mercedes", constructorName: "Mercedes"),
+            DriverStanding(
+                position: 2, points: 250, wins: 3, driverId: "other", code: "OTH", givenName: "Other",
+                familyName: "Driver", constructorId: "other", constructorName: "Other"),
         ],
         constructors: [
             ConstructorStanding(position: 1, points: 503, wins: 10, constructorId: "mercedes", name: "Mercedes")

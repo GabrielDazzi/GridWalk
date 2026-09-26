@@ -18,6 +18,17 @@ cd GridWalkKit && swift test
 open "../Grid Walk.xcodeproj"
 ```
 
+## Formatting
+
+The repo uses the `swift format` tool that ships with Xcode. Rules live in `.swift-format`. From the repo root:
+
+```bash
+# fix in place
+swift format format --in-place --recursive --parallel "Grid Walk" "Grid Walk Widget" GridWalkKit/Sources GridWalkKit/Tests GridWalkKit/Package.swift
+# what CI runs
+swift format lint --strict --recursive --parallel "Grid Walk" "Grid Walk Widget" GridWalkKit/Sources GridWalkKit/Tests GridWalkKit/Package.swift
+```
+
 ## Pull requests
 
 Use the PR template. Include:

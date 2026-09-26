@@ -60,9 +60,10 @@ public enum MenuBarLabelFormatter {
         }
 
         if !prefs.spoilerFree,
-           let last = standings?.lastRace,
-           now.timeIntervalSince(last.dateUTC) >= 0,
-           now.timeIntervalSince(last.dateUTC) < postRaceWindow {
+            let last = standings?.lastRace,
+            now.timeIntervalSince(last.dateUTC) >= 0,
+            now.timeIntervalSince(last.dateUTC) < postRaceWindow
+        {
             return .lastRace
         }
 
@@ -94,10 +95,10 @@ public enum MenuBarLabelFormatter {
 
         case .myDriver:
             guard let code = prefs.favoriteDriverCode,
-                  let driver = standings?.drivers.first(where: {
-                      $0.displayCode.caseInsensitiveCompare(code) == .orderedSame
-                          || $0.driverId == code
-                  })
+                let driver = standings?.drivers.first(where: {
+                    $0.displayCode.caseInsensitiveCompare(code) == .orderedSame
+                        || $0.driverId == code
+                })
             else {
                 return MenuBarLabelContent(text: "Pick a driver", compactText: "—", systemImage: "person")
             }
@@ -112,7 +113,7 @@ public enum MenuBarLabelFormatter {
 
         case .myTeam:
             guard let id = prefs.favoriteConstructorId,
-                  let team = standings?.constructors.first(where: { $0.constructorId == id })
+                let team = standings?.constructors.first(where: { $0.constructorId == id })
             else {
                 return MenuBarLabelContent(text: "Pick a team", compactText: "—", systemImage: "shield")
             }

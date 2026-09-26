@@ -22,7 +22,9 @@ public enum StandingsDecoder {
         return (list.season, Int(list.round) ?? 0, drivers)
     }
 
-    public static func decodeConstructors(_ data: Data) throws -> (season: String, round: Int, constructors: [ConstructorStanding]) {
+    public static func decodeConstructors(_ data: Data) throws -> (
+        season: String, round: Int, constructors: [ConstructorStanding]
+    ) {
         let root = try JSONDecoder().decode(APIStandingsRoot.self, from: data)
         let list = try requireFirst(root.mrData.standingsTable?.standingsLists)
         let ctors = (list.constructorStandings ?? []).compactMap { item -> ConstructorStanding? in

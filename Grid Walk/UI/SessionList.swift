@@ -1,5 +1,5 @@
-import SwiftUI
 import GridWalkKit
+import SwiftUI
 
 struct SessionList: View {
     let weekend: RaceWeekend

@@ -32,7 +32,7 @@ public final class AlertPreferencesStore: @unchecked Sendable {
     public var preferences: AlertPreferences {
         get {
             guard let data = defaults.data(forKey: key),
-                  let decoded = try? JSONDecoder().decode(AlertPreferences.self, from: data)
+                let decoded = try? JSONDecoder().decode(AlertPreferences.self, from: data)
             else {
                 return AlertPreferences()
             }

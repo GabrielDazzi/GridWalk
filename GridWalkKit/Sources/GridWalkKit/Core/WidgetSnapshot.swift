@@ -76,7 +76,7 @@ public enum WidgetSnapshotStore {
     public static func load(from directory: URL) -> WidgetSnapshot? {
         let url = directory.appendingPathComponent(fileName)
         guard FileManager.default.fileExists(atPath: url.path),
-              let data = try? Data(contentsOf: url)
+            let data = try? Data(contentsOf: url)
         else { return nil }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601

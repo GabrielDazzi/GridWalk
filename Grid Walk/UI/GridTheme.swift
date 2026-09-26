@@ -1,5 +1,5 @@
-import SwiftUI
 import GridWalkKit
+import SwiftUI
 
 enum GridTheme {
     static let asphalt = Color(red: 0x0E / 255, green: 0x0F / 255, blue: 0x12 / 255)

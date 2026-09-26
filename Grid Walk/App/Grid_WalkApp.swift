@@ -1,5 +1,5 @@
-import SwiftUI
 import GridWalkKit
+import SwiftUI
 
 @main
 struct Grid_WalkApp: App {
@@ -37,7 +37,7 @@ struct Grid_WalkApp: App {
         }
         #else
         WindowGroup {
-            iOSRootView(
+            PhoneRootView(
                 store: store,
                 standings: standings,
                 alertPrefs: $alertPrefs,

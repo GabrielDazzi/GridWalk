@@ -8,7 +8,7 @@ let package = Package(
         .iOS(.v17),
     ],
     products: [
-        .library(name: "GridWalkKit", targets: ["GridWalkKit"]),
+        .library(name: "GridWalkKit", targets: ["GridWalkKit"])
     ],
     targets: [
         .target(name: "GridWalkKit"),

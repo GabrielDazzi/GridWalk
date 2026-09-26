@@ -16,7 +16,8 @@ public enum SessionNotifier {
     ) async {
         await removeOurs(center: center)
 
-        let candidates: [(session: Session, weekend: RaceWeekend, fireAt: Date)] = races
+        let candidates: [(session: Session, weekend: RaceWeekend, fireAt: Date)] =
+            races
             .flatMap { weekend in
                 weekend.sessions.compactMap { session -> (Session, RaceWeekend, Date)? in
                     guard preferences.isEnabled(session.kind) else { return nil }

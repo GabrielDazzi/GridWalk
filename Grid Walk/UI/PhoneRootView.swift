@@ -2,7 +2,7 @@
 import SwiftUI
 import GridWalkKit
 
-struct iOSRootView: View {
+struct PhoneRootView: View {
     @Bindable var store: ScheduleStore
     @Bindable var standings: StandingsStore
     @Binding var alertPrefs: AlertPreferences
@@ -98,12 +98,12 @@ struct iOSRootView: View {
                         store: store,
                         standings: standings
                     )
-                        .navigationTitle("Settings")
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Done") { showSettings = false }
-                            }
+                    .navigationTitle("Settings")
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { showSettings = false }
                         }
+                    }
                 }
                 .preferredColorScheme(.dark)
             }
