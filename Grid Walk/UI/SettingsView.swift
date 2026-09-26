@@ -68,9 +68,9 @@ struct SettingsView: View {
                 }
                 Button("Refresh now") {
                     Task {
-                        await store.refresh(force: true)
-                        await standings.refreshIfNeeded(races: store.allRaces, force: true)
-                        await SessionNotifier.reschedule(races: store.allRaces, preferences: alertPrefs)
+                        await store.refreshNow()
+                        await standings.refresh()
+                        await SessionNotifier.reschedule(races: store.races, preferences: alertPrefs)
                     }
                 }
             }
@@ -83,7 +83,7 @@ struct SettingsView: View {
         .onChange(of: alertPrefs) { _, newValue in
             AlertPreferencesStore().preferences = newValue
             Task {
-                await SessionNotifier.reschedule(races: store.allRaces, preferences: newValue)
+                await SessionNotifier.reschedule(races: store.races, preferences: newValue)
             }
         }
         .onChange(of: menuBarPrefs) { _, newValue in

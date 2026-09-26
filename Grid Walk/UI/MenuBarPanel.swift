@@ -27,7 +27,7 @@ struct MenuBarLabel: View {
         .onAppear {
             Task {
                 await store.bootstrap()
-                await standings.bootstrap(races: store.allRaces)
+                await standings.bootstrap(races: store.races)
             }
         }
         .task {
@@ -65,8 +65,8 @@ struct MenuBarLabel: View {
         MenuBarLabelFormatter.content(
             mode: activeMode,
             prefs: menuBarPrefs,
-            nextSession: store.nextSession,
-            races: store.allRaces,
+            nextSession: store.nextSession(at: now),
+            races: store.races,
             standings: standings.snapshot,
             now: now
         )
@@ -83,7 +83,7 @@ struct MenuBarPanel: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            if let next = store.nextSession {
+            if let next = store.nextSession(at: now) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(next.session.kind.displayName)
                         .font(.caption.weight(.semibold))
@@ -95,11 +95,11 @@ struct MenuBarPanel: View {
                 }
             }
 
-            if let weekend = store.currentWeekend {
+            if let weekend = store.currentWeekend(at: now) {
                 WeekendHeader(weekend: weekend)
                 SessionList(
                     weekend: weekend,
-                    nextSessionID: store.nextSession?.session.id,
+                    nextSessionID: store.nextSession(at: now)?.session.id,
                     now: now
                 )
             } else if store.isRefreshing {
@@ -124,8 +124,8 @@ struct MenuBarPanel: View {
             HStack {
                 Button("Refresh") {
                     Task {
-                        await store.refresh(force: true)
-                        await standings.refreshIfNeeded(races: store.allRaces, force: true)
+                        await store.refreshNow()
+                        await standings.refresh()
                         await rescheduleAlerts()
                     }
                 }
@@ -134,7 +134,7 @@ struct MenuBarPanel: View {
                 Button("Add weekend to Calendar") {
                     Task { await addToCalendar() }
                 }
-                .disabled(store.currentWeekend == nil)
+                .disabled(store.currentWeekend(at: now) == nil)
 
                 Spacer()
 
@@ -152,7 +152,7 @@ struct MenuBarPanel: View {
         .preferredColorScheme(.dark)
         .task {
             await store.bootstrap()
-            await standings.bootstrap(races: store.allRaces)
+            await standings.bootstrap(races: store.races)
             await rescheduleAlerts()
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(30))
@@ -170,11 +170,11 @@ struct MenuBarPanel: View {
 
     private func rescheduleAlerts() async {
         _ = await SessionNotifier.requestAuthorization()
-        await SessionNotifier.reschedule(races: store.allRaces, preferences: alertPrefs)
+        await SessionNotifier.reschedule(races: store.races, preferences: alertPrefs)
     }
 
     private func addToCalendar() async {
-        guard let weekend = store.currentWeekend else { return }
+        guard let weekend = store.currentWeekend(at: now) else { return }
         do {
             let count = try await WeekendCalendarExporter().addWeekend(weekend)
             calendarMessage = "Added \(count) events"

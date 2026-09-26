@@ -15,7 +15,7 @@ struct PhoneRootView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
-                    if let next = store.nextSession {
+                    if let next = store.nextSession(at: now) {
                         VStack(alignment: .leading, spacing: 10) {
                             SessionTagChip(kind: next.session.kind)
                             Text(next.session.kind.displayName)
@@ -36,7 +36,7 @@ struct PhoneRootView: View {
                             .foregroundStyle(GridTheme.muted)
                     }
 
-                    if let weekend = store.currentWeekend {
+                    if let weekend = store.currentWeekend(at: now) {
                         VStack(alignment: .leading, spacing: 12) {
                             HStack {
                                 Text("Weekend")
@@ -57,7 +57,7 @@ struct PhoneRootView: View {
 
                             SessionList(
                                 weekend: weekend,
-                                nextSessionID: store.nextSession?.session.id,
+                                nextSessionID: store.nextSession(at: now)?.session.id,
                                 now: now
                             )
                         }
@@ -109,23 +109,23 @@ struct PhoneRootView: View {
             }
             .task {
                 await store.bootstrap()
-                await standings.bootstrap(races: store.allRaces)
+                await standings.bootstrap(races: store.races)
                 _ = await SessionNotifier.requestAuthorization()
-                await SessionNotifier.reschedule(races: store.allRaces, preferences: alertPrefs)
-                await SessionLiveActivity.sync(with: store.nextSession)
+                await SessionNotifier.reschedule(races: store.races, preferences: alertPrefs)
+                await SessionLiveActivity.sync(with: store.nextSession(at: now))
                 while !Task.isCancelled {
                     try? await Task.sleep(for: .seconds(30))
                     now = .now
-                    await SessionLiveActivity.sync(with: store.nextSession, now: now)
+                    await SessionLiveActivity.sync(with: store.nextSession(at: now), now: now)
                 }
             }
-            .onChange(of: store.nextSession) { _, newValue in
+            .onChange(of: store.nextSession(at: now)) { _, newValue in
                 Task { await SessionLiveActivity.sync(with: newValue) }
             }
             .onChange(of: alertPrefs) { _, newValue in
                 AlertPreferencesStore().preferences = newValue
                 Task {
-                    await SessionNotifier.reschedule(races: store.allRaces, preferences: newValue)
+                    await SessionNotifier.reschedule(races: store.races, preferences: newValue)
                 }
             }
         }

@@ -3,8 +3,8 @@ import SwiftUI
 
 @main
 struct Grid_WalkApp: App {
-    @State private var store = ScheduleStore.makeDefault()
-    @State private var standings = StandingsStore.makeDefault()
+    @State private var store = ScheduleStore.live()
+    @State private var standings = StandingsStore.live()
     @State private var alertPrefs = AlertPreferencesStore().preferences
     @State private var menuBarPrefs = MenuBarPreferencesStore().preferences
 

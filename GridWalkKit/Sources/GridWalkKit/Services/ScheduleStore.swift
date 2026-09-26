@@ -1,107 +1,93 @@
 import Foundation
 import Observation
 
+/// Source of truth for the season schedule.
+///
+/// Loads the cache first, then refreshes from the feed at most every 12 hours. A failed refresh keeps
+/// whatever was cached and records `lastError` so the UI can show "last updated".
 @Observable
 @MainActor
 public final class ScheduleStore {
-    public private(set) var nextSession: TimedSession?
-    public private(set) var currentWeekend: RaceWeekend?
-    public private(set) var allRaces: [RaceWeekend] = []
-    public private(set) var lastUpdated: Date?
+    public private(set) var schedule: SeasonSchedule?
     public private(set) var isRefreshing = false
     public private(set) var lastError: FeedError?
 
     public static let refreshInterval: TimeInterval = 12 * 60 * 60
+    /// Manual refreshes closer together than this are ignored.
+    public static let manualRefreshCooldown: TimeInterval = 60
 
     private let feed: any FeedFetching
-    private let cache: any SeasonCaching
-    private let clock: () -> Date
+    private let cache: any Caching<SeasonSchedule>
+    private let time: any TimeSource
+    private var lastAttempt: Date?
 
-    public init(
-        feed: any FeedFetching = JolpicaClient(),
-        cache: any SeasonCaching,
-        clock: @escaping @Sendable () -> Date = { .now }
-    ) {
+    public init(feed: any FeedFetching, cache: any Caching<SeasonSchedule>, time: any TimeSource = SystemTimeSource()) {
         self.feed = feed
         self.cache = cache
-        self.clock = clock
+        self.time = time
     }
 
-    /// Uses Application Support; falls back to memory if that fails.
-    public static func makeDefault(feed: any FeedFetching = JolpicaClient()) -> ScheduleStore {
-        let cache: any SeasonCaching
-        do {
-            cache = try SeasonCache()
-        } catch {
-            cache = MemorySeasonCache()
-        }
-        return ScheduleStore(feed: feed, cache: cache)
+    /// Live store backed by Jolpica and the shared cache file.
+    public static func live() -> ScheduleStore {
+        let cache: any Caching<SeasonSchedule> =
+            (try? FileCache<SeasonSchedule>.shared(fileName: "season.json")) ?? MemoryCache()
+        return ScheduleStore(feed: JolpicaClient(), cache: cache)
     }
 
-    /// Load cache immediately, then refresh if stale (at most one network call).
+    public var races: [RaceWeekend] { schedule?.races ?? [] }
+    public var lastUpdated: Date? { schedule?.fetchedAt }
+
+    /// Loads the cache (if nothing is loaded yet), then refreshes when stale.
     public func bootstrap() async {
-        apply(try? cache.load())
+        if schedule == nil {
+            schedule = try? await cache.load()
+        }
         await refreshIfNeeded()
     }
 
-    public func refreshIfNeeded(force: Bool = false) async {
-        let now = clock()
-        if !force, let lastUpdated, now.timeIntervalSince(lastUpdated) < Self.refreshInterval {
+    public func refreshIfNeeded() async {
+        if let lastUpdated, time.now.timeIntervalSince(lastUpdated) < Self.refreshInterval {
             return
         }
-        await refresh(force: force)
+        await refresh()
     }
 
-    public func refresh(force: Bool = true) async {
-        _ = force
-        if isRefreshing { return }
+    /// Manual refresh from the UI. Still rate limited so repeated taps don't hammer the feed.
+    public func refreshNow() async {
+        if let lastAttempt, time.now.timeIntervalSince(lastAttempt) < Self.manualRefreshCooldown {
+            return
+        }
+        await refresh()
+    }
+
+    private func refresh() async {
+        guard !isRefreshing else { return }
         isRefreshing = true
-        lastError = nil
+        lastAttempt = time.now
         defer { isRefreshing = false }
 
         do throws(FeedError) {
             let data = try await feed.data(for: .schedule)
-            let schedule = try SeasonDecoder.decode(data, fetchedAt: clock())
-            try? cache.save(schedule)
-            apply(schedule)
+            let fresh = try SeasonDecoder.decode(data, fetchedAt: time.now)
+            try? await cache.save(fresh)
+            schedule = fresh
+            lastError = nil
+            try? WidgetSnapshotStore.save(WidgetSnapshot.from(schedule: fresh, now: time.now))
             WidgetReload.reloadAll()
         } catch {
             lastError = error
-            if allRaces.isEmpty {
-                apply(try? cache.load())
+            if schedule == nil {
+                schedule = try? await cache.load()
             }
         }
     }
 
-    private func apply(_ schedule: SeasonSchedule?) {
-        guard let schedule else { return }
-        allRaces = schedule.races
-        lastUpdated = schedule.fetchedAt
-        let now = clock()
-        if let pair = schedule.nextSession(after: now) {
-            nextSession = TimedSession(weekend: pair.weekend, session: pair.session)
-            currentWeekend = pair.weekend
-        } else {
-            nextSession = nil
-            currentWeekend = schedule.currentWeekend(at: now)
-            try? WidgetSnapshotStore.save(nil)
-        }
-    }
-}
-
-final class MemorySeasonCache: SeasonCaching, @unchecked Sendable {
-    private let lock = NSLock()
-    private var stored: SeasonSchedule?
-
-    func load() throws -> SeasonSchedule? {
-        lock.lock()
-        defer { lock.unlock() }
-        return stored
+    public func nextSession(at now: Date) -> TimedSession? {
+        guard let pair = schedule?.nextSession(after: now) else { return nil }
+        return TimedSession(weekend: pair.weekend, session: pair.session)
     }
 
-    func save(_ schedule: SeasonSchedule) throws {
-        lock.lock()
-        defer { lock.unlock() }
-        stored = schedule
+    public func currentWeekend(at now: Date) -> RaceWeekend? {
+        schedule?.currentWeekend(at: now)
     }
 }

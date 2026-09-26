@@ -1,6 +1,9 @@
 import Foundation
 import Observation
 
+/// Source of truth for driver and team standings plus the last race result.
+///
+/// Refreshes only once a race has finished (see `StandingsMath.needsRefresh`), never on a timer.
 @Observable
 @MainActor
 public final class StandingsStore {
@@ -8,62 +11,53 @@ public final class StandingsStore {
     public private(set) var isRefreshing = false
     public private(set) var lastError: FeedError?
 
-    /// Hours after a race before we consider standings stale enough to refetch.
-    public static let postRaceGrace: TimeInterval = StandingsMath.postRaceGrace
-
     private let feed: any FeedFetching
-    private let cache: StandingsCache
-    private let clock: () -> Date
+    private let cache: any Caching<StandingsSnapshot>
+    private let time: any TimeSource
 
     public init(
-        feed: any FeedFetching = JolpicaClient(),
-        cache: StandingsCache,
-        clock: @escaping @Sendable () -> Date = { .now }
+        feed: any FeedFetching,
+        cache: any Caching<StandingsSnapshot>,
+        time: any TimeSource = SystemTimeSource()
     ) {
         self.feed = feed
         self.cache = cache
-        self.clock = clock
+        self.time = time
     }
 
-    public static func makeDefault() -> StandingsStore {
-        if let cache = try? StandingsCache() {
-            return StandingsStore(cache: cache)
-        }
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("GridWalkStandings", isDirectory: true)
-        let cache = try! StandingsCache(directory: dir)
-        return StandingsStore(cache: cache)
+    /// Live store backed by Jolpica and the shared cache file.
+    public static func live() -> StandingsStore {
+        let cache: any Caching<StandingsSnapshot> =
+            (try? FileCache<StandingsSnapshot>.shared(fileName: "standings.json")) ?? MemoryCache()
+        return StandingsStore(feed: JolpicaClient(), cache: cache)
     }
 
     public func bootstrap(races: [RaceWeekend]) async {
-        snapshot = try? cache.load()
+        if snapshot == nil {
+            snapshot = try? await cache.load()
+        }
         await refreshIfNeeded(races: races)
     }
 
-    public func refreshIfNeeded(races: [RaceWeekend], force: Bool = false) async {
-        if force {
-            await refresh()
-            return
-        }
-        let now = clock()
-        if StandingsMath.needsRefresh(races: races, cached: snapshot, now: now) {
-            await refresh()
-        }
+    public func refreshIfNeeded(races: [RaceWeekend]) async {
+        guard StandingsMath.needsRefresh(races: races, cached: snapshot, now: time.now) else { return }
+        await refresh()
     }
 
     public func refresh() async {
-        if isRefreshing { return }
+        guard !isRefreshing else { return }
         isRefreshing = true
-        lastError = nil
         defer { isRefreshing = false }
 
         do throws(FeedError) {
             let fresh = try await fetchSnapshot()
-            try? cache.save(fresh)
+            try? await cache.save(fresh)
             snapshot = fresh
+            lastError = nil
         } catch {
             lastError = error
             if snapshot == nil {
-                snapshot = try? cache.load()
+                snapshot = try? await cache.load()
             }
         }
     }
@@ -78,7 +72,7 @@ public final class StandingsStore {
                 drivers: drivers,
                 constructors: constructors,
                 lastResults: results,
-                fetchedAt: clock()
+                fetchedAt: time.now
             )
         } catch {
             throw FeedError(error)

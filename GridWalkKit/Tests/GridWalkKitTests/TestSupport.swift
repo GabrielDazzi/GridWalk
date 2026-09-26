@@ -108,6 +108,43 @@ func sampleStandings(lastRaceAt: Date? = nil, fetchedAt: Date = .now) -> Standin
     )
 }
 
+/// Clock the test moves by hand.
+final class ManualTimeSource: TimeSource, @unchecked Sendable {
+    private let lock = NSLock()
+    private var current: Date
+
+    init(_ start: Date) {
+        current = start
+    }
+
+    var now: Date {
+        lock.withLock { current }
+    }
+
+    func advance(by interval: TimeInterval) {
+        lock.withLock { current = current.addingTimeInterval(interval) }
+    }
+}
+
+/// Counts requests so tests can check we don't hammer the feed.
+actor RequestCounter {
+    private(set) var count = 0
+
+    func increment() {
+        count += 1
+    }
+}
+
+struct CountingFeed: FeedFetching {
+    let base: FixtureFeed
+    let counter: RequestCounter
+
+    func data(for endpoint: FeedEndpoint) async throws(FeedError) -> Data {
+        await counter.increment()
+        return try await base.data(for: endpoint)
+    }
+}
+
 /// Serves fixture files per endpoint, or a canned error.
 struct FixtureFeed: FeedFetching {
     var files: [FeedEndpoint: String] = [
