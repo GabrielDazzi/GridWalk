@@ -27,8 +27,6 @@ public struct SemanticVersion: Comparable, Sendable, Equatable {
         }
     }
 
-    public var isPrerelease: Bool { !prerelease.isEmpty }
-
     public static func < (lhs: Self, rhs: Self) -> Bool {
         if (lhs.major, lhs.minor, lhs.patch) != (rhs.major, rhs.minor, rhs.patch) {
             return (lhs.major, lhs.minor, lhs.patch) < (rhs.major, rhs.minor, rhs.patch)
@@ -65,14 +63,12 @@ public struct SemanticVersion: Comparable, Sendable, Equatable {
 public struct AppRelease: Sendable, Equatable {
     public let tag: String
     public let version: SemanticVersion
-    public let notes: String
     public let diskImageURL: URL
     public let byteCount: Int64?
 
-    public init(tag: String, version: SemanticVersion, notes: String, diskImageURL: URL, byteCount: Int64?) {
+    public init(tag: String, version: SemanticVersion, diskImageURL: URL, byteCount: Int64?) {
         self.tag = tag
         self.version = version
-        self.notes = notes
         self.diskImageURL = diskImageURL
         self.byteCount = byteCount
     }
@@ -103,7 +99,6 @@ public enum ReleaseLookup {
         return AppRelease(
             tag: payload.tagName,
             version: latest,
-            notes: payload.body ?? "",
             diskImageURL: url,
             byteCount: asset.size
         )
@@ -126,14 +121,12 @@ public enum LookupError: Error, Equatable {
 
 private struct Payload: Decodable {
     let tagName: String
-    let body: String?
     let draft: Bool
     let prerelease: Bool
     let assets: [Asset]
 
     enum CodingKeys: String, CodingKey {
         case tagName = "tag_name"
-        case body
         case draft
         case prerelease
         case assets

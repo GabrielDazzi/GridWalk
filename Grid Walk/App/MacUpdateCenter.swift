@@ -4,7 +4,7 @@ import Darwin
 import Foundation
 import GridWalkKit
 
-/// Asks GitHub for a newer direct-download build and swaps the app in place.
+// asks GitHub for a newer direct download and swaps the app in place
 @MainActor
 @Observable
 final class MacUpdateCenter {
@@ -22,7 +22,7 @@ final class MacUpdateCenter {
         case failed
     }
 
-    /// App Store copies are updated by the store. Xcode builds must not replace themselves.
+    // App Store copies are updated by the store. Xcode builds must not replace themselves.
     static var canReplaceThisCopy: Bool {
         guard !isStoreBuild, !isDeveloperBuild else { return false }
         let folder = (Bundle.main.bundlePath as NSString).deletingLastPathComponent
@@ -71,6 +71,7 @@ final class MacUpdateCenter {
             if let expected = release.byteCount {
                 let values = try disk.resourceValues(forKeys: [.fileSizeKey])
                 guard values.fileSize.map(Int64.init) == expected else {
+                    try? FileManager.default.removeItem(at: disk)
                     phase = .failed
                     return
                 }
@@ -170,13 +171,20 @@ private enum MacUpdateInstaller {
           exit 1
         fi
         stage="$app.gridwalk-next"
+        previous="$app.gridwalk-previous"
         rm -rf "$stage"
         ditto "$src" "$stage"
-        rm -rf "$app"
-        mv "$stage" "$app"
-        xattr -dr com.apple.quarantine "$app" || true
+        xattr -dr com.apple.quarantine "$stage" || true
         hdiutil detach "$mount" || true
         rmdir "$mount" || true
+        rm -rf "$previous"
+        mv "$app" "$previous"
+        if mv "$stage" "$app"; then
+          rm -rf "$previous"
+        else
+          mv "$previous" "$app"
+          exit 1
+        fi
         open "$app"
         """
 }
@@ -187,7 +195,10 @@ private enum DetachedShell {
         var attributes: posix_spawnattr_t?
         guard posix_spawnattr_init(&attributes) == 0 else { throw CocoaError(.fileWriteUnknown) }
         defer { posix_spawnattr_destroy(&attributes) }
-        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSID))
+        // new session so quitting the app doesn't take the installer down with it
+        guard posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSID)) == 0 else {
+            throw CocoaError(.fileWriteUnknown)
+        }
 
         let argv = [executable] + arguments
         var copies: [UnsafeMutablePointer<CChar>] = []
