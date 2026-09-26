@@ -164,8 +164,3 @@ struct LiveActivityPolicyTests {
         #expect(!LiveActivityPolicy.shouldShow(sessionStart: now.addingTimeInterval(-60), now: now))
     }
 }
-
-private func fixture(_ name: String) throws -> Data {
-    let url = try #require(Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Fixtures"))
-    return try Data(contentsOf: url)
-}

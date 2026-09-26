@@ -9,8 +9,8 @@ struct StandingsDecodingTests {
     func drivers() throws {
         let data = try fixture("driver_standings")
         let decoded = try StandingsDecoder.decodeDrivers(data)
-        #expect(!decoded.drivers.isEmpty)
-        let leader = try #require(decoded.drivers.first)
+        #expect(!decoded.entries.isEmpty)
+        let leader = try #require(decoded.entries.first)
         #expect(leader.position == 1)
         #expect(!leader.displayCode.isEmpty)
     }
@@ -19,14 +19,14 @@ struct StandingsDecodingTests {
     func constructors() throws {
         let data = try fixture("constructor_standings")
         let decoded = try StandingsDecoder.decodeConstructors(data)
-        #expect(!decoded.constructors.isEmpty)
-        #expect(decoded.constructors.first?.position == 1)
+        #expect(!decoded.entries.isEmpty)
+        #expect(decoded.entries.first?.position == 1)
     }
 
     @Test("parses last race results")
     func lastResults() throws {
         let data = try fixture("last_results")
-        let last = try StandingsDecoder.decodeLastResults(data)
+        let last = try #require(try StandingsDecoder.decodeLastResults(data))
         #expect(!last.results.isEmpty)
         #expect(last.winner?.position == 1)
     }
@@ -186,53 +186,4 @@ struct MenuBarFormatterTests {
         )
         #expect(resolved == .myDriver)
     }
-}
-
-private func sampleStandings(lastRaceAt: Date? = nil) -> StandingsSnapshot {
-    let last: LastRaceResults? = lastRaceAt.map { date in
-        LastRaceResults(
-            season: "2026",
-            round: 5,
-            raceName: "Sample Grand Prix",
-            dateUTC: date,
-            results: [
-                RaceResultEntry(
-                    position: 1, points: 25, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi",
-                    familyName: "Antonelli", constructorId: "mercedes")
-            ]
-        )
-    }
-    return StandingsSnapshot(
-        season: "2026",
-        round: 5,
-        drivers: [
-            DriverStanding(
-                position: 1, points: 292, wins: 8, driverId: "antonelli", code: "ANT", givenName: "Andrea Kimi",
-                familyName: "Antonelli", constructorId: "mercedes", constructorName: "Mercedes"),
-            DriverStanding(
-                position: 2, points: 250, wins: 3, driverId: "other", code: "OTH", givenName: "Other",
-                familyName: "Driver", constructorId: "other", constructorName: "Other"),
-        ],
-        constructors: [
-            ConstructorStanding(position: 1, points: 503, wins: 10, constructorId: "mercedes", name: "Mercedes")
-        ],
-        lastRace: last
-    )
-}
-
-private func makeWeekend(raceAt: Date) -> RaceWeekend {
-    RaceWeekend(
-        season: "2026",
-        round: 1,
-        name: "Test Grand Prix",
-        circuitName: "Test",
-        locality: "Test",
-        country: "Test",
-        sessions: [Session(kind: .race, dateUTC: raceAt)]
-    )
-}
-
-private func fixture(_ name: String) throws -> Data {
-    let url = try #require(Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Fixtures"))
-    return try Data(contentsOf: url)
 }

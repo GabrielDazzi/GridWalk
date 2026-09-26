@@ -9,33 +9,33 @@ public final class ScheduleStore {
     public private(set) var allRaces: [RaceWeekend] = []
     public private(set) var lastUpdated: Date?
     public private(set) var isRefreshing = false
-    public private(set) var lastError: String?
+    public private(set) var lastError: FeedError?
 
     public static let refreshInterval: TimeInterval = 12 * 60 * 60
 
-    private let client: any SeasonFetching
+    private let feed: any FeedFetching
     private let cache: any SeasonCaching
     private let clock: () -> Date
 
     public init(
-        client: any SeasonFetching = SeasonClient(),
+        feed: any FeedFetching = JolpicaClient(),
         cache: any SeasonCaching,
         clock: @escaping @Sendable () -> Date = { .now }
     ) {
-        self.client = client
+        self.feed = feed
         self.cache = cache
         self.clock = clock
     }
 
     /// Uses Application Support; falls back to memory if that fails.
-    public static func makeDefault(client: any SeasonFetching = SeasonClient()) -> ScheduleStore {
+    public static func makeDefault(feed: any FeedFetching = JolpicaClient()) -> ScheduleStore {
         let cache: any SeasonCaching
         do {
             cache = try SeasonCache()
         } catch {
             cache = MemorySeasonCache()
         }
-        return ScheduleStore(client: client, cache: cache)
+        return ScheduleStore(feed: feed, cache: cache)
     }
 
     /// Load cache immediately, then refresh if stale (at most one network call).
@@ -59,14 +59,14 @@ public final class ScheduleStore {
         lastError = nil
         defer { isRefreshing = false }
 
-        do {
-            let data = try await client.fetchCurrentSeason()
+        do throws(FeedError) {
+            let data = try await feed.data(for: .schedule)
             let schedule = try SeasonDecoder.decode(data, fetchedAt: clock())
             try? cache.save(schedule)
             apply(schedule)
             WidgetReload.reloadAll()
         } catch {
-            lastError = error.localizedDescription
+            lastError = error
             if allRaces.isEmpty {
                 apply(try? cache.load())
             }

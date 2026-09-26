@@ -1,13 +1,18 @@
 import Foundation
 
-/// Jolpica / Ergast season JSON → domain models.
+/// Turns the Jolpica season document into domain models.
+///
+/// Races that fail to decode are skipped instead of failing the whole season.
 public enum SeasonDecoder {
-    private static let utc: TimeZone = TimeZone(secondsFromGMT: 0)!
-
-    public static func decode(_ data: Data, fetchedAt: Date = .now) throws -> SeasonSchedule {
-        let payload = try JSONDecoder().decode(APIRoot.self, from: data)
+    public static func decode(_ data: Data, fetchedAt: Date = .now) throws(FeedError) -> SeasonSchedule {
+        let payload: APIRoot
+        do {
+            payload = try JSONDecoder().decode(APIRoot.self, from: data)
+        } catch {
+            throw .malformedData
+        }
         let table = payload.mrData.raceTable
-        let races = table.races.map(mapRace)
+        let races = table.races.elements.map(mapRace)
         return SeasonSchedule(season: table.season, races: races, fetchedAt: fetchedAt)
     }
 
@@ -42,29 +47,50 @@ public enum SeasonDecoder {
         sessions.append(Session(kind: kind, dateUTC: date))
     }
 
-    /// Combines "YYYY-MM-DD" + optional "HH:MM:SSZ" into a UTC Date.
+    /// Combines "YYYY-MM-DD" and an optional "HH:MM:SSZ" into a UTC date. Returns nil for anything out of range.
     public static func parseUTC(date: String, time: String?) -> Date? {
-        let timePart =
-            time.map { t in
-                t.hasSuffix("Z") ? String(t.dropLast()) : t
-            } ?? "00:00:00"
+        let timePart = time.map { $0.hasSuffix("Z") ? String($0.dropLast()) : $0 } ?? "00:00:00"
 
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = utc
-
-        let dateBits = date.split(separator: "-").compactMap { Int($0) }
-        let timeBits = timePart.split(separator: ":").compactMap { Int($0) }
-        guard dateBits.count == 3, timeBits.count >= 2 else { return nil }
+        let dateParts = date.split(separator: "-").compactMap { Int($0) }
+        let timeParts = timePart.split(separator: ":").compactMap { Int($0) }
+        guard dateParts.count == 3, (2...3).contains(timeParts.count) else { return nil }
 
         var components = DateComponents()
-        components.year = dateBits[0]
-        components.month = dateBits[1]
-        components.day = dateBits[2]
-        components.hour = timeBits[0]
-        components.minute = timeBits[1]
-        components.second = timeBits.count > 2 ? timeBits[2] : 0
-        components.timeZone = utc
+        components.year = dateParts[0]
+        components.month = dateParts[1]
+        components.day = dateParts[2]
+        components.hour = timeParts[0]
+        components.minute = timeParts[1]
+        components.second = timeParts.count > 2 ? timeParts[2] : 0
+
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .gmt
+        guard components.isValidDate(in: calendar) else { return nil }
         return calendar.date(from: components)
+    }
+}
+
+/// Decodes an array but drops elements that don't parse.
+struct LossyList<Element: Decodable>: Decodable {
+    let elements: [Element]
+
+    init(from decoder: any Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        var elements: [Element] = []
+        while !container.isAtEnd {
+            if let element = try? container.decode(Element.self) {
+                elements.append(element)
+            } else {
+                // skip the broken element so the container moves on
+                _ = try? container.decode(Discarded.self)
+            }
+        }
+        self.elements = elements
+    }
+
+    // accepts any JSON value, so the index always advances
+    private struct Discarded: Decodable {
+        init(from decoder: any Decoder) {}
     }
 }
 
@@ -88,7 +114,7 @@ private struct APIMRData: Decodable {
 
 private struct APIRaceTable: Decodable {
     let season: String
-    let races: [APIRace]
+    let races: LossyList<APIRace>
 
     enum CodingKeys: String, CodingKey {
         case season

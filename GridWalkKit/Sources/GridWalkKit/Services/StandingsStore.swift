@@ -6,21 +6,21 @@ import Observation
 public final class StandingsStore {
     public private(set) var snapshot: StandingsSnapshot?
     public private(set) var isRefreshing = false
-    public private(set) var lastError: String?
+    public private(set) var lastError: FeedError?
 
     /// Hours after a race before we consider standings stale enough to refetch.
     public static let postRaceGrace: TimeInterval = StandingsMath.postRaceGrace
 
-    private let client: StandingsClient
+    private let feed: any FeedFetching
     private let cache: StandingsCache
     private let clock: () -> Date
 
     public init(
-        client: StandingsClient = StandingsClient(),
+        feed: any FeedFetching = JolpicaClient(),
         cache: StandingsCache,
         clock: @escaping @Sendable () -> Date = { .now }
     ) {
-        self.client = client
+        self.feed = feed
         self.cache = cache
         self.clock = clock
     }
@@ -56,15 +56,32 @@ public final class StandingsStore {
         lastError = nil
         defer { isRefreshing = false }
 
-        do {
-            let snap = try await client.fetchSnapshot(now: clock())
-            try? cache.save(snap)
-            snapshot = snap
+        do throws(FeedError) {
+            let fresh = try await fetchSnapshot()
+            try? cache.save(fresh)
+            snapshot = fresh
         } catch {
-            lastError = error.localizedDescription
+            lastError = error
             if snapshot == nil {
                 snapshot = try? cache.load()
             }
+        }
+    }
+
+    private func fetchSnapshot() async throws(FeedError) -> StandingsSnapshot {
+        let feed = feed
+        do {
+            async let drivers = feed.data(for: .driverStandings)
+            async let constructors = feed.data(for: .constructorStandings)
+            async let results = feed.data(for: .lastResults)
+            return try await StandingsDecoder.snapshot(
+                drivers: drivers,
+                constructors: constructors,
+                lastResults: results,
+                fetchedAt: clock()
+            )
+        } catch {
+            throw FeedError(error)
         }
     }
 }
