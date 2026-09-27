@@ -60,7 +60,7 @@ final class MacUpdateCenter {
             guard let http = response as? HTTPURLResponse,
                 (200..<300).contains(http.statusCode),
                 let finalURL = http.url,
-                ReleaseLookup.allowsDownload(from: finalURL)
+                ReleaseLookup.allowsDownloadRedirect(from: finalURL)
             else {
                 phase = .failed
                 return

@@ -104,13 +104,47 @@ public enum ReleaseLookup {
         )
     }
 
-    /// Release files only. Anything else in the JSON is ignored.
+    /// The link named in the release JSON. Has to be this repo, not any file on those hosts.
     public static func allowsDownload(from url: URL) -> Bool {
         guard url.scheme?.lowercased() == "https", let host = url.host?.lowercased() else { return false }
-        if host == "github.com" || host == "api.github.com" || host == "objects.githubusercontent.com" {
-            return true
-        }
+        if host == "github.com" { return isRepoDiskImage(url) }
+        if host == "api.github.com" { return isRepoReleaseAPI(url) }
+        return false
+    }
+
+    /// GitHub answers that download with a redirect onto its own files host.
+    public static func allowsDownloadRedirect(from url: URL) -> Bool {
+        if allowsDownload(from: url) { return true }
+        guard url.scheme?.lowercased() == "https", let host = url.host?.lowercased() else { return false }
+        if host == "objects.githubusercontent.com" { return true }
         return host.hasSuffix(".githubusercontent.com")
+    }
+
+    private static func isRepoDiskImage(_ url: URL) -> Bool {
+        guard let parts = pathParts(url), parts.count >= 6 else { return false }
+        guard let (owner, name) = ownerAndName else { return false }
+        guard parts[0] == owner, parts[1] == name, parts[2] == "releases", parts[3] == "download" else {
+            return false
+        }
+        return parts.last?.lowercased().hasSuffix(".dmg") == true
+    }
+
+    private static func isRepoReleaseAPI(_ url: URL) -> Bool {
+        guard let parts = pathParts(url), parts.count >= 5 else { return false }
+        guard let (owner, name) = ownerAndName else { return false }
+        return parts[0] == "repos" && parts[1] == owner && parts[2] == name && parts[3] == "releases"
+    }
+
+    private static var ownerAndName: (String, String)? {
+        let parts = repository.split(separator: "/", maxSplits: 1).map(String.init)
+        guard parts.count == 2 else { return nil }
+        return (parts[0], parts[1])
+    }
+
+    private static func pathParts(_ url: URL) -> [String]? {
+        let parts = url.path.split(separator: "/", omittingEmptySubsequences: true).map(String.init)
+        if parts.contains(".") || parts.contains("..") { return nil }
+        return parts
     }
 }
 

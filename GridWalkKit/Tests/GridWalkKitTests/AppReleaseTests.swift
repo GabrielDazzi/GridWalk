@@ -62,13 +62,26 @@ struct AppReleaseTests {
             try ReleaseLookup.newerRelease(current: "1.0.0", json: Data("{}".utf8))
         }
 
-        let http = try #require(URL(string: "http://github.com/a.dmg"))
+        let http = try #require(URL(string: "http://github.com/GabrielDazzi/GridWalk/releases/download/v9/a.dmg"))
         let api = try #require(URL(string: "https://api.github.com/repos/GabrielDazzi/GridWalk/releases/latest"))
+        let otherRepo = try #require(URL(string: "https://api.github.com/repos/other/app/releases/latest"))
         let lookalike = try #require(URL(string: "https://github.com.evil.example/a.dmg"))
+        let ours = try #require(
+            URL(string: "https://github.com/GabrielDazzi/GridWalk/releases/download/v9.0.0/GridWalk.dmg"))
+        let someoneElse = try #require(
+            URL(string: "https://github.com/someone/else/releases/download/v1/app.dmg"))
+        let slipped = try #require(
+            URL(string: "https://github.com/GabrielDazzi/GridWalk/releases/download/v9/../../else/app.dmg"))
         let cdn = try #require(URL(string: "https://release-assets.githubusercontent.com/a.dmg"))
         #expect(ReleaseLookup.allowsDownload(from: http) == false)
         #expect(ReleaseLookup.allowsDownload(from: lookalike) == false)
         #expect(ReleaseLookup.allowsDownload(from: api) == true)
-        #expect(ReleaseLookup.allowsDownload(from: cdn) == true)
+        #expect(ReleaseLookup.allowsDownload(from: otherRepo) == false)
+        #expect(ReleaseLookup.allowsDownload(from: ours) == true)
+        #expect(ReleaseLookup.allowsDownload(from: someoneElse) == false)
+        #expect(ReleaseLookup.allowsDownload(from: slipped) == false)
+        #expect(ReleaseLookup.allowsDownload(from: cdn) == false)
+        #expect(ReleaseLookup.allowsDownloadRedirect(from: cdn) == true)
+        #expect(ReleaseLookup.allowsDownloadRedirect(from: ours) == true)
     }
 }
