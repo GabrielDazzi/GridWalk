@@ -37,7 +37,8 @@ struct Grid_WalkApp: App {
             OnboardingView(model: model)
                 .frame(minWidth: 720, minHeight: 560)
         }
-        .windowResizability(.contentSize)
+        .defaultSize(width: 720, height: 640)
+        .windowResizability(.contentMinSize)
 
         Settings {
             SettingsView(model: model, updates: updates)

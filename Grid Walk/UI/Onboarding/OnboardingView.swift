@@ -27,8 +27,10 @@ struct OnboardingView: View {
     var body: some View {
         VStack(spacing: 0) {
             #if os(macOS)
-            // window grows to the list, so the pickers don't scroll
-            pageFrame
+            // window stays put, long pages scroll and the footer stays on the bottom edge
+            ScrollView { pageFrame }
+                .scrollBounceBehavior(.basedOnSize)
+                .frame(maxHeight: .infinity)
             #else
             ViewThatFits(in: .vertical) {
                 pageFrame
@@ -37,6 +39,9 @@ struct OnboardingView: View {
             #endif
             controls
         }
+        #if os(macOS)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #endif
         .screenBackground()
         .tint(Theme.accent)
         .task { await model.start() }
