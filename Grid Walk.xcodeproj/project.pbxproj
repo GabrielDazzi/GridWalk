@@ -360,7 +360,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_LSUIElement[sdk=macosx*]" = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
@@ -411,7 +410,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_LSUIElement[sdk=macosx*]" = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Grid Walk adds race weekend sessions to your calendar.";
