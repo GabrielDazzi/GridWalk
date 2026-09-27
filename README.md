@@ -66,7 +66,7 @@ Everything runs on your Mac or iPhone. Session times and standings live in the A
 
 Liquid Glass / AlarmKit stay optional extras for newer OS versions — the app targets 14 / 17 so it runs on current devices.
 
-[v1.0.0](https://github.com/GabrielDazzi/GridWalk/releases/tag/v1.0.0) is the first source release. The signed Mac DMG lands on that page next. App Store, TestFlight and Homebrew come later.
+[v1.0.0](https://github.com/GabrielDazzi/GridWalk/releases/tag/v1.0.0) is the first release. The Mac download is [GridWalk.dmg](https://github.com/GabrielDazzi/GridWalk/releases/download/v1.0.0/GridWalk.dmg), signed and notarized. App Store, TestFlight and Homebrew come later.
 
 ## Develop
 
