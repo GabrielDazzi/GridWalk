@@ -66,14 +66,14 @@ Everything runs on your Mac or iPhone. Session times and standings live in the A
 
 Liquid Glass / AlarmKit stay optional extras for newer OS versions — the app targets 14 / 17 so it runs on current devices.
 
-Distribution: App Store / TestFlight later. DMG and Homebrew are planned for Mac builds outside the store.
+[v1.0.0](https://github.com/GabrielDazzi/GridWalk/releases/tag/v1.0.0) is the first source release. The signed Mac DMG lands on that page next. App Store, TestFlight and Homebrew come later.
 
 ## Develop
 
-Requirements: Xcode 16+, macOS 14+ / iOS 17+.
+Requirements: Xcode 27+, macOS 14+ / iOS 17+. The project file and Swift tools 6.2 do not open in Xcode 16.
 
 ```bash
-# Package tests (no Xcode UI needed)
+# Package tests (Xcode 27 toolchain, the Xcode window stays closed)
 cd GridWalkKit && swift test
 
 # App

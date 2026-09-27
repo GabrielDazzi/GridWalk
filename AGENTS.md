@@ -11,8 +11,8 @@ Free, open-source race weekend companion for macOS and iOS. Swift 6 + SwiftUI, n
 - PR body: Summary, Verification (exact commands), Test plan checklist.
 
 ## Status
-- **Done:** v1 countdown / alerts / Calendar; widgets + Live Activity; menu bar modes (v1.1); spoiler-free delay + favorite highlight in standings; night grid redesign (GridWalkDesign, onboarding, screen states).
-- **Next:** distribution (App Store Connect, signing, DMG / Homebrew, TestFlight) and README real screenshots when the icon ships.
+- **Done:** v1 countdown / alerts / Calendar; widgets + Live Activity; menu bar modes (v1.1); spoiler-free delay + favorite highlight in standings; night grid redesign (GridWalkDesign, onboarding, screen states); app icon and README screenshots; source release 1.0.0.
+- **Next:** signed Mac DMG (needs a Developer ID), then App Store Connect / TestFlight and Homebrew.
 
 ## Layout
 - `Grid Walk/App/` startup and scenes (macOS MenuBarExtra, iOS app)
